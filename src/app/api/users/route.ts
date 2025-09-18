@@ -16,14 +16,14 @@ export const GET = route(
 );
 
 export const POST = route(
-  async (req: Request) => {
+  async (req: NextRequest) => {
     await connectToDatabase();
 
-    const { username, email, password } = await req.json();
+    const { username, email, password, kind } = await req.json();
 
-    if (!username || !email || !password) {
+    if (!username || !email || !password || !kind) {
       throw new AppError(
-        "Username, email, and password are required",
+        "Username, email, password, and kind are required",
         responseMessageUtilities.bad_request
       );
     }
@@ -47,8 +47,12 @@ export const POST = route(
       process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10
     );
 
-    const user = new UserModel({ username, email, password: hashedPassword });
-    await user.save();
+    const user = await UserModel.create({
+      username: lowercaseUsername,
+      email: lowercaseEmail,
+      password: hashedPassword,
+      kind,
+    });
 
     return {
       data: user,
@@ -56,5 +60,5 @@ export const POST = route(
       statusCode: responseMessageUtilities.created,
     };
   },
-  { requireAuth: true }
+  { requireAuth: false }
 );
