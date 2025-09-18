@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as jwt from "jsonwebtoken";
 import { responseMessageUtilities } from "./response.message.utility";
+import { connectToDatabase } from "./connectToDb";
+import UserModel from "@/models/user.model";
 
 export class AppError extends Error {
   status: number;
@@ -31,6 +33,7 @@ type HandlerReturn<T> =
   | {
       data: T;
       message?: string;
+      statusCode?: number;
       meta?: JsonResponseMeta;
     };
 
@@ -49,10 +52,18 @@ export function route<T>(
         }
 
         const token = authHeader.split(" ")[1];
+
+        let payload: any;
         try {
-          jwt.verify(token, JWT_SECRET);
+          payload = jwt.verify(token, JWT_SECRET);
         } catch {
           throw new AppError("Invalid or expired token", 401);
+        }
+
+        await connectToDatabase();
+        const currentUser = await UserModel.findById(payload.id);
+        if (!currentUser) {
+          throw new AppError("Unauthorized", 401);
         }
       }
 
@@ -61,11 +72,13 @@ export function route<T>(
       let data: T | null;
       let message: string = responseMessageUtilities.message;
       let meta: JsonResponseMeta | undefined;
+      let statusCode: number = responseMessageUtilities.success;
 
       if (result && typeof result === "object" && "data" in result) {
         data = result.data;
         if (result.message) message = result.message;
         if (result.meta) meta = result.meta;
+        if (result.statusCode) statusCode = result.statusCode;
       } else {
         data = result as T;
       }
@@ -73,14 +86,14 @@ export function route<T>(
       const response: JsonResponse<T> = {
         data: data ?? null,
         message,
-        statusCode: responseMessageUtilities.success,
+        statusCode,
         status: true,
         ...(meta ? { meta } : {}),
       };
 
       return NextResponse.json(response, { status: response.statusCode });
     } catch (err: any) {
-      console.error("[Global Error]", err);
+      // console.error("[Global Error]", err);
 
       const response: JsonResponse<null> = {
         data: null,

@@ -53,6 +53,7 @@ export const POST = route(
     return {
       data: user,
       message: "User created successfully",
+      statusCode: responseMessageUtilities.created,
     };
   },
   { requireAuth: true }
