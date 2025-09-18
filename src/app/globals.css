@@ -3,6 +3,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  --color-brand: #ff5733;
+  --color-accent: #4f46e5;
+
+  --primary: #6abe09;
+  --primary-200: #559808;
 }
 
 @theme inline {
@@ -10,8 +16,9 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  --color-brand: #ff5733; /* bg-brand, text-brand */
-  --color-accent: #4f46e5;
+  /* ⚡ Make Tailwind recognize your primary color */
+  --color-primary: var(--primary);
+  --color-primary-200: var(--primary-200);
 
   /* 📏 Spacing (p-, m-, gap-) */
   --spacing-4: 2rem; /* overrides p-4, m-4 */
@@ -32,13 +39,6 @@
   --breakpoint-sm: 500px; /* sm: */
   --breakpoint-xl: 1440px; /* xl: */
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
 
 body {
   background: var(--background);
