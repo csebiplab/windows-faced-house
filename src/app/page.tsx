@@ -1,3 +1,7 @@
 export default function page() {
-  return <div className="p-18">Custom Padding</div>;
+  return (
+    <div className="bg-primary text-white p-4 rounded-lg">
+      Hello Primary Color!
+    </div>
+  );
 }
