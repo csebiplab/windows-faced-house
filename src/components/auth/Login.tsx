@@ -1,6 +1,10 @@
 "use client";
 
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 type FormValues = {
   username: string;
@@ -33,16 +37,49 @@ const fields: {
   },
 ];
 
-export default function LoginForm() {
+const providers = {
+  CREDENTIALS: "credentials",
+};
+
+export function LoginForm() {
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmit = (data: FormValues) => {
-    console.log("Form Data:", data);
-  };
+  async function onSubmit(data: FormValues) {
+    const { username, password } = data ?? {};
+
+    try {
+      setIsLoading(true);
+      const res = await signIn(providers?.CREDENTIALS, {
+        username,
+        password,
+        redirect: false,
+      });
+
+      reset();
+      if (res?.error) {
+        toast.error(res?.error);
+      }
+
+      if (res?.ok && !res?.error) {
+        setIsLoading(false);
+        toast.success("Login success");
+        router.push("/");
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong! Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -75,8 +112,9 @@ export default function LoginForm() {
           <button
             type="submit"
             className="cursor-pointer w-full rounded-md bg-primary py-2 font-semibold text-white hover:bg-primary-200 transition"
+            disabled={isLoading}
           >
-            Log In
+            {isLoading ? `Loading...` : `Sign In`}
           </button>
         </form>
       </div>
