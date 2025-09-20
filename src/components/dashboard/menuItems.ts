@@ -18,11 +18,11 @@ export const menuItems: MenuItem[] = [
         href: "/dashboard/sections/show-sections",
         icon: LayoutDashboard,
       },
-      {
-        name: "Add Section",
-        href: "/dashboard/sections/add-section",
-        icon: Plus,
-      },
+      // {
+      //   name: "Add Section",
+      //   href: "/dashboard/sections/add-section",
+      //   icon: Plus,
+      // },
     ],
   },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
