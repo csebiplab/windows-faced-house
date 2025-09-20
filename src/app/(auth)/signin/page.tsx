@@ -6,7 +6,7 @@ export default async function page() {
   const user = await getCurrentUser();
 
   if (user) {
-    redirect("/");
+    redirect("/dashboard/profile/me");
   }
 
   return (
