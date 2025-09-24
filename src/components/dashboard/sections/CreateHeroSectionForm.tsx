@@ -7,13 +7,43 @@ interface CreateHeroSectionFormProps {
   page: string;
 }
 
+interface Section {
+  id: number;
+  state: string;
+  title: string;
+  buttonName: string;
+  description: string;
+  image: string;
+  file?: File;
+  imgUrl?: string;
+}
+
 const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
-  const [sections, setSections] = useState([
-    { id: Date.now(), state: "Unpublished" },
+  const [sections, setSections] = useState<Section[]>([
+    {
+      id: Math.floor(Date.now() + Math.random() * 1000),
+      state: "Unpublished",
+      title: "",
+      buttonName: "",
+      description: "",
+      image: "",
+      imgUrl: "",
+    },
   ]);
 
   const addSection = () => {
-    setSections([...sections, { id: Date.now(), state: "Unpublished" }]);
+    setSections([
+      ...sections,
+      {
+        id: Math.floor(Date.now() + Math.random() * 1000),
+        state: "Unpublished",
+        title: "",
+        buttonName: "",
+        description: "",
+        image: "",
+        imgUrl: "",
+      },
+    ]);
   };
 
   const removeSection = (id: number) => {
@@ -26,10 +56,16 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
     );
   };
 
+  const handleFile = (id: number, file: File) => {
+    const previewUrl = URL.createObjectURL(file);
+    setSections((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, image: previewUrl, file } : s))
+    );
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted with sections:", sections);
-    // TODO: collect input values from refs/state if needed
   };
 
   return (
@@ -48,13 +84,13 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
           key={section.id}
           className="flex gap-4 w-full border rounded-lg p-4 bg-white shadow-sm relative"
         >
-          {/* Delete button (top-right corner) */}
+          {/* Delete button */}
           <button
             type="button"
             onClick={() => removeSection(section.id)}
             className="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold text-lg"
           >
-            ×
+            X
           </button>
 
           <div className="w-full space-y-4">
@@ -68,18 +104,16 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
               />
             </div>
 
-            {/* Button Name */}
+            {/* Button Name + Active/Disable */}
             <div>
               <label className="block text-sm font-medium mb-1">
                 Button Name
               </label>
-              <div className="flex items-center gap-3">
-                <input
-                  type="text"
-                  placeholder="Enter Button Name"
-                  className="flex-1 rounded-md border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+              <input
+                type="text"
+                placeholder="Enter Button Name"
+                className="w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+              />
             </div>
 
             {/* Description */}
@@ -93,12 +127,24 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
               />
             </div>
 
-            {/* File Upload */}
+            {/* Image Upload with Drag & Drop */}
             <div>
               <label className="block text-sm font-medium mb-1">
                 Upload Image
               </label>
-              <div className="border-2 border-dashed border-purple-400 rounded-md flex flex-col items-center justify-center p-6 cursor-pointer hover:bg-purple-50">
+              <div
+                className="border-2 border-dashed border-purple-400 rounded-md flex flex-col items-center justify-center p-6 cursor-pointer hover:bg-purple-50"
+                onClick={() =>
+                  document.getElementById(`file-input-${section.id}`)?.click()
+                }
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  if (e.dataTransfer.files.length > 0) {
+                    handleFile(section.id, e.dataTransfer.files[0]);
+                  }
+                }}
+              >
                 <svg
                   className="w-10 h-10 text-purple-500 mb-2"
                   fill="none"
@@ -113,9 +159,32 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
                   />
                 </svg>
                 <p className="text-gray-500 text-sm">
-                  Drop files here or click to upload.
+                  Drop Banner here or click to upload.
                 </p>
               </div>
+
+              {/* Hidden file input */}
+              <input
+                id={`file-input-${section.id}`}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleFile(section.id, file);
+                }}
+              />
+
+              {/* Preview */}
+              {section.image && (
+                <div className="mt-3">
+                  <img
+                    src={section.image}
+                    alt="Uploaded"
+                    className="h-20 w-auto object-contain mx-auto rounded-md"
+                  />
+                </div>
+              )}
             </div>
           </div>
 
@@ -140,7 +209,7 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
         </div>
       ))}
 
-      {/* Add More Button */}
+      {/* Add More */}
       <div className="flex justify-end">
         <button
           type="button"
@@ -151,7 +220,7 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
         </button>
       </div>
 
-      {/* Submit Button */}
+      {/* Submit */}
       <div>
         <button
           type="submit"
