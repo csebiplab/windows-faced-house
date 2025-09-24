@@ -1,5 +1,6 @@
 "use client";
 
+import { useImageUpload } from "@/hooks/useImageUpload";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -21,6 +22,7 @@ interface Section {
 }
 
 const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
+  const { uploadImage } = useImageUpload();
   const [sections, setSections] = useState<Section[]>([
     {
       id: Math.floor(Date.now() + Math.random() * 1000),
@@ -81,30 +83,15 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
   // Confirm and upload image
   // -----------------------------
   const handleConfirmImage = async (section: Section) => {
-    if (!section.file) return alert("No file selected!");
+    if (!section.file) return toast.error("Please select a file first!");
 
-    try {
-      updateSectionField(section.id, "uploading", true);
-
-      const formData = new FormData();
-      formData.append("file", section.file);
-
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) throw new Error("Upload failed");
-
-      const data = await res.json();
-      updateSectionField(section.id, "imgUrl", data.url);
-      toast.success("Image uploaded successfully!");
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err.message || "Upload failed");
-    } finally {
-      updateSectionField(section.id, "uploading", false);
+    updateSectionField(section.id, "uploading", true);
+    const uploadedUrl = await uploadImage(section.file);
+    if (uploadedUrl) {
+      updateSectionField(section.id, "imgUrl", uploadedUrl);
+      updateSectionField(section.id, "file", section.file);
     }
+    updateSectionField(section.id, "uploading", false);
   };
 
   return (
