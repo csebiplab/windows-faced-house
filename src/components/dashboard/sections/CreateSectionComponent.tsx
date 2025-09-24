@@ -21,7 +21,7 @@ const CreateSectionComponent = () => {
   const renderForm = () => {
     switch (selectedSection) {
       case "hero":
-        return <CreateHeroSectionForm kind="hero" />;
+        return <CreateHeroSectionForm kind="hero" page={selectedPage} />;
       default:
         return null;
     }
