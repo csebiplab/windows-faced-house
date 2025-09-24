@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 interface CreateHeroSectionFormProps {
   kind: string;
@@ -16,6 +17,7 @@ interface Section {
   image: string;
   file?: File;
   imgUrl?: string;
+  uploading?: boolean;
 }
 
 const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
@@ -31,9 +33,29 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
     },
   ]);
 
+  const updateSectionField = (
+    id: number,
+    field: keyof Section,
+    value: string | File | boolean | undefined
+  ) => {
+    setSections((prev) =>
+      prev.map((s) =>
+        s.id === id
+          ? field === "file"
+            ? {
+                ...s,
+                file: value as File,
+                image: URL.createObjectURL(value as File),
+              }
+            : { ...s, [field]: value }
+          : s
+      )
+    );
+  };
+
   const addSection = () => {
-    setSections([
-      ...sections,
+    setSections((prev) => [
+      ...prev,
       {
         id: Math.floor(Date.now() + Math.random() * 1000),
         state: "Unpublished",
@@ -50,22 +72,39 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
     setSections((prev) => prev.filter((s) => s.id !== id));
   };
 
-  const updateState = (id: number, newState: string) => {
-    setSections((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, state: newState } : s))
-    );
-  };
-
-  const handleFile = (id: number, file: File) => {
-    const previewUrl = URL.createObjectURL(file);
-    setSections((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, image: previewUrl, file } : s))
-    );
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted with sections:", sections);
+  };
+
+  // -----------------------------
+  // Confirm and upload image
+  // -----------------------------
+  const handleConfirmImage = async (section: Section) => {
+    if (!section.file) return alert("No file selected!");
+
+    try {
+      updateSectionField(section.id, "uploading", true);
+
+      const formData = new FormData();
+      formData.append("file", section.file);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Upload failed");
+
+      const data = await res.json();
+      updateSectionField(section.id, "imgUrl", data.url);
+      toast.success("Image uploaded successfully!");
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.message || "Upload failed");
+    } finally {
+      updateSectionField(section.id, "uploading", false);
+    }
   };
 
   return (
@@ -100,11 +139,15 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
               <input
                 type="text"
                 placeholder="Enter Title"
+                value={section.title}
+                onChange={(e) =>
+                  updateSectionField(section.id, "title", e.target.value)
+                }
                 className="w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
-            {/* Button Name + Active/Disable */}
+            {/* Button Name */}
             <div>
               <label className="block text-sm font-medium mb-1">
                 Button Name
@@ -112,6 +155,10 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
               <input
                 type="text"
                 placeholder="Enter Button Name"
+                value={section.buttonName}
+                onChange={(e) =>
+                  updateSectionField(section.id, "buttonName", e.target.value)
+                }
                 className="w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -123,11 +170,15 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
               </label>
               <textarea
                 placeholder="Enter Description"
+                value={section.description}
+                onChange={(e) =>
+                  updateSectionField(section.id, "description", e.target.value)
+                }
                 className="w-full rounded-md border px-3 py-2 text-sm h-28 outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
-            {/* Image Upload with Drag & Drop */}
+            {/* Image Upload */}
             <div>
               <label className="block text-sm font-medium mb-1">
                 Upload Image
@@ -141,7 +192,11 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
                 onDrop={(e) => {
                   e.preventDefault();
                   if (e.dataTransfer.files.length > 0) {
-                    handleFile(section.id, e.dataTransfer.files[0]);
+                    updateSectionField(
+                      section.id,
+                      "file",
+                      e.dataTransfer.files[0]
+                    );
                   }
                 }}
               >
@@ -159,11 +214,10 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
                   />
                 </svg>
                 <p className="text-gray-500 text-sm">
-                  Drop Banner here or click to upload.
+                  Drop Image here or click to upload.
                 </p>
               </div>
 
-              {/* Hidden file input */}
               <input
                 id={`file-input-${section.id}`}
                 type="file"
@@ -171,18 +225,31 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
                 className="hidden"
                 onChange={(e) => {
                   const file = e.target.files?.[0];
-                  if (file) handleFile(section.id, file);
+                  if (file) updateSectionField(section.id, "file", file);
                 }}
               />
 
-              {/* Preview */}
               {section.image && (
-                <div className="mt-3">
+                <div className="mt-3 flex flex-col items-center gap-2">
                   <img
-                    src={section.image}
+                    src={section.image ?? section.imgUrl}
                     alt="Uploaded"
-                    className="h-20 w-auto object-contain mx-auto rounded-md"
+                    className="h-20 w-auto object-contain rounded-md"
                   />
+                  {/* Confirm button */}
+                  <button
+                    type="button"
+                    onClick={() => handleConfirmImage(section)}
+                    disabled={section.uploading === true}
+                    className="px-4 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                  >
+                    {section.uploading ? "Uploading..." : "Confirm"}
+                  </button>
+                  {/* {section.uploadedUrl && (
+                    <p className="text-green-600 text-sm mt-1">
+                      Uploaded URL: {section.uploadedUrl}
+                    </p>
+                  )} */}
                 </div>
               )}
             </div>
@@ -194,7 +261,9 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
               <label className="block text-sm font-medium mb-1">State</label>
               <select
                 value={section.state}
-                onChange={(e) => updateState(section.id, e.target.value)}
+                onChange={(e) =>
+                  updateSectionField(section.id, "state", e.target.value)
+                }
                 className={`px-4 py-2 rounded-md text-white font-medium ${
                   section.state === "Unpublished"
                     ? "bg-red-600"
