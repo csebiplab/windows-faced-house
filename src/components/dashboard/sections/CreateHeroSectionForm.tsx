@@ -21,6 +21,24 @@ interface Section {
   uploading?: boolean;
 }
 
+interface Payload {
+  page: string;
+  kind: string;
+  sectionContent: Omit<Section, "file" | "uploading" | "image">[];
+}
+
+const emptyInitialSection = [
+  {
+    sectionId: Math.floor(Date.now() + Math.random() * 1000),
+    state: "Unpublished",
+    title: "",
+    buttonName: "",
+    description: "",
+    image: "",
+    imgUrl: "",
+  },
+];
+
 const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
   const fileInputsRef = useRef<Record<number, HTMLInputElement | null>>({});
   const { uploadImage } = useImageUpload();
@@ -35,6 +53,7 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
       imgUrl: "",
     },
   ]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const updateSectionField = (
     sectionId: number,
@@ -75,9 +94,51 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
     setSections((prev) => prev.filter((s) => s.sectionId !== sectionId));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted with sections:", sections);
+    const payload: Payload = {
+      page,
+      kind,
+      sectionContent: [],
+    };
+    const preparePayload = sections.map(
+      ({ file, image, uploading, ...rest }) => rest
+    );
+    payload["sectionContent"] = preparePayload;
+
+    if (
+      payload.sectionContent.some(
+        (section) =>
+          !section.title ||
+          !section.buttonName ||
+          !section.description ||
+          !section.imgUrl
+      )
+    ) {
+      return toast.error("All fields are required!");
+    }
+
+    try {
+      setIsSubmitting(true);
+      const res = await fetch("/api/sections", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        toast.success("Form submitted successfully!");
+        setSections(emptyInitialSection);
+      } else {
+        toast.error("Failed to submit form. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Failed to submit form. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Confirm and upload image
@@ -237,7 +298,7 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
                   <button
                     type="button"
                     onClick={() => handleConfirmImage(section)}
-                    disabled={section.uploading === true}
+                    disabled={section.uploading || !!section.imgUrl}
                     className="px-4 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
                   >
                     {section.uploading ? "Uploading..." : "Confirm"}
@@ -285,9 +346,9 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
       <div>
         <button
           type="submit"
-          className="w-full py-3 rounded-md bg-green-600 text-white text-lg font-medium hover:bg-green-700"
+          className="cursor-pointer w-full py-3 rounded-md bg-green-600 text-white text-lg font-medium hover:bg-green-700 disabled:opacity-50"
         >
-          Submit
+          {isSubmitting ? "Submitting..." : "Submit"}
         </button>
       </div>
     </form>
