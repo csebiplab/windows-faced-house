@@ -9,19 +9,19 @@ const pageOptions = [
 ];
 
 const sectionOptions = [
-  { label: "Hero", value: "hero" },
-  { label: "About", value: "about" },
-  { label: "Contact Us", value: "contact" },
+  { label: "Hero", value: "HeroSection" },
+  { label: "About", value: "AboutSection" },
+  { label: "Contact Us", value: "ContactSection" },
 ];
 
 const CreateSectionComponent = () => {
   const [selectedPage, setSelectedPage] = useState("home");
-  const [selectedSection, setSelectedSection] = useState("hero");
+  const [selectedSection, setSelectedSection] = useState("HeroSection");
 
   const renderForm = () => {
     switch (selectedSection) {
-      case "hero":
-        return <CreateHeroSectionForm kind="hero" page={selectedPage} />;
+      case "HeroSection":
+        return <CreateHeroSectionForm kind="HeroSection" page={selectedPage} />;
       default:
         return null;
     }

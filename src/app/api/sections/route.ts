@@ -5,17 +5,14 @@ import { HeroSectionModel, SectionModel } from "@/models/section.model";
 import { NextRequest } from "next/server";
 
 export const PATCH = route(async (req: NextRequest) => {
-  await connectToDatabase();
-
   const body = await req.json();
   const { kind, page, sectionId, ...updateData } = body;
 
-  if (!sectionId) {
-    throw new AppError("sectionId is required", 400);
+  if (!sectionId || !page || !kind) {
+    throw new AppError("sectionId, page, and kind are required", 400);
   }
 
-  let model = SectionModel;
-  if (kind === "hero") model = HeroSectionModel;
+  let model = SectionModel || HeroSectionModel;
 
   const options = {
     new: true,
@@ -25,8 +22,9 @@ export const PATCH = route(async (req: NextRequest) => {
 
   const payload = { page, kind, sectionId, ...updateData };
 
+  await connectToDatabase();
   const updatedDoc = await model.findOneAndUpdate(
-    { sectionId },
+    { page, kind },
     payload,
     options
   );
