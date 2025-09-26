@@ -1,7 +1,7 @@
 "use client";
 
 import { useImageUpload } from "@/hooks/useImageUpload";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 interface CreateHeroSectionFormProps {
@@ -22,6 +22,7 @@ interface Section {
 }
 
 const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
+  const fileInputsRef = useRef<Record<number, HTMLInputElement | null>>({});
   const { uploadImage } = useImageUpload();
   const [sections, setSections] = useState<Section[]>([
     {
@@ -179,9 +180,7 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
               <div
                 className="border-2 border-dashed border-purple-400 rounded-md flex flex-col items-center justify-center p-6 cursor-pointer hover:bg-purple-50"
                 onClick={() =>
-                  document
-                    .getElementById(`file-input-${section.sectionId}`)
-                    ?.click()
+                  fileInputsRef.current[section.sectionId]?.click()
                 }
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => {
@@ -214,6 +213,9 @@ const CreateHeroSectionForm = ({ kind, page }: CreateHeroSectionFormProps) => {
               </div>
 
               <input
+                ref={(el) => {
+                  fileInputsRef.current[section.sectionId] = el;
+                }}
                 id={`file-input-${section.sectionId}`}
                 type="file"
                 accept="image/*"
