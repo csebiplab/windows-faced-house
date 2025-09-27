@@ -60,17 +60,13 @@ const Dropdown = ({ label, links, width }: any) => (
 
 const UpperNav = () => {
   return (
-    <header className="py-3 hidden lg:block">
-      <nav className="flex items-center justify-between max-w-7xl mx-auto">
-        {/* Left side navigation */}
+    <div className="py-3 hidden lg:block">
+      <div className="mx-auto">
         <div className="flex items-center space-x-8">
           {navItems.map((item, idx) => (
             <Dropdown key={idx} {...item} />
           ))}
-        </div>
 
-        {/* Right side */}
-        <div className="flex items-center space-x-6">
           <div className="cursor-pointer">
             <span className="text-primary ont-medium">Mos</span>
             <span className="font-medium">Build</span>
@@ -81,8 +77,8 @@ const UpperNav = () => {
             <span className="text-gray-800 font-medium">Хочу работать!</span>
           </div>
         </div>
-      </nav>
-    </header>
+      </div>
+    </div>
   );
 };
 
