@@ -153,7 +153,7 @@ const MiddleNav = () => {
             </button>
 
             {/* Custom icons (used twice) */}
-            <div className="flex items-center space-x-2 border-none lg:border-r border-[#B6C4C8] px-2 2x:px-3 3xl:px-4 5xl:px-5">
+            <div className="flex items-center space-x-2 lg:border-r border-[#B6C4C8] px-2 2x:px-3 3xl:px-4 5xl:px-5">
               {["whatsapp", "telegram"].map((itm, idx) => (
                 <div
                   key={idx}
@@ -162,6 +162,10 @@ const MiddleNav = () => {
                   <CustomIcon size={24} kind={itm} />
                 </div>
               ))}
+            </div>
+            <div className="block lg:hidden">
+              <Menu className="w-6 h-6" />
+              {/* <X /> */}
             </div>
           </div>
 
@@ -178,14 +182,9 @@ const MiddleNav = () => {
             </div>
 
             {/* Call button */}
-            <button className="cursor-pointer px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary transition-colors">
+            <button className="cursor-pointer px-6 py-3 bg-primary text-white font-medium rounded-[10px] hover:bg-primary transition-colors">
               Заказать звонок
             </button>
-          </div>
-
-          <div className="block lg:hidden">
-            <Menu className="w-6 h-6" />
-            <X />
           </div>
         </div>
       </div>
