@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 const cooperationMenu = [
   "Дилерская программа",
@@ -84,7 +84,7 @@ const CustomIcon = ({ size = 24, kind }: { size?: number; kind: string }) => {
 
 const MiddleNav = () => {
   return (
-    <div className="py-3 hidden lg:block">
+    <div className="pb-3">
       <div className="mx-auto">
         <div className="flex items-center justify-between">
           {/* Left side - Logo and company info */}
@@ -116,7 +116,7 @@ const MiddleNav = () => {
             </div>
 
             {/* Company description */}
-            <div className="border-l border-[#B6C4C8] px-2 2x:px-3 3xl:px-4 5xl:px-5">
+            <div className="hidden lg:block border-l border-[#B6C4C8] px-2 2x:px-3 3xl:px-4 5xl:px-5">
               <p className="text-[11px] text-black font-bold">
                 Производитель №1 в России <br /> Основан в 2002 году
               </p>
@@ -125,7 +125,7 @@ const MiddleNav = () => {
 
           {/* Center - Services and Calculator */}
           <div className="flex items-center space-x-4">
-            <div className="relative group">
+            <div className="relative group hidden lg:block">
               <button className="flex items-center space-x-2 px-4 py-2 border-2 border-[#2C3245] rounded-[10px] hover:bg-gray-50 transition-colors">
                 <span className="text-gray-800 font-medium">
                   Сотрудничество
@@ -148,12 +148,12 @@ const MiddleNav = () => {
               </div>
             </div>
 
-            <button className="px-4 py-2 border-2 border-primary text-primary font-medium rounded-[10px] hover:bg-green-50 transition-colors">
+            <button className="hidden lg:block px-4 py-2 border-2 border-primary text-primary font-medium rounded-[10px] hover:bg-green-50 transition-colors">
               Калькулятор
             </button>
 
             {/* Custom icons (used twice) */}
-            <div className="flex items-center space-x-2 border-r border-[#B6C4C8] px-2 2x:px-3 3xl:px-4 5xl:px-5">
+            <div className="flex items-center space-x-2 border-none lg:border-r border-[#B6C4C8] px-2 2x:px-3 3xl:px-4 5xl:px-5">
               {["whatsapp", "telegram"].map((itm, idx) => (
                 <div
                   key={idx}
@@ -166,7 +166,7 @@ const MiddleNav = () => {
           </div>
 
           {/* Right side */}
-          <div className="flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4">
             {/* Phone number */}
             <div className="text-right">
               <div className="text-xl font-bold text-gray-800">
@@ -181,6 +181,11 @@ const MiddleNav = () => {
             <button className="cursor-pointer px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary transition-colors">
               Заказать звонок
             </button>
+          </div>
+
+          <div className="block lg:hidden">
+            <Menu className="w-6 h-6" />
+            <X />
           </div>
         </div>
       </div>

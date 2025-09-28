@@ -1,5 +1,6 @@
 "use client";
 
+import LowerNav from "./LowerNav";
 import MiddleNav from "./MiddleNav";
 import UpperNav from "./UpperNav";
 
@@ -9,6 +10,7 @@ const Navbar = () => {
       <nav>
         <UpperNav />
         <MiddleNav />
+        <LowerNav />
       </nav>
     </header>
   );
