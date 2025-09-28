@@ -67,8 +67,8 @@ const UpperNav = () => {
             <Dropdown key={idx} {...item} />
           ))}
 
-          <div className="cursor-pointer">
-            <span className="text-primary ont-medium">Mos</span>
+          <div className="cursor-pointer flex">
+            <span className="text-primary font-medium">Mos</span>
             <span className="font-medium">Build</span>
             <span className="text-primary ont-medium">2025</span>
           </div>

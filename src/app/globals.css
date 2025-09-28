@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #00171f;
 
   --color-brand: #ff5733;
   --color-accent: #4f46e5;
@@ -18,7 +18,9 @@
   --color-primary: var(--primary);
   --color-primary-200: var(--primary-200);
 
-  --spacing-4: 2rem;
+  --color-black: var(--foreground);
+
+  /* --spacing-4: 2rem; */
   --spacing-18: 4.5rem;
 
   --font-sans: var(--font-geist-sans);

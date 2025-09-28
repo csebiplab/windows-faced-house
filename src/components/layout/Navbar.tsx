@@ -1,12 +1,14 @@
 "use client";
 
+import MiddleNav from "./MiddleNav";
 import UpperNav from "./UpperNav";
 
 const Navbar = () => {
   return (
-    <header className="w-full p-x-320 bg-white shadow-sm">
+    <header className="w-full p-x-320 bg-white shadow-sm mx-auto">
       <nav>
         <UpperNav />
+        <MiddleNav />
       </nav>
     </header>
   );
