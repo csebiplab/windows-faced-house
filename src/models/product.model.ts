@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, Document } from "mongoose";
+import mongoose, { Schema, model, Document, Model } from "mongoose";
 
 export type ProductType =
   | "windows"
@@ -42,5 +42,5 @@ const ProductSchema = new Schema<IProduct>(
   }
 );
 
-export const Product =
+export const ProductModel: Model<IProduct> =
   mongoose.models.Product || model<IProduct>("Product", ProductSchema);

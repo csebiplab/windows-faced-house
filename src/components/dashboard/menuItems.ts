@@ -1,4 +1,11 @@
-import { Settings, User, Folder, Plus, LayoutDashboard } from "lucide-react";
+import {
+  Settings,
+  User,
+  Folder,
+  Plus,
+  LayoutDashboard,
+  DoorOpen,
+} from "lucide-react";
 
 export type MenuItem = {
   name: string;
@@ -18,11 +25,27 @@ export const menuItems: MenuItem[] = [
         href: "/dashboard/sections/show-sections",
         icon: LayoutDashboard,
       },
-      // {
-      //   name: "Add Section",
-      //   href: "/dashboard/sections/add-section",
-      //   icon: Plus,
-      // },
+      {
+        name: "Add Section",
+        href: "/dashboard/sections/add-section",
+        icon: Plus,
+      },
+    ],
+  },
+  {
+    name: "Products",
+    icon: Folder,
+    children: [
+      {
+        name: "Show Products",
+        href: "/dashboard/products/show-products",
+        icon: DoorOpen,
+      },
+      {
+        name: "Add Products",
+        href: "/dashboard/products/add-products",
+        icon: Plus,
+      },
     ],
   },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
