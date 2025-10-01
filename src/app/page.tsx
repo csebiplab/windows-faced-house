@@ -1,3 +1,9 @@
+import Banner from "@/components/home/Banner";
+
 export default async function page() {
-  return <div></div>;
+  return (
+    <section>
+      <Banner />
+    </section>
+  );
 }
