@@ -70,7 +70,7 @@ export function LoginForm() {
       if (res?.ok && !res?.error) {
         setIsLoading(false);
         toast.success("Login success");
-        router.push("/");
+        router.push("/dashboard/profile/me");
         return;
       }
     } catch (error) {
