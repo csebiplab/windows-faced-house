@@ -7,9 +7,11 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      {children}
-      <ToastProvider />
-    </>
+    <html lang="en">
+      <body>
+        {children}
+        <ToastProvider />
+      </body>
+    </html>
   );
 }
