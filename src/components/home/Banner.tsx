@@ -84,7 +84,7 @@ export default function PromoSlider() {
   };
 
   return (
-    <section className="absolute w-full">
+    <section className="w-full">
       {/* Main Swiper */}
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
@@ -117,18 +117,31 @@ export default function PromoSlider() {
           <div
             key={slide.id}
             onClick={() => handleButtonClick(index)}
-            className={`cursor-pointer rounded-2xl px-4 py-3 transition-all duration-300 
+            className={`cursor-pointer rounded-2xl transition-all duration-300
         ${
           activeIndex === index
-            ? "bg-[#6BCB3D] text-white shadow-md col-span-2"
-            : "bg-[#A4D68E] text-white opacity-90 hover:opacity-100 col-span-1"
+            ? "bg-white text-black shadow-lg col-span-2 p-6"
+            : "bg-[#A4D68E] text-white opacity-90 hover:opacity-100 col-span-1 p-4"
         }`}
           >
-            <h3 className="font-semibold text-sm leading-snug mb-1 line-clamp-2">
+            <h3
+              className={`font-semibold leading-snug mb-3 ${
+                activeIndex === index ? "text-lg" : "text-sm line-clamp-2"
+              }`}
+            >
               {slide.title}
             </h3>
 
-            {activeIndex === index ? slide.desc : slide.inActiveBtn}
+            {activeIndex === index ? (
+              <div className="flex flex-col gap-4">
+                <div className="text-sm leading-snug">{slide.desc}</div>
+                <button className="bg-[#6BCB3D] text-white font-semibold rounded-md py-2 px-4 w-full hover:bg-green-600 transition">
+                  {slide.activeBtn}
+                </button>
+              </div>
+            ) : (
+              slide.inActiveBtn
+            )}
           </div>
         ))}
       </div>
