@@ -84,7 +84,7 @@ export default function PromoSlider() {
   };
 
   return (
-    <section className="absolute w-full">
+    <section className="w-full">
       {/* Main Swiper */}
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
