@@ -1,3 +1,137 @@
-export default function Banner() {
-  return <div>Banner</div>;
+"use client";
+
+import { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/effect-fade";
+import Image from "next/image";
+
+const slides = [
+  {
+    id: 0,
+    img: "/assets/bannerImage1.png",
+    title: "Компания «Пластика Окон» отмечает свой 23-й день рождения!",
+    desc: (
+      <p className="text-xs leading-snug">
+        Мы работаем для вас, дорогие клиенты! В честь праздника закажите два или
+        более окон и получите подарок на выбор: <br />- москитную сетку;
+        <br />- бесплатную доставку;
+        <br />- мультифункциональное стекло;
+        <br />- скрытые петли.
+      </p>
+    ),
+    activeBtn: "Заказать с подарком",
+    inActiveBtn: (
+      <p className="line-clamp-2 text-xs">
+        <strong>
+          Компания «Пластика Окон» отмечает свой 23-й день рождения!
+        </strong>{" "}
+        Получите подарок при заказе от двух окон.
+      </p>
+    ),
+  },
+  {
+    id: 1,
+    img: "/assets/bannerImage2.png",
+    title: "Оконные системы со скидкой 50%",
+    desc: "Закажите с выгодой 50% премиальную оконную систему с самыми современными технологиями.",
+    activeBtn: "Подробнее",
+    inActiveBtn: (
+      <p className="line-clamp-2 text-xs">
+        <strong>Скидка 50%</strong> на премиальные оконные системы. Только до
+        конца месяца!
+      </p>
+    ),
+  },
+  {
+    id: 2,
+    img: "/assets/bannerImage3.png",
+    title: "Лучшая оконная система в линейке",
+    desc: "Приобретайте инновационную систему CENTUM с эксклюзивными условиями по сниженной цене.",
+    activeBtn: "Получить скидку",
+    inActiveBtn: (
+      <p className="line-clamp-2 text-xs">
+        <strong>Инновационная система CENTUM</strong> теперь со скидкой и
+        выгодными условиями.
+      </p>
+    ),
+  },
+  {
+    id: 3,
+    img: "/assets/bannerImage4.png",
+    title: "Остекляйте квартиру с новинкой года",
+    desc: "Закажите со скидкой 50% инновационную премиальную систему SMART ULTRA 65.",
+    activeBtn: "Заказать сейчас",
+    inActiveBtn: (
+      <p className="line-clamp-2 text-xs">
+        <strong>SMART ULTRA 65</strong> — новинка года! Современные окна со
+        скидкой 50%.
+      </p>
+    ),
+  },
+];
+
+export default function PromoSlider() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [swiperInstance, setSwiperInstance] = useState<any>(null);
+
+  const handleButtonClick = (index: number) => {
+    setActiveIndex(index);
+    if (swiperInstance) swiperInstance.slideToLoop(index);
+  };
+
+  return (
+    <section className="absolute w-full">
+      {/* Main Swiper */}
+      <Swiper
+        modules={[Navigation, Pagination, Autoplay, EffectFade]}
+        effect="fade"
+        fadeEffect={{ crossFade: true }}
+        onSwiper={setSwiperInstance}
+        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+        autoplay={{ delay: 4000 }}
+        loop={true}
+        className="w-full"
+      >
+        {slides.map((slide) => (
+          <SwiperSlide key={slide.id}>
+            <div className="relative w-full h-[720px]">
+              {/* Perfect background */}
+              <Image
+                src={slide.img}
+                alt={slide.title}
+                fill
+                className="object-cover object-center w-full h-full"
+              />
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      {/* Bottom Buttons */}
+      <div className="grid grid-cols-5 gap-4 mt-6 max-w-[1480px] pl-14 relative -top-20 z-10">
+        {slides.map((slide, index) => (
+          <div
+            key={slide.id}
+            onClick={() => handleButtonClick(index)}
+            className={`cursor-pointer rounded-2xl px-4 py-3 transition-all duration-300 
+        ${
+          activeIndex === index
+            ? "bg-[#6BCB3D] text-white shadow-md col-span-2"
+            : "bg-[#A4D68E] text-white opacity-90 hover:opacity-100 col-span-1"
+        }`}
+          >
+            <h3 className="font-semibold text-sm leading-snug mb-1 line-clamp-2">
+              {slide.title}
+            </h3>
+
+            {activeIndex === index ? slide.desc : slide.inActiveBtn}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
 }
