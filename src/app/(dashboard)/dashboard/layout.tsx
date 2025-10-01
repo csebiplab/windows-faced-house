@@ -14,7 +14,7 @@ export default async function DashboardLayout({
       <body>
         <div className="flex flex-row p-3 gap-3 h-screen">
           <Sidebar />
-          <main className="flex-1 bg-gray-50 border border-gray-200 rounded-lg max-h-screen overflow-auto pb-5">
+          <main className="flex-1 bg-gray-50 border border-gray-200 rounded-lg max-h-screen overflow-auto p-5">
             {children}
           </main>
           <ToastContainer />
