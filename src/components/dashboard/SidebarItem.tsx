@@ -2,18 +2,24 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import type { MenuItem } from "./menuItems";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 export default function SidebarItem({ item }: { item: MenuItem }) {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = item.href && pathname === item.href;
 
   if (item.children) {
     return (
       <div>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-gray-200 transition"
+          className={`w-full flex items-center justify-between px-3 py-2 rounded-lg transition ${
+            isActive ? "bg-primary text-white" : "hover:bg-gray-200"
+          }`}
         >
           <div className="flex items-center gap-3">
             <item.icon className="w-5 h-5" />
@@ -40,7 +46,9 @@ export default function SidebarItem({ item }: { item: MenuItem }) {
   return (
     <Link
       href={item.href!}
-      className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-200 transition"
+      className={`flex items-center gap-3 px-3 py-2 rounded-lg transition ${
+        isActive ? "bg-primary text-white" : "hover:bg-gray-200"
+      }`}
     >
       <item.icon className="w-5 h-5" />
       <span>{item.name}</span>
