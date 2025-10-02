@@ -9,74 +9,26 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import Image from "next/image";
 
-const slides = [
-  {
-    id: 0,
-    img: "/assets/bannerImage1.webp",
-    title: "Компания «Пластика Окон» отмечает свой 23-й день рождения!",
-    desc: (
-      <p className="text-xs leading-snug">
-        Мы работаем для вас, дорогие клиенты! В честь праздника закажите два или
-        более окон и получите подарок на выбор: <br />- москитную сетку;
-        <br />- бесплатную доставку;
-        <br />- мультифункциональное стекло;
-        <br />- скрытые петли.
-      </p>
-    ),
-    activeBtn: "Заказать с подарком",
-    inActiveBtn: (
-      <p className="line-clamp-2 text-xs">
-        <strong>
-          Компания «Пластика Окон» отмечает свой 23-й день рождения!
-        </strong>{" "}
-        Получите подарок при заказе от двух окон.
-      </p>
-    ),
-  },
-  {
-    id: 1,
-    img: "/assets/bannerImage2.webp",
-    title: "Оконные системы со скидкой 50%",
-    desc: "Закажите с выгодой 50% премиальную оконную систему с самыми современными технологиями.",
-    activeBtn: "Подробнее",
-    inActiveBtn: (
-      <p className="line-clamp-2 text-xs">
-        <strong>Скидка 50%</strong> на премиальные оконные системы. Только до
-        конца месяца!
-      </p>
-    ),
-  },
-  {
-    id: 2,
-    img: "/assets/bannerImage3.webp",
-    title: "Лучшая оконная система в линейке",
-    desc: "Приобретайте инновационную систему CENTUM с эксклюзивными условиями по сниженной цене.",
-    activeBtn: "Получить скидку",
-    inActiveBtn: (
-      <p className="line-clamp-2 text-xs">
-        <strong>Инновационная система CENTUM</strong> теперь со скидкой и
-        выгодными условиями.
-      </p>
-    ),
-  },
-  {
-    id: 3,
-    img: "/assets/bannerImage4.webp",
-    title: "Остекляйте квартиру с новинкой года",
-    desc: "Закажите со скидкой 50% инновационную премиальную систему SMART ULTRA 65.",
-    activeBtn: "Заказать сейчас",
-    inActiveBtn: (
-      <p className="line-clamp-2 text-xs">
-        <strong>SMART ULTRA 65</strong> — новинка года! Современные окна со
-        скидкой 50%.
-      </p>
-    ),
-  },
-];
-
-export default function PromoSlider() {
+export default function Banner({ bannerdt }: { bannerdt: any[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [swiperInstance, setSwiperInstance] = useState<any>(null);
+
+  const slides = bannerdt[0].sectionContent.map((item: any, index: number) => ({
+    id: item._id,
+    img: item.imgUrl,
+    title: item.title,
+    desc: (
+      <p className="text-xs leading-snug whitespace-pre-line">
+        {item.description}
+      </p>
+    ),
+    activeBtn: item.buttonName,
+    inActiveBtn: (
+      <p className="line-clamp-2 text-xs">
+        <strong>{item.title}</strong> {item.description.split("\n")[0]}
+      </p>
+    ),
+  }));
 
   const handleButtonClick = (index: number) => {
     setActiveIndex(index);
@@ -153,7 +105,9 @@ export default function PromoSlider() {
             {slides[activeIndex].title}
           </h3>
           <div className="flex flex-col gap-4">
-            <div className="text-sm leading-snug">{slides[activeIndex].desc}</div>
+            <div className="text-sm leading-snug">
+              {slides[activeIndex].desc}
+            </div>
             <button className="bg-[#6BCB3D] text-white font-semibold rounded-md py-2 px-4 w-full hover:bg-green-600 transition">
               {slides[activeIndex].activeBtn}
             </button>
