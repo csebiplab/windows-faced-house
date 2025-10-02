@@ -10,7 +10,7 @@ export type ProductType =
 interface IProduct extends Document {
   title?: string;
   type?: ProductType;
-  items?: string[];
+  items?: string;
   description?: string;
   priceFrom?: number;
   priceUnit?: string;
@@ -28,7 +28,7 @@ const ProductSchema = new Schema<IProduct>(
       enum: ["windows", "aluminum", "cottages", "balconies", "doors"],
       required: false,
     },
-    items: { type: [String], required: false },
+    items: { type: String, required: false },
     description: { type: String, required: false },
     priceFrom: { type: Number, required: false },
     priceUnit: { type: String, default: "₽/m²" },
