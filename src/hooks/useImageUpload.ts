@@ -1,24 +1,44 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-export const useImageUpload = () => {
-  const uploadImage = async (file: File): Promise<string | null> => {
+type UploadOptions = {
+  maxSize?: number;
+  allowedTypes?: string[];
+};
+
+export const useImageUpload = (
+  options: UploadOptions = {
+    maxSize: 300,
+    allowedTypes: ["image/jpeg", "image/png", "image/webp", "image/gif"],
+  }
+) => {
+  const [uploading, setUploading] = useState(false);
+
+  const validateFile = (file: File): boolean => {
     if (!file) {
       toast.error("No file selected!");
-      return null;
+      return false;
     }
 
-    if (file.size > 0.3 * 1024 * 1024) {
-      toast.error("Image size exceeds 300kb limit.");
-      return null;
-    }
-    console.log(file.type);
-
-    if (!["image/jpeg", "image/png", "image/webp","image/gif"].includes(file.type)) {
-      toast.error("Invalid image format. Only JPEG, PNG, WEBP and GIF are allowed.");
-      return null;
+    if (file.size > (options.maxSize ?? 300) * 1024) {
+      toast.error(`Image size exceeds ${options.maxSize}kb limit.`);
+      return false;
     }
 
+    if (!(options.allowedTypes ?? []).includes(file.type)) {
+      toast.error(
+        `Invalid format. Allowed: ${options.allowedTypes?.join(", ")}`
+      );
+      return false;
+    }
+
+    return true;
+  };
+
+  const uploadImage = async (file: File): Promise<string | null> => {
+    if (!validateFile(file)) return null;
+
+    setUploading(true);
     try {
       const formData = new FormData();
       formData.append("image", file);
@@ -30,20 +50,24 @@ export const useImageUpload = () => {
 
       if (!res.ok) throw new Error("Image upload failed");
 
-      const data = await res.json();
+      const data: { url?: string } = await res.json();
       if (data?.url) {
         toast.success("Image uploaded successfully!");
-        return `${data.url}`;
+        return data.url;
       } else {
         toast.error("Failed to upload image!");
         return null;
       }
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err.message || "Upload failed");
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message || "Upload failed");
+        console.error("Upload Error:", err);
+      }
       return null;
+    } finally {
+      setUploading(false);
     }
   };
 
-  return { uploadImage };
+  return { uploadImage, uploading };
 };
