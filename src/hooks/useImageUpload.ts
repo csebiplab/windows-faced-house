@@ -12,9 +12,10 @@ export const useImageUpload = () => {
       toast.error("Image size exceeds 300kb limit.");
       return null;
     }
+    console.log(file.type);
 
-    if (!["image/jpeg", "image/png", "image/gif"].includes(file.type)) {
-      toast.error("Invalid image format. Only JPEG, PNG, and GIF are allowed.");
+    if (!["image/jpeg", "image/png", "image/webp","image/gif"].includes(file.type)) {
+      toast.error("Invalid image format. Only JPEG, PNG, WEBP and GIF are allowed.");
       return null;
     }
 

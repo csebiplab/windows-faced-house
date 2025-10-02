@@ -12,7 +12,7 @@ import Image from "next/image";
 const slides = [
   {
     id: 0,
-    img: "/assets/bannerImage1.png",
+    img: "/assets/bannerImage1.webp",
     title: "Компания «Пластика Окон» отмечает свой 23-й день рождения!",
     desc: (
       <p className="text-xs leading-snug">
@@ -35,7 +35,7 @@ const slides = [
   },
   {
     id: 1,
-    img: "/assets/bannerImage2.png",
+    img: "/assets/bannerImage2.webp",
     title: "Оконные системы со скидкой 50%",
     desc: "Закажите с выгодой 50% премиальную оконную систему с самыми современными технологиями.",
     activeBtn: "Подробнее",
@@ -48,7 +48,7 @@ const slides = [
   },
   {
     id: 2,
-    img: "/assets/bannerImage3.png",
+    img: "/assets/bannerImage3.webp",
     title: "Лучшая оконная система в линейке",
     desc: "Приобретайте инновационную систему CENTUM с эксклюзивными условиями по сниженной цене.",
     activeBtn: "Получить скидку",
@@ -61,7 +61,7 @@ const slides = [
   },
   {
     id: 3,
-    img: "/assets/bannerImage4.png",
+    img: "/assets/bannerImage4.webp",
     title: "Остекляйте квартиру с новинкой года",
     desc: "Закажите со скидкой 50% инновационную премиальную систему SMART ULTRA 65.",
     activeBtn: "Заказать сейчас",
@@ -98,21 +98,21 @@ export default function PromoSlider() {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="relative w-full h-[720px]">
-              {/* Perfect background */}
+            <div className="relative w-full aspect-video">
               <Image
                 src={slide.img}
                 alt={slide.title}
                 fill
-                className="object-cover object-center w-full h-full"
+                priority
+                className="object-cover object-center"
               />
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      {/* Bottom Buttons */}
-      <div className="grid grid-cols-5 gap-4 mt-6 max-w-[1480px] pl-14 relative -top-20 z-10">
+      {/* Desktop Buttons */}
+      <div className="hidden md:grid grid-cols-5 gap-4 mt-6 max-w-[1480px] pl-14 relative -top-20 z-10">
         {slides.map((slide, index) => (
           <div
             key={slide.id}
@@ -144,6 +144,21 @@ export default function PromoSlider() {
             )}
           </div>
         ))}
+      </div>
+
+      {/* Mobile Active Button Only */}
+      <div className="block md:hidden mt-6 px-4 relative z-10">
+        <div className="bg-white text-black shadow-lg rounded-2xl p-6">
+          <h3 className="font-semibold text-lg mb-3">
+            {slides[activeIndex].title}
+          </h3>
+          <div className="flex flex-col gap-4">
+            <div className="text-sm leading-snug">{slides[activeIndex].desc}</div>
+            <button className="bg-[#6BCB3D] text-white font-semibold rounded-md py-2 px-4 w-full hover:bg-green-600 transition">
+              {slides[activeIndex].activeBtn}
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );
