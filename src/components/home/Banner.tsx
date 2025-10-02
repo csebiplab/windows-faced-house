@@ -98,21 +98,21 @@ export default function PromoSlider() {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="relative w-full h-[720px]">
-              {/* Perfect background */}
+            <div className="relative w-full aspect-video">
               <Image
                 src={slide.img}
                 alt={slide.title}
                 fill
-                className="object-cover object-center w-full h-full"
+                priority
+                className="object-cover object-center"
               />
             </div>
           </SwiperSlide>
         ))}
       </Swiper>
 
-      {/* Bottom Buttons */}
-      <div className="grid grid-cols-5 gap-4 mt-6 max-w-[1480px] pl-14 relative -top-20 z-10">
+      {/* Desktop Buttons */}
+      <div className="hidden md:grid grid-cols-5 gap-4 mt-6 max-w-[1480px] pl-14 relative -top-20 z-10">
         {slides.map((slide, index) => (
           <div
             key={slide.id}
@@ -144,6 +144,21 @@ export default function PromoSlider() {
             )}
           </div>
         ))}
+      </div>
+
+      {/* Mobile Active Button Only */}
+      <div className="block md:hidden mt-6 px-4 relative z-10">
+        <div className="bg-white text-black shadow-lg rounded-2xl p-6">
+          <h3 className="font-semibold text-lg mb-3">
+            {slides[activeIndex].title}
+          </h3>
+          <div className="flex flex-col gap-4">
+            <div className="text-sm leading-snug">{slides[activeIndex].desc}</div>
+            <button className="bg-[#6BCB3D] text-white font-semibold rounded-md py-2 px-4 w-full hover:bg-green-600 transition">
+              {slides[activeIndex].activeBtn}
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );
