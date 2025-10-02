@@ -3,12 +3,14 @@ import React, { useRef, useState } from "react";
 
 interface ImageUploadProps {
   onConfirm: (file: File) => void;
+  onFileChange?: () => void;
   disabled: boolean;
   uploading: boolean;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
   onConfirm,
+  onFileChange,
   disabled,
   uploading,
 }) => {
@@ -19,6 +21,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   const handleFileSelect = (newFile: File) => {
     setFile(newFile);
     setPreview(URL.createObjectURL(newFile));
+    onFileChange?.();
   };
 
   return (

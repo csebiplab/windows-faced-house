@@ -13,6 +13,7 @@ interface InputFieldProps {
   ) => void;
   options?: { label: string; value: string }[];
   placeholder?: string;
+  required?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -23,6 +24,7 @@ const InputField: React.FC<InputFieldProps> = ({
   onChange,
   options,
   placeholder,
+  required = true,
 }) => {
   return (
     <div>
@@ -33,6 +35,7 @@ const InputField: React.FC<InputFieldProps> = ({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
+          required={required}
           className="w-full h-32 border rounded-md p-2"
         />
       ) : type === "select" ? (
@@ -40,6 +43,7 @@ const InputField: React.FC<InputFieldProps> = ({
           name={name}
           value={value}
           onChange={onChange}
+          required={required}
           className="w-full h-12 border rounded-md p-2"
         >
           {options?.map((opt) => (
@@ -55,6 +59,7 @@ const InputField: React.FC<InputFieldProps> = ({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
+          required={required}
           className="w-full h-12 border rounded-md p-2"
         />
       )}

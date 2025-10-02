@@ -59,6 +59,14 @@ export const AddProductComp = () => {
     }
   };
 
+  const onFileChange = (index: number) => {
+    setForms((prev) => {
+      const updated = [...prev];
+      updated[index].imageUrl = "";
+      return updated;
+    });
+  };
+
   const addMore = () => {
     setForms((prev) => [...prev, { ...blankProduct }]);
   };
@@ -133,6 +141,7 @@ export const AddProductComp = () => {
             value={form.description}
             onChange={(e) => handleChange(index, e)}
             placeholder="Enter description"
+            required={false}
           />
 
           <InputField
@@ -153,6 +162,7 @@ export const AddProductComp = () => {
 
           <ImageUpload
             onConfirm={(file) => handleImageConfirm(index, file)}
+            onFileChange={() => onFileChange(index)}
             disabled={form?.imageUrl?.length > 0}
             uploading={uploading}
           />
