@@ -9,26 +9,9 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import Image from "next/image";
 
-export default function Banner({ bannerdt }: { bannerdt: any[] }) {
+export default function BannerClient({ slides }: { slides: any[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [swiperInstance, setSwiperInstance] = useState<any>(null);
-
-  const slides = bannerdt[0].sectionContent.map((item: any, index: number) => ({
-    id: item._id,
-    img: item.imgUrl,
-    title: item.title,
-    desc: (
-      <p className="text-xs leading-snug whitespace-pre-line">
-        {item.description}
-      </p>
-    ),
-    activeBtn: item.buttonName,
-    inActiveBtn: (
-      <p className="line-clamp-2 text-xs">
-        <strong>{item.title}</strong> {item.description.split("\n")[0]}
-      </p>
-    ),
-  }));
 
   const handleButtonClick = (index: number) => {
     setActiveIndex(index);
@@ -37,7 +20,6 @@ export default function Banner({ bannerdt }: { bannerdt: any[] }) {
 
   return (
     <section className="w-full">
-      {/* Main Swiper */}
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
         effect="fade"
@@ -50,7 +32,7 @@ export default function Banner({ bannerdt }: { bannerdt: any[] }) {
       >
         {slides.map((slide) => (
           <SwiperSlide key={slide.id}>
-            <div className="relative w-full aspect-video">
+            <div className="relative w-full h-[70vh]">
               <Image
                 src={slide.img}
                 alt={slide.title}
@@ -98,7 +80,7 @@ export default function Banner({ bannerdt }: { bannerdt: any[] }) {
         ))}
       </div>
 
-      {/* Mobile Active Button Only */}
+      {/* Mobile Active Button */}
       <div className="block md:hidden mt-6 px-4 relative z-10">
         <div className="bg-white text-black shadow-lg rounded-2xl p-6">
           <h3 className="font-semibold text-lg mb-3">
