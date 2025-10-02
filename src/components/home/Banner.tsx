@@ -12,7 +12,7 @@ import Image from "next/image";
 const slides = [
   {
     id: 0,
-    img: "/assets/bannerImage1.png",
+    img: "/assets/bannerImage1.webp",
     title: "Компания «Пластика Окон» отмечает свой 23-й день рождения!",
     desc: (
       <p className="text-xs leading-snug">
@@ -35,7 +35,7 @@ const slides = [
   },
   {
     id: 1,
-    img: "/assets/bannerImage2.png",
+    img: "/assets/bannerImage2.webp",
     title: "Оконные системы со скидкой 50%",
     desc: "Закажите с выгодой 50% премиальную оконную систему с самыми современными технологиями.",
     activeBtn: "Подробнее",
@@ -48,7 +48,7 @@ const slides = [
   },
   {
     id: 2,
-    img: "/assets/bannerImage3.png",
+    img: "/assets/bannerImage3.webp",
     title: "Лучшая оконная система в линейке",
     desc: "Приобретайте инновационную систему CENTUM с эксклюзивными условиями по сниженной цене.",
     activeBtn: "Получить скидку",
@@ -61,7 +61,7 @@ const slides = [
   },
   {
     id: 3,
-    img: "/assets/bannerImage4.png",
+    img: "/assets/bannerImage4.webp",
     title: "Остекляйте квартиру с новинкой года",
     desc: "Закажите со скидкой 50% инновационную премиальную систему SMART ULTRA 65.",
     activeBtn: "Заказать сейчас",
