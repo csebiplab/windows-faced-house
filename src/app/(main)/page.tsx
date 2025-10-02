@@ -1,6 +1,7 @@
-import Banner from "@/components/home/Banner";
+import Banner from "@/components/home/Banner/Banner";
 import ProductGrid from "@/components/home/ProductGrid";
-export default async function page() {
+
+export default function Page() {
   return (
     <main>
       <section>
