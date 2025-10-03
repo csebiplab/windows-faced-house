@@ -1,5 +1,5 @@
 import Banner from "@/components/home/Banner/Banner";
-import ProductGrid from "@/components/home/ProductGrid";
+import Products from "@/components/home/product/Product";
 
 export default function Page() {
   return (
@@ -8,7 +8,7 @@ export default function Page() {
         <Banner />
       </section>
       <section>
-        <ProductGrid />
+        <Products />
       </section>
     </main>
   );
