@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import CreateHeroSectionForm from "./CreateHeroSectionForm";
+import { ProductSectionForm } from "./ProductSectionForm";
 
 const pageOptions = [
   { label: "Home", value: "home" },
@@ -22,7 +23,7 @@ const CreateSectionComponent = () => {
       case "HeroSection":
         return <CreateHeroSectionForm kind="HeroSection" page={selectedPage} />;
       default:
-        return null;
+        return <ProductSectionForm kind="ProductSection" page={selectedPage} />;
     }
   };
 
