@@ -1,4 +1,4 @@
-import ProductGrid from "../ProductGrid";
+import ProductGrid from "./ProductGrid";
 
 async function getData() {
   const res = await fetch(
