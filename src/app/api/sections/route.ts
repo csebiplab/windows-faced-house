@@ -2,7 +2,7 @@ import { connectToDatabase } from "@/lib/connectToDb";
 import { responseMessageUtilities } from "@/lib/response.message.utility";
 import { AppError, route } from "@/lib/route";
 import { HeroSectionModel, SectionModel } from "@/models/section.model";
-import { Model } from "mongoose";
+import { Model, PipelineStage } from "mongoose";
 import { NextRequest } from "next/server";
 
 export const PATCH = route(async (req: NextRequest) => {
@@ -60,7 +60,46 @@ export const GET = route(async (req: NextRequest) => {
     filter.kind = sectionKind;
   }
   await connectToDatabase();
-  const sections = await SectionModel.find(filter);
+  const pipeline: PipelineStage[] = [
+    {
+      $match: { ...filter },
+    },
+  ];
+  if (sectionKind === "ProductSection") {
+    const lookup = {
+      $lookup: {
+        from: "products",
+        let: { productIds: "$products" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $in: ["$_id", "$$productIds"],
+              },
+            },
+          },
+          {
+            $project: {
+              deletedAt: 0,
+              createdAt: 0,
+              updatedAt: 0,
+            },
+          },
+        ],
+        as: "allProducts",
+      },
+    };
+    pipeline.push(lookup);
+  }
+  pipeline.push({
+    $project: {
+      createdAt: 0,
+      updatedAt: 0,
+      deletedAt: 0,
+      products: 0,
+    },
+  });
+  const sections = await SectionModel.aggregate(pipeline);
 
   return {
     data: sections,
