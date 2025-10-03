@@ -3,17 +3,25 @@ import React, { useRef, useState } from "react";
 
 interface ImageUploadProps {
   onConfirm: (file: File) => void;
+  onFileChange?: () => void;
+  disabled: boolean;
+  uploading: boolean;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({ onConfirm }) => {
+const ImageUpload: React.FC<ImageUploadProps> = ({
+  onConfirm,
+  onFileChange,
+  disabled,
+  uploading,
+}) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  const [uploading, setUploading] = useState(false);
 
   const handleFileSelect = (newFile: File) => {
     setFile(newFile);
     setPreview(URL.createObjectURL(newFile));
+    onFileChange?.();
   };
 
   return (
@@ -22,7 +30,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onConfirm }) => {
 
       {/* Drop zone */}
       <div
-        className="border-2 border-dashed border-purple-400 rounded-md flex flex-col items-center justify-center p-6 cursor-pointer hover:bg-purple-50"
+        className="h-[40vh] border-2 border-dashed border-purple-400 rounded-md flex flex-col items-center justify-center p-6 cursor-pointer hover:bg-purple-50"
         onClick={() => inputRef.current?.click()}
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => {
@@ -74,15 +82,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onConfirm }) => {
             type="button"
             onClick={() => {
               if (file) {
-                setUploading(true);
-                // simulate upload delay
-                setTimeout(() => {
-                  onConfirm(file);
-                  setUploading(false);
-                }, 1000);
+                onConfirm(file);
               }
             }}
-            disabled={uploading}
+            disabled={disabled || uploading}
             className="px-4 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
           >
             {uploading ? "Uploading..." : "Confirm"}

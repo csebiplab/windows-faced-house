@@ -1,7 +1,7 @@
 import { connectToDatabase } from "@/lib/connectToDb";
 import { responseMessageUtilities } from "@/lib/response.message.utility";
 import { route } from "@/lib/route";
-import { ProductModel } from "@/models/product.model";
+import { IProduct, ProductModel } from "@/models/product.model";
 import { NextRequest } from "next/server";
 
 export const GET = route(
@@ -18,11 +18,9 @@ export const POST = route(
   async (req: NextRequest) => {
     await connectToDatabase();
 
-    const payload = await req.json();
+    const payload: Partial<IProduct[]> = await req.json();
 
-    const res = await ProductModel.create({
-      ...payload,
-    });
+    const res = await ProductModel.create(payload);
 
     return {
       data: res,

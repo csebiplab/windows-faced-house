@@ -28,7 +28,7 @@ const SectionModel: Model<SectionBase> =
   mongoose.model<SectionBase>("Section", SectionSchema);
 
 /**
- * Hero Section
+ * Hero Section Starts
  */
 interface HeroSectionContent {
   sectionId: number;
@@ -63,4 +63,29 @@ const HeroSectionModel: Model<HeroSection> =
   (SectionModel.discriminators?.HeroSection as Model<HeroSection>) ||
   SectionModel.discriminator<HeroSection>("HeroSection", HeroSectionSchema);
 
-export { SectionModel, HeroSectionModel };
+/**
+ * Hero Section Ends
+ */
+
+/**
+ * Product Section Starts
+ */
+interface IProductsSection extends SectionBase {
+  title: string;
+  products: mongoose.Types.ObjectId[];
+}
+
+const ProductSectionSchema = new Schema<IProductsSection>({
+  title: { type: String, required: true },
+  products: { type: [mongoose.Types.ObjectId], required: true },
+});
+
+// Discriminator model
+const ProductSectionModel: Model<IProductsSection> =
+  (SectionModel.discriminators?.ProductSection as Model<IProductsSection>) ||
+  SectionModel.discriminator<IProductsSection>(
+    "ProductSection",
+    ProductSectionSchema
+  );
+
+export { SectionModel, HeroSectionModel, ProductSectionModel };

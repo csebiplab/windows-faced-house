@@ -7,7 +7,7 @@ export type ProductType =
   | "balconies"
   | "doors";
 
-interface IProduct extends Document {
+export interface IProduct extends Document {
   title?: string;
   type?: ProductType;
   items?: string;
