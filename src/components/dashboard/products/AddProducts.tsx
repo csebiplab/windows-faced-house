@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useImageUpload } from "@/hooks/useImageUpload";
 
 type ProductForm = {
+  serial: number;
   title: string;
   type: string;
   items: string;
@@ -17,6 +18,7 @@ type ProductForm = {
 };
 
 const blankProduct: ProductForm = {
+  serial: 0,
   title: "",
   type: "windows",
   items: "",
@@ -27,7 +29,9 @@ const blankProduct: ProductForm = {
 };
 
 export const AddProductComp = () => {
-  const [forms, setForms] = useState<ProductForm[]>([blankProduct]);
+  const [forms, setForms] = useState<ProductForm[]>([
+    { ...blankProduct, serial: 1 },
+  ]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { uploadImage, uploading } = useImageUpload();
 
@@ -68,11 +72,15 @@ export const AddProductComp = () => {
   };
 
   const addMore = () => {
-    setForms((prev) => [...prev, { ...blankProduct }]);
+    setForms((prev) => [...prev, { ...blankProduct, serial: prev.length + 1 }]);
   };
 
   const removeForm = (index: number) => {
-    setForms((prev) => prev.filter((_, i) => i !== index));
+    setForms((prev) =>
+      prev
+        .filter((_, i) => i !== index)
+        .map((form, idx) => ({ ...form, serial: idx + 1 }))
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -8,6 +8,7 @@ export type ProductType =
   | "doors";
 
 export interface IProduct extends Document {
+  serial: number;
   title?: string;
   type?: ProductType;
   items?: string;
@@ -22,6 +23,7 @@ export interface IProduct extends Document {
 
 const ProductSchema = new Schema<IProduct>(
   {
+    serial: { type: Number, required: true },
     title: { type: String, required: false },
     type: {
       type: String,
