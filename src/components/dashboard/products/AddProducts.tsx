@@ -22,7 +22,7 @@ const blankProduct: ProductForm = {
   items: "",
   description: "",
   priceFrom: "",
-  priceUnit: "₽/m²",
+  priceUnit: "₽/м²",
   imageUrl: "",
 };
 
@@ -75,10 +75,29 @@ export const AddProductComp = () => {
     setForms((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     setIsSubmitting(true);
     e.preventDefault();
-    console.log("All Products:", forms);
+    try {
+      const res = await fetch("/api/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(forms),
+      });
+      if (res.ok) {
+        toast.success("Form submitted successfully!");
+        setForms([blankProduct]);
+      } else {
+        toast.error("Failed to submit form. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Failed to submit form. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
