@@ -17,7 +17,6 @@ const WindowsManufacturer = () => {
     "Балконный блок",
   ];
 
-  // 🎨 Color options array
   const colorOptions = [
     { name: "Оникс", color: "#B6A18E" },
     { name: "Графит", color: "#888888" },
@@ -63,21 +62,21 @@ const WindowsManufacturer = () => {
 
         {/* Product Card */}
         <div className="bg-white rounded-2xl shadow-md flex flex-col md:flex-row overflow-hidden">
-          {/* Image Section */}
-          <div className="flex-1 p-6 flex justify-center items-center">
-            <div className="relative inline-block w-full max-w-xs">
+          {/* Image Section - 40% width on desktop */}
+          <div className="w-full md:w-[40%] flex justify-center items-center p-4 md:p-8 bg-white">
+            <div className="relative w-full max-w-sm sm:max-w-md">
               {/* Discount Tag */}
-              <div className="absolute top-5 left-0 bg-lime-600 text-white text-xs md:text-lg lg:text-2xl font-bold px-2 py-1 rounded z-10">
+              <div className="absolute top-10 left-0 bg-lime-600 text-white text-sm md:text-lg lg:text-2xl font-bold px-3 py-1 rounded z-10">
                 -50%
               </div>
 
-              {/* ✅ Replaced ECO Tag with Image */}
+              {/* ECO Icon */}
               <div className="absolute top-5 right-2 z-10">
                 <Image
                   src="/assets/windowsManufacturerImageIcon.png"
                   alt="Эко Профиль"
-                  width={50}
-                  height={50}
+                  width={60}
+                  height={60}
                   className="object-contain"
                 />
               </div>
@@ -85,16 +84,16 @@ const WindowsManufacturer = () => {
               <Image
                 src="/assets/windowsManufacturerImage.png"
                 alt="Окно"
-                width={300}
-                height={400}
-                className="rounded-lg w-full h-auto"
+                width={600}
+                height={700}
+                className="rounded-xl w-full h-auto object-contain"
                 priority
               />
             </div>
           </div>
 
-          {/* Details Section */}
-          <div className="flex-1 p-6 space-y-4">
+          {/* Details Section - 60% width on desktop */}
+          <div className="w-full md:w-[60%] p-6 space-y-4 flex flex-col justify-center">
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
               {/* Product Info */}
               <div className="flex-1">
@@ -139,7 +138,10 @@ const WindowsManufacturer = () => {
 
             {/* Cool Colours Toggle */}
             <div className="flex items-center gap-4 mt-4">
-              <label htmlFor="switch-component-1" className="font-bold text-[#00171F] flex items-center gap-1 cursor-pointer">
+              <label
+                htmlFor="switch-component-1"
+                className="font-bold text-[#00171F] flex items-center gap-1 cursor-pointer"
+              >
                 Покрытие Cool Colours
                 <CiCircleInfo className="bg-[#6ABE09] rounded-full" />
               </label>
@@ -160,7 +162,7 @@ const WindowsManufacturer = () => {
               </div>
             </div>
 
-            {/* ✅ Checkboxes Below Toggle */}
+            {/* Checkboxes */}
             <div className="flex items-center gap-6 mt-4 text-gray-700">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -186,14 +188,20 @@ const WindowsManufacturer = () => {
             {coolColours && (
               <div className="flex items-center justify-between mt-4 flex-wrap gap-4">
                 {/* Dynamic Color Boxes */}
-                <div className="flex gap-3 md:gap-8 flex-wrap">
+                <div className="flex gap-3 md:gap-14 flex-wrap">
                   {colorOptions.map(({ name, color }) => (
                     <div
                       key={name}
-                      className="w-10 h-10 rounded-md border cursor-pointer hover:scale-105 transition-transform"
-                      title={name}
-                      style={{ backgroundColor: color }}
-                    />
+                      className="flex flex-col items-center gap-1 cursor-pointer group"
+                    >
+                      <div
+                        className="w-12 h-12 rounded-md border hover:scale-105 transition-transform"
+                        style={{ backgroundColor: color }}
+                      />
+                      <span className="text-xs text-gray-700 group-hover:text-lime-700">
+                        {name}
+                      </span>
+                    </div>
                   ))}
                 </div>
 
