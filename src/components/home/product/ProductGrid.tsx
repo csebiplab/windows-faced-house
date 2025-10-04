@@ -10,77 +10,9 @@ type CardItem = {
   image: string;
 };
 
-const items: CardItem[] = [
-  {
-    id: 1,
-    title: "ПЛАСТИКОВЫЕ ОКНА MELKE",
-    description: [
-      "Melke Centrum",
-      "Melke Wide",
-      "Melke Evolution",
-      "Melke Smart Ultra",
-      "Melke Like 70",
-      "Melke Line 60",
-      "Готовые окна",
-      "Нестандартные окна",
-      "В Подмосковье",
-    ],
-    price: "от 11 570 ₽/м²",
-    image: "/assets/ProductGridImage1.png",
-  },
-  {
-    id: 2,
-    title: "КОТТЕДЖИ И ДАЧИ",
-    description: [
-      "Остекление коттеджей и домов",
-      "Остекление беседок",
-      "Дачное остекление",
-    ],
-    price: "от 12 354 ₽/м²",
-    image: "/assets/ProductGridImage2.png",
-  },
-  {
-    id: 3,
-    title: "АЛЮМИНИЕВЫЕ КОНСТРУКЦИИ",
-    description: [
-      "Порталы",
-      "Холодные системы",
-      "Тёплые системы",
-      "Фасадное остекление",
-    ],
-    price: "от 27 489 ₽/м²",
-    image: "/assets/ProductGridImage3.png",
-  },
-  {
-    id: 4,
-    title: "БАЛКОНЫ И ЛОДЖИИ",
-    description: [
-      "Теплое остекление",
-      "Холодное алюминиевое остекление",
-      "Французское остекление",
-      "Балконы с выносом",
-      "Балконы с крышей",
-      "Отделка балконов и лоджий",
-      "Балконные блоки",
-    ],
-    price: "от 13 680 ₽/м²",
-    image: "/assets/ProductGridImage4.png",
-  },
-  {
-    id: 5,
-    title: "ДВЕРИ",
-    description: [
-      "Входные двери",
-      "Межкомнатные двери",
-      "Раздвижные двери PSK портал",
-      "Балконные двери",
-    ],
-    price: "от 13 560 ₽/м²",
-    image: "/assets/ProductGridImage5.png",
-  },
-];
 
-export default function ProductGrid() {
+export default function ProductGrid({ products }: { products?: CardItem[] }) {
+  console.log(products);
   return (
     <section className="bg-[#e9f4f7] py-12 px-6">
       <div className="max-w-7xl mx-auto">
@@ -89,7 +21,7 @@ export default function ProductGrid() {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.map((item, index) => {
+          {products?.map((item, index) => {
             if (index === 0) {
               // First card special layout
               return (
