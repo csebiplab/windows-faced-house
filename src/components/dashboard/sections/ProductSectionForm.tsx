@@ -15,6 +15,7 @@ export const ProductSectionForm = ({
   kind: string;
   page: string;
 }) => {
+  const [sectionTitle, setSectionTitle] = useState("");
   const [selectedProducts, setSelectedProducts] = useState<Option[]>([]);
   const [options, setOptions] = useState<Option[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,10 +63,17 @@ export const ProductSectionForm = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!page || !kind) {
       toast.error("Page and Kind are required!");
       return;
     }
+
+    if (!sectionTitle.trim()) {
+      toast.error("Section title is required!");
+      return;
+    }
+
     if (selectedProducts.length === 0) {
       toast.error("Please select at least one product!");
       return;
@@ -74,6 +82,7 @@ export const ProductSectionForm = ({
     const payload = {
       page,
       kind,
+      title: sectionTitle,
       products: selectedProducts.map((p) => p.value),
     };
 
@@ -88,6 +97,7 @@ export const ProductSectionForm = ({
       if (!res.ok) throw new Error("Failed to save section");
 
       toast.success("Section saved successfully!");
+      setSectionTitle("");
       setSelectedProducts([]);
     } catch (err: any) {
       console.error(err);
@@ -99,13 +109,17 @@ export const ProductSectionForm = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <label htmlFor="product" className="block text-sm font-medium">
-        Choose product
-      </label>
+      <InputField
+        label="Section Title"
+        name="title"
+        value={sectionTitle}
+        onChange={(e) => setSectionTitle(e.target.value)}
+        placeholder="Enter Section title"
+      />
 
       {/* Single select for adding products */}
       <InputField
-        label="Product"
+        label="Choose product"
         name="product"
         type="select"
         value=""

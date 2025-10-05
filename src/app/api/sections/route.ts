@@ -1,7 +1,7 @@
 import { connectToDatabase } from "@/lib/connectToDb";
 import { responseMessageUtilities } from "@/lib/response.message.utility";
 import { AppError, route } from "@/lib/route";
-import { HeroSectionModel, SectionModel } from "@/models/section.model";
+import { SectionModel } from "@/models/section.model";
 import { Model, PipelineStage } from "mongoose";
 import { NextRequest } from "next/server";
 
