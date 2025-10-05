@@ -48,5 +48,21 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  {
+    name: "Services",
+    icon: Folder,
+    children: [
+      {
+        name: "Show Services",
+        href: "/dashboard/services/show-services",
+        icon: DoorOpen,
+      },
+      {
+        name: "Add Services",
+        href: "/dashboard/services/add-services",
+        icon: Plus,
+      },
+    ],
+  },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
