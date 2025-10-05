@@ -10,9 +10,7 @@ type CardItem = {
   image: string;
 };
 
-
 export default function ProductGrid({ products }: { products?: CardItem[] }) {
-  console.log(products);
   return (
     <section className="bg-[#e9f4f7] py-12 px-6">
       <div className="max-w-7xl mx-auto">
