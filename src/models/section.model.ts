@@ -72,12 +72,12 @@ const HeroSectionModel: Model<HeroSection> =
  */
 interface IProductsSection extends SectionBase {
   title: string;
-  products: mongoose.Types.ObjectId[];
+  items: mongoose.Types.ObjectId[];
 }
 
 const ProductSectionSchema = new Schema<IProductsSection>({
   title: { type: String, required: true },
-  products: { type: [mongoose.Types.ObjectId], required: true },
+  items: { type: [mongoose.Types.ObjectId], required: true },
 });
 
 // Discriminator model
@@ -93,12 +93,12 @@ const ProductSectionModel: Model<IProductsSection> =
  */
 interface IServiceSection extends SectionBase {
   title: string;
-  services: mongoose.Types.ObjectId[];
+  items: mongoose.Types.ObjectId[];
 }
 
 const ServiceSectionSchema = new Schema<IServiceSection>({
   title: { type: String, required: true },
-  services: { type: [mongoose.Types.ObjectId], required: true },
+  items: { type: [mongoose.Types.ObjectId], required: true },
 });
 
 const ServiceSectionModel: Model<IServiceSection> =
