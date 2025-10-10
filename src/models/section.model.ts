@@ -88,4 +88,29 @@ const ProductSectionModel: Model<IProductsSection> =
     ProductSectionSchema
   );
 
-export { SectionModel, HeroSectionModel, ProductSectionModel };
+/**
+ * Service Section Starts
+ */
+interface IServiceSection extends SectionBase {
+  title: string;
+  services: mongoose.Types.ObjectId[];
+}
+
+const ServiceSectionSchema = new Schema<IServiceSection>({
+  title: { type: String, required: true },
+  services: { type: [mongoose.Types.ObjectId], required: true },
+});
+
+const ServiceSectionModel: Model<IServiceSection> =
+  (SectionModel.discriminators?.ServiceSection as Model<IServiceSection>) ||
+  SectionModel.discriminator<IServiceSection>(
+    "ServiceSection",
+    ServiceSectionSchema
+  );
+
+export {
+  SectionModel,
+  HeroSectionModel,
+  ProductSectionModel,
+  ServiceSectionModel,
+};

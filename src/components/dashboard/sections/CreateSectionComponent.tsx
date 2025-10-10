@@ -12,6 +12,7 @@ const pageOptions = [
 const sectionOptions = [
   { label: "Hero", value: "HeroSection" },
   { label: "Product", value: "ProductSection" },
+  { label: "Service", value: "ServiceSection" },
 ];
 
 const CreateSectionComponent = () => {
