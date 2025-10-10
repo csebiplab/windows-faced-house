@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import CreateHeroSectionForm from "./CreateHeroSectionForm";
-import { ProductSectionForm } from "./ProductSectionForm";
+import { AddSectionItemForm } from "./AddSectionItemForm";
 
 const pageOptions = [
   { label: "Home", value: "home" },
@@ -23,8 +23,24 @@ const CreateSectionComponent = () => {
     switch (selectedSection) {
       case "HeroSection":
         return <CreateHeroSectionForm kind="HeroSection" page={selectedPage} />;
-      default:
-        return <ProductSectionForm kind="ProductSection" page={selectedPage} />;
+      case "ProductSection":
+        return (
+          <AddSectionItemForm
+            kind="ProductSection"
+            page={selectedPage}
+            query="products"
+            itemLabel="Product"
+          />
+        );
+      case "ServiceSection":
+        return (
+          <AddSectionItemForm
+            kind="ServiceSection"
+            page={selectedPage}
+            query="services"
+            itemLabel="Service"
+          />
+        );
     }
   };
 

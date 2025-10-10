@@ -8,15 +8,19 @@ type Option = {
   value: string;
 };
 
-export const ProductSectionForm = ({
+export const AddSectionItemForm = ({
   kind,
   page,
+  query = "services",
+  itemLabel = "Product",
 }: {
   kind: string;
   page: string;
+  query?: string;
+  itemLabel?: string;
 }) => {
   const [sectionTitle, setSectionTitle] = useState("");
-  const [selectedProducts, setSelectedProducts] = useState<Option[]>([]);
+  const [selectedItems, setSelectedItems] = useState<Option[]>([]);
   const [options, setOptions] = useState<Option[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -24,7 +28,7 @@ export const ProductSectionForm = ({
     const loadData = async () => {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/products-with-label-and-value`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/options-with-label-and-value?optFor=${query}`,
           {
             cache: "no-store",
             headers: {
@@ -42,7 +46,7 @@ export const ProductSectionForm = ({
     };
 
     loadData();
-  }, []);
+  }, [query]);
 
   const handleSelect = (
     e: React.ChangeEvent<
@@ -52,13 +56,13 @@ export const ProductSectionForm = ({
     const value = e.target.value;
     const option = options.find((o) => o.value === value);
 
-    if (option && !selectedProducts.some((p) => p.value === option.value)) {
-      setSelectedProducts((prev) => [...prev, option]);
+    if (option && !selectedItems.some((p) => p.value === option.value)) {
+      setSelectedItems((prev) => [...prev, option]);
     }
   };
 
   const removeSelected = (value: string) => {
-    setSelectedProducts((prev) => prev.filter((p) => p.value !== value));
+    setSelectedItems((prev) => prev.filter((p) => p.value !== value));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -74,8 +78,8 @@ export const ProductSectionForm = ({
       return;
     }
 
-    if (selectedProducts.length === 0) {
-      toast.error("Please select at least one product!");
+    if (selectedItems.length === 0) {
+      toast.error("Please select at least one item!");
       return;
     }
 
@@ -83,7 +87,7 @@ export const ProductSectionForm = ({
       page,
       kind,
       title: sectionTitle,
-      products: selectedProducts.map((p) => p.value),
+      items: selectedItems.map((p) => p.value),
     };
 
     try {
@@ -98,7 +102,7 @@ export const ProductSectionForm = ({
 
       toast.success("Section saved successfully!");
       setSectionTitle("");
-      setSelectedProducts([]);
+      setSelectedItems([]);
     } catch (err: any) {
       console.error(err);
       toast.error(err.message || "Something went wrong");
@@ -119,26 +123,26 @@ export const ProductSectionForm = ({
 
       {/* Single select for adding products */}
       <InputField
-        label="Choose product"
+        label={`Choose ${itemLabel}`}
         name="product"
         type="select"
         value=""
         onChange={handleSelect}
-        options={[{ label: "Select a product", value: "" }, ...options]}
+        options={[{ label: `Select a ${itemLabel}`, value: "" }, ...options]}
         required={false}
       />
 
       {/* Show selected products */}
-      {selectedProducts.length > 0 && (
+      {selectedItems.length > 0 && (
         <div className="mt-3 space-y-1">
-          <p className="font-semibold text-base">Selected Products:</p>
+          <p className="font-semibold text-base">Selected Items:</p>
           <ul className="list-disc list-inside text-gray-700">
-            {selectedProducts.map((prod) => (
-              <li key={prod.value} className="flex items-center gap-2">
-                {prod.label}
+            {selectedItems.map((item) => (
+              <li key={item.value} className="flex items-center gap-2">
+                {item.label}
                 <button
                   type="button"
-                  onClick={() => removeSelected(prod.value)}
+                  onClick={() => removeSelected(item.value)}
                   className="text-red-500 text-sm hover:underline cursor-pointer"
                 >
                   Remove

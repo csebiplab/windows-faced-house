@@ -15,14 +15,15 @@ async function getData() {
   }
 
   const data: any = await res.json();
-  const products = data.data?.[0]?.allProducts || [];
+
+  const products = data.data?.[0]?.items || [];
   const items = products.map((item: any, index: number) => ({
-  id: index + 1,
-  title: item.title.toUpperCase(),
-  description: item.items.split(",").map((str: string) => str.trim()),
-  price: `от ${item.priceFrom.toLocaleString("ru-RU")} ${item.priceUnit}`,
-  image: item.imageUrl,
-}));
+    id: index + 1,
+    title: item.title.toUpperCase(),
+    description: item.items.split(",").map((str: string) => str.trim()),
+    price: `от ${item.priceFrom.toLocaleString("ru-RU")} ${item.priceUnit}`,
+    image: item.imageUrl,
+  }));
   return items;
 }
 

@@ -66,10 +66,11 @@ export const GET = route(async (req: NextRequest) => {
     },
   ];
   if (sectionKind === "ProductSection") {
+    console.log("product section");
     const lookup = {
       $lookup: {
         from: "products",
-        let: { productIds: "$products" },
+        let: { productIds: "$items" },
         pipeline: [
           {
             $match: {
@@ -86,7 +87,33 @@ export const GET = route(async (req: NextRequest) => {
             },
           },
         ],
-        as: "allProducts",
+        as: "items",
+      },
+    };
+    pipeline.push(lookup);
+  }
+  if (sectionKind === "ServiceSection") {
+    const lookup = {
+      $lookup: {
+        from: "services",
+        let: { serviceIds: "$items" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $in: ["$_id", "$$serviceIds"],
+              },
+            },
+          },
+          {
+            $project: {
+              deletedAt: 0,
+              createdAt: 0,
+              updatedAt: 0,
+            },
+          },
+        ],
+        as: "items",
       },
     };
     pipeline.push(lookup);
@@ -96,9 +123,10 @@ export const GET = route(async (req: NextRequest) => {
       createdAt: 0,
       updatedAt: 0,
       deletedAt: 0,
-      products: 0,
+      __v: 0,
     },
   });
+  // console.log(JSON.stringify(pipeline, null, 2));
   const sections = await SectionModel.aggregate(pipeline);
 
   return {
