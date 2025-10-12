@@ -16,8 +16,10 @@ export const PATCH = route(async (req: NextRequest) => {
   await connectToDatabase();
 
   // Pick the correct model dynamically based on discriminator
-  const model =
-    (SectionModel.discriminators?.[kind] as Model<any>) || SectionModel;
+  const model = SectionModel.discriminators?.[kind] as Model<any>;
+  if (!model) {
+    throw new AppError(`Invalid section kind: ${kind}`, 400);
+  }
 
   const options = {
     new: true,
@@ -66,7 +68,6 @@ export const GET = route(async (req: NextRequest) => {
     },
   ];
   if (sectionKind === "ProductSection") {
-    console.log("product section");
     const lookup = {
       $lookup: {
         from: "products",
@@ -126,7 +127,6 @@ export const GET = route(async (req: NextRequest) => {
       __v: 0,
     },
   });
-  // console.log(JSON.stringify(pipeline, null, 2));
   const sections = await SectionModel.aggregate(pipeline);
 
   return {

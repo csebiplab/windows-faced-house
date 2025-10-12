@@ -15,7 +15,7 @@ async function getBannerData() {
   }
 
   const data: any = await res.json();
-  const sectionContent = data?.data?.[0]?.sectionContent ?? [];
+  const sectionContent = data?.data?.[0]?.items ?? [];
 
   return sectionContent.map((item: any, index: number) => ({
     id: item._id,
