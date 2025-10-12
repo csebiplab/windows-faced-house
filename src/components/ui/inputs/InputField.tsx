@@ -6,11 +6,9 @@ interface InputFieldProps {
   name: string;
   type?: "text" | "number" | "textarea" | "select";
   value: any;
-  onChange: (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => void;
+  onChange: React.ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+  >;
   options?: { label: string; value: string }[];
   placeholder?: string;
   required?: boolean;
