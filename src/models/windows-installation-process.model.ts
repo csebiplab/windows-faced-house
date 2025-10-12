@@ -6,7 +6,6 @@ export interface IWindowsInstallation extends Document {
   slug?: string;
   description?: string;
   imageUrl?: string;
-  iconUrl?: string;
   deletedAt?: Date | null;
   createdAt: Date;
   updatedAt: Date;
@@ -19,7 +18,6 @@ const WindowsInstallationProcessSchema = new Schema<IWindowsInstallation>(
     slug: { type: String, required: false, trim: true },
     description: { type: String, required: false, trim: true },
     imageUrl: { type: String, required: false },
-    iconUrl: { type: String, required: false },
     deletedAt: { type: Date, default: null },
   },
   {

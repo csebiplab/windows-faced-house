@@ -64,5 +64,21 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  {
+    name: "Install Process",
+    icon: Folder,
+    children: [
+      {
+        name: "Show",
+        href: "/dashboard/window-installation-process/show",
+        icon: DoorOpen,
+      },
+      {
+        name: "Add",
+        href: "/dashboard/window-installation-process/add",
+        icon: Plus,
+      },
+    ],
+  },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];

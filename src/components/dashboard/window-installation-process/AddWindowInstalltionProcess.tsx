@@ -6,31 +6,25 @@ import { X } from "lucide-react";
 import { toast } from "react-toastify";
 import { useImageUpload } from "@/hooks/useImageUpload";
 
-type ProductForm = {
+type WindowsInstallationForm = {
   serial: number;
   title: string;
-  type: string;
-  items: string;
-  description: string;
-  priceFrom: string;
-  priceUnit: string;
-  imageUrl: string | string[];
+  slug?: string;
+  description?: string;
+  imageUrl?: string | string[];
 };
 
-const blankProduct: ProductForm = {
+const blankStep: WindowsInstallationForm = {
   serial: 0,
   title: "",
-  type: "windows",
-  items: "",
+  slug: "",
   description: "",
-  priceFrom: "",
-  priceUnit: "₽/м²",
   imageUrl: "",
 };
 
-export const AddProductComp = () => {
-  const [forms, setForms] = useState<ProductForm[]>([
-    { ...blankProduct, serial: 1 },
+export const AddWindowInstallationProcess = () => {
+  const [forms, setForms] = useState<WindowsInstallationForm[]>([
+    { ...blankStep, serial: 1 },
   ]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { uploadImage, uploading } = useImageUpload();
@@ -82,7 +76,7 @@ export const AddProductComp = () => {
   };
 
   const addMore = () => {
-    setForms((prev) => [...prev, { ...blankProduct, serial: prev.length + 1 }]);
+    setForms((prev) => [...prev, { ...blankStep, serial: prev.length + 1 }]);
   };
 
   const removeForm = (index: number) => {
@@ -94,26 +88,25 @@ export const AddProductComp = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    setIsSubmitting(true);
     e.preventDefault();
+    setIsSubmitting(true);
     try {
-      const res = await fetch("/api/products", {
+      const res = await fetch("/api/installation-process", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(forms),
       });
+
       if (res.ok) {
-        toast.success("Form submitted successfully!");
-        setForms([blankProduct]);
+        toast.success("Installation steps created successfully!");
+        setForms([{ ...blankStep, serial: 1 }]);
         setResetKey((prev) => prev + 1);
       } else {
         toast.error("Failed to submit form. Please try again.");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast.error("Failed to submit form. Please try again.");
+      toast.error("An error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -126,7 +119,6 @@ export const AddProductComp = () => {
     >
       {forms.map((form, index) => (
         <div key={index} className="relative border rounded-lg p-4 space-y-4">
-          {/* Remove button */}
           {forms.length > 1 && (
             <button
               type="button"
@@ -137,37 +129,25 @@ export const AddProductComp = () => {
             </button>
           )}
 
-          <h3 className="font-medium text-gray-700">Product {index + 1}</h3>
+          <h3 className="font-semibold text-gray-700">
+            Installation Step {index + 1}
+          </h3>
 
           <InputField
             label="Title"
             name="title"
             value={form.title}
             onChange={(e) => handleChange(index, e)}
-            placeholder="Enter product title"
+            placeholder="Enter step title"
           />
 
           <InputField
-            label="Type"
-            name="type"
-            type="select"
-            value={form.type}
+            label="Slug"
+            name="slug"
+            value={form.slug}
             onChange={(e) => handleChange(index, e)}
-            options={[
-              { label: "Windows", value: "windows" },
-              { label: "Aluminum", value: "aluminum" },
-              { label: "Cottages", value: "cottages" },
-              { label: "Balconies", value: "balconies" },
-              { label: "Doors", value: "doors" },
-            ]}
-          />
-
-          <InputField
-            label="Items"
-            name="items"
-            value={form.items}
-            onChange={(e) => handleChange(index, e)}
-            placeholder="Enter items"
+            placeholder="Enter slug (optional)"
+            required={false}
           />
 
           <InputField
@@ -176,33 +156,24 @@ export const AddProductComp = () => {
             type="textarea"
             value={form.description}
             onChange={(e) => handleChange(index, e)}
-            placeholder="Enter description"
+            placeholder="Enter step description"
             required={false}
           />
 
-          <InputField
-            label="Price From"
-            name="priceFrom"
-            type="number"
-            value={form.priceFrom}
-            onChange={(e) => handleChange(index, e)}
-            placeholder="Enter price"
-          />
-
-          <InputField
-            label="Price Unit"
-            name="priceUnit"
-            value={form.priceUnit}
-            onChange={(e) => handleChange(index, e)}
-          />
-
-          <ImageUpload
-            onConfirm={(files) => handleImageConfirm(index, files)}
-            onFileChange={() => onFileChange(index)}
-            disabled={form?.imageUrl?.length > 0}
-            uploading={uploading}
-            resetKey={resetKey}
-          />
+          <div>
+            <label className="block font-medium text-gray-700 mb-2">
+              Upload Image
+            </label>
+            <ImageUpload
+              value={form.imageUrl}
+              onConfirm={(files) => handleImageConfirm(index, files)}
+              onFileChange={() => onFileChange(index)}
+              disabled={!!form.imageUrl}
+              uploading={uploading}
+              allowMultiple={false}
+              resetKey={resetKey}
+            />
+          </div>
         </div>
       ))}
 
