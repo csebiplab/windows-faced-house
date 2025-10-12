@@ -77,7 +77,7 @@ interface IProductsSection extends SectionBase {
 
 const ProductSectionSchema = new Schema<IProductsSection>({
   title: { type: String, required: true },
-  items: { type: [mongoose.Types.ObjectId], required: true },
+  items: { type: [mongoose.Types.ObjectId], required: true, ref: "Product" },
 });
 
 // Discriminator model
@@ -98,7 +98,7 @@ interface IServiceSection extends SectionBase {
 
 const ServiceSectionSchema = new Schema<IServiceSection>({
   title: { type: String, required: true },
-  items: { type: [mongoose.Types.ObjectId], required: true },
+  items: { type: [mongoose.Types.ObjectId], required: true, ref: "Service" },
 });
 
 const ServiceSectionModel: Model<IServiceSection> =
@@ -116,7 +116,7 @@ interface IWindowInstallationProcessSection extends SectionBase {
   descriptionTop: string;
   descriptionBottom: string;
   footerTitle: string;
-  footerDescription: string;
+  footerDescription?: string;
   items: mongoose.Types.ObjectId[];
 }
 
@@ -126,7 +126,12 @@ const WindowInstallationSectionSchema =
     descriptionTop: { type: String, required: true },
     descriptionBottom: { type: String, required: true },
     footerTitle: { type: String, required: true },
-    items: { type: [mongoose.Types.ObjectId], required: true },
+    footerDescription: { type: String, required: false },
+    items: {
+      type: [mongoose.Types.ObjectId],
+      required: true,
+      ref: "WindowsInstallationProcess",
+    },
   });
 
 const WindowInstallationProcessSectionModel: Model<IWindowInstallationProcessSection> =

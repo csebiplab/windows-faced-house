@@ -7,7 +7,6 @@ const EstimateBanner = () => {
   return (
     <section className="w-full flex justify-center items-center bg-[#e9f3f6] py-6 md:py-10">
       <div className="relative w-[92%] md:w-[80%] max-w-7xl rounded-xl flex flex-col md:flex-row items-center md:items-center justify-start md:justify-end p-6 md:p-10 shadow-lg overflow-hidden min-h-[380px] md:min-h-[330px]">
-        
         {/* Background Image for Small Screens */}
         <Image
           src="/assets/estimateBannerImageSmall.png"

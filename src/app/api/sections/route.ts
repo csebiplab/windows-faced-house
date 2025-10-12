@@ -50,75 +50,47 @@ export const GET = route(async (req: NextRequest) => {
   const pageName = searchParams.get("pagename");
   const sectionKind = searchParams.get("kind");
 
-  const filter: any = {
-    deletedAt: null,
+  const filter: Record<string, any> = { deletedAt: null };
+  if (pageName) filter.page = pageName;
+  if (sectionKind) filter.kind = sectionKind;
+
+  await connectToDatabase();
+
+  const pipeline: PipelineStage[] = [{ $match: { ...filter } }];
+
+  const lookupMap: Record<string, string> = {
+    ProductSection: "products",
+    ServiceSection: "services",
+    WindowInstallationProcessSection: "windowsinstallationprocesses",
   };
 
-  if (pageName) {
-    filter.page = pageName;
+  if (sectionKind && lookupMap[sectionKind]) {
+    const collectionName = lookupMap[sectionKind];
+    const localVarName = `${collectionName}Ids`;
+
+    pipeline.push({
+      $lookup: {
+        from: collectionName,
+        let: { [localVarName]: "$items" },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $in: ["$_id", `$$${localVarName}`] },
+            },
+          },
+          {
+            $project: {
+              deletedAt: 0,
+              createdAt: 0,
+              updatedAt: 0,
+            },
+          },
+        ],
+        as: "items",
+      },
+    });
   }
 
-  if (sectionKind) {
-    filter.kind = sectionKind;
-  }
-  await connectToDatabase();
-  const pipeline: PipelineStage[] = [
-    {
-      $match: { ...filter },
-    },
-  ];
-  if (sectionKind === "ProductSection") {
-    const lookup = {
-      $lookup: {
-        from: "products",
-        let: { productIds: "$items" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $in: ["$_id", "$$productIds"],
-              },
-            },
-          },
-          {
-            $project: {
-              deletedAt: 0,
-              createdAt: 0,
-              updatedAt: 0,
-            },
-          },
-        ],
-        as: "items",
-      },
-    };
-    pipeline.push(lookup);
-  }
-  if (sectionKind === "ServiceSection") {
-    const lookup = {
-      $lookup: {
-        from: "services",
-        let: { serviceIds: "$items" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $in: ["$_id", "$$serviceIds"],
-              },
-            },
-          },
-          {
-            $project: {
-              deletedAt: 0,
-              createdAt: 0,
-              updatedAt: 0,
-            },
-          },
-        ],
-        as: "items",
-      },
-    };
-    pipeline.push(lookup);
-  }
   pipeline.push({
     $project: {
       createdAt: 0,
@@ -127,6 +99,7 @@ export const GET = route(async (req: NextRequest) => {
       __v: 0,
     },
   });
+
   const sections = await SectionModel.aggregate(pipeline);
 
   return {
