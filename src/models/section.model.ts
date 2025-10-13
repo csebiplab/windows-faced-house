@@ -40,7 +40,7 @@ interface HeroSectionContent {
 }
 
 interface HeroSection extends SectionBase {
-  sectionContent: HeroSectionContent[];
+  items: HeroSectionContent[];
 }
 
 // Schema for individual section content
@@ -55,7 +55,7 @@ const heroSectionContentSchema = new Schema<HeroSectionContent>({
 
 // HeroSection schema with array of sectionContent
 const HeroSectionSchema = new Schema<HeroSection>({
-  sectionContent: { type: [heroSectionContentSchema], required: true },
+  items: { type: [heroSectionContentSchema], required: true },
 });
 
 // Discriminator model
@@ -77,7 +77,7 @@ interface IProductsSection extends SectionBase {
 
 const ProductSectionSchema = new Schema<IProductsSection>({
   title: { type: String, required: true },
-  items: { type: [mongoose.Types.ObjectId], required: true },
+  items: { type: [mongoose.Types.ObjectId], required: true, ref: "Product" },
 });
 
 // Discriminator model
@@ -98,7 +98,7 @@ interface IServiceSection extends SectionBase {
 
 const ServiceSectionSchema = new Schema<IServiceSection>({
   title: { type: String, required: true },
-  items: { type: [mongoose.Types.ObjectId], required: true },
+  items: { type: [mongoose.Types.ObjectId], required: true, ref: "Service" },
 });
 
 const ServiceSectionModel: Model<IServiceSection> =
@@ -108,9 +108,44 @@ const ServiceSectionModel: Model<IServiceSection> =
     ServiceSectionSchema
   );
 
+/**
+ * Window installation Section Starts
+ */
+interface IWindowInstallationProcessSection extends SectionBase {
+  title: string;
+  descriptionTop: string;
+  descriptionBottom: string;
+  footerTitle: string;
+  footerDescription?: string;
+  items: mongoose.Types.ObjectId[];
+}
+
+const WindowInstallationSectionSchema =
+  new Schema<IWindowInstallationProcessSection>({
+    title: { type: String, required: true },
+    descriptionTop: { type: String, required: true },
+    descriptionBottom: { type: String, required: true },
+    footerTitle: { type: String, required: true },
+    footerDescription: { type: String, required: false },
+    items: {
+      type: [mongoose.Types.ObjectId],
+      required: true,
+      ref: "WindowsInstallationProcess",
+    },
+  });
+
+const WindowInstallationProcessSectionModel: Model<IWindowInstallationProcessSection> =
+  (SectionModel.discriminators
+    ?.WindowInstallationProcessSection as Model<IWindowInstallationProcessSection>) ||
+  SectionModel.discriminator<IWindowInstallationProcessSection>(
+    "WindowInstallationProcessSection",
+    WindowInstallationSectionSchema
+  );
+
 export {
   SectionModel,
   HeroSectionModel,
   ProductSectionModel,
   ServiceSectionModel,
+  WindowInstallationProcessSectionModel,
 };

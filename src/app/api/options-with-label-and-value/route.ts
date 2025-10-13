@@ -2,6 +2,7 @@ import { connectToDatabase } from "@/lib/connectToDb";
 import { route } from "@/lib/route";
 import { ProductModel } from "@/models/product.model";
 import { ServiceModel } from "@/models/service.model";
+import { WindowInstallationModel } from "@/models/windows-installation-process.model";
 import { PipelineStage } from "mongoose";
 import { NextRequest } from "next/server";
 
@@ -13,6 +14,7 @@ export const GET = route(
     const modelMap = {
       products: ProductModel,
       services: ServiceModel,
+      installationprocesses: WindowInstallationModel,
     };
 
     if (!(optFor in modelMap)) return [];

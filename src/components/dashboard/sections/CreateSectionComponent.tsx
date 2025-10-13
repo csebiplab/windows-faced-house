@@ -13,6 +13,10 @@ const sectionOptions = [
   { label: "Hero", value: "HeroSection" },
   { label: "Product", value: "ProductSection" },
   { label: "Service", value: "ServiceSection" },
+  {
+    label: "Installation of plastic windows",
+    value: "WindowInstallationProcessSection",
+  },
 ];
 
 const CreateSectionComponent = () => {
@@ -26,7 +30,7 @@ const CreateSectionComponent = () => {
       case "ProductSection":
         return (
           <AddSectionItemForm
-            kind="ProductSection"
+            kind={selectedSection}
             page={selectedPage}
             query="products"
             itemLabel="Product"
@@ -35,10 +39,20 @@ const CreateSectionComponent = () => {
       case "ServiceSection":
         return (
           <AddSectionItemForm
-            kind="ServiceSection"
+            kind={selectedSection}
             page={selectedPage}
             query="services"
             itemLabel="Service"
+          />
+        );
+
+      case "WindowInstallationProcessSection":
+        return (
+          <AddSectionItemForm
+            kind={selectedSection}
+            page={selectedPage}
+            query="installationprocesses"
+            itemLabel="Window Installation Process"
           />
         );
     }

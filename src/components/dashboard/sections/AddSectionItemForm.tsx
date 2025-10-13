@@ -1,12 +1,10 @@
 "use client";
+
 import InputField from "@/components/ui/inputs/InputField";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 
-type Option = {
-  label: string;
-  value: string;
-};
+type Option = { label: string; value: string };
 
 export const AddSectionItemForm = ({
   kind,
@@ -19,76 +17,86 @@ export const AddSectionItemForm = ({
   query?: string;
   itemLabel?: string;
 }) => {
-  const [sectionTitle, setSectionTitle] = useState("");
-  const [selectedItems, setSelectedItems] = useState<Option[]>([]);
   const [options, setOptions] = useState<Option[]>([]);
+  const [selectedItems, setSelectedItems] = useState<Option[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [form, setForm] = useState({
+    sectionTitle: "",
+    descriptionTop: "",
+    descriptionBottom: "",
+    footerTitle: "",
+    footerDescription: "",
+  });
+
+  // Fetch options once per query
   useEffect(() => {
-    const loadData = async () => {
+    (async () => {
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/options-with-label-and-value?optFor=${query}`,
-          {
-            cache: "no-store",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
+          { cache: "no-store" }
         );
-
-        const data: any = await res.json();
+        const data = await res.json();
         setOptions(data?.data ?? []);
       } catch (err) {
-        console.error("Failed to fetch options:", err);
+        console.error("Option fetch error:", err);
+        toast.error("Failed to fetch options.");
         setOptions([]);
       }
-    };
-
-    loadData();
+    })();
   }, [query]);
 
-  const handleSelect = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const value = e.target.value;
-    const option = options.find((o) => o.value === value);
+  const handleChange = useCallback(
+    (field: keyof typeof form, value: string) => {
+      setForm((prev) => ({ ...prev, [field]: value }));
+    },
+    []
+  );
 
-    if (option && !selectedItems.some((p) => p.value === option.value)) {
-      setSelectedItems((prev) => [...prev, option]);
-    }
-  };
+  const handleSelect = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const value = e.target.value;
+      const option = options.find((o) => o.value === value);
+      if (option && !selectedItems.some((p) => p.value === option.value)) {
+        setSelectedItems((prev) => [...prev, option]);
+      }
+    },
+    [options, selectedItems]
+  );
 
-  const removeSelected = (value: string) => {
+  const removeSelected = useCallback((value: string) => {
     setSelectedItems((prev) => prev.filter((p) => p.value !== value));
-  };
+  }, []);
+
+  const validateForm = useCallback(() => {
+    if (!page || !kind) return toast.error("Page and Kind are required!");
+    if (!form.sectionTitle.trim())
+      return toast.error("Section title is required!");
+    if (selectedItems.length === 0)
+      return toast.error(`Please select at least one ${itemLabel}!`);
+    return true;
+  }, [page, kind, form.sectionTitle, selectedItems, itemLabel]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateForm()) return;
 
-    if (!page || !kind) {
-      toast.error("Page and Kind are required!");
-      return;
-    }
-
-    if (!sectionTitle.trim()) {
-      toast.error("Section title is required!");
-      return;
-    }
-
-    if (selectedItems.length === 0) {
-      toast.error("Please select at least one item!");
-      return;
-    }
-
-    const payload = {
+    const payload: any = {
       page,
       kind,
-      title: sectionTitle,
+      title: form.sectionTitle,
       items: selectedItems.map((p) => p.value),
     };
+
+    if (kind === "WindowInstallationProcessSection") {
+      Object.assign(payload, {
+        descriptionTop: form.descriptionTop,
+        descriptionBottom: form.descriptionBottom,
+        footerTitle: form.footerTitle,
+        footerDescription: form.footerDescription,
+      });
+    }
 
     try {
       setIsSubmitting(true);
@@ -101,7 +109,13 @@ export const AddSectionItemForm = ({
       if (!res.ok) throw new Error("Failed to save section");
 
       toast.success("Section saved successfully!");
-      setSectionTitle("");
+      setForm({
+        sectionTitle: "",
+        descriptionTop: "",
+        descriptionBottom: "",
+        footerTitle: "",
+        footerDescription: "",
+      });
       setSelectedItems([]);
     } catch (err: any) {
       console.error(err);
@@ -111,17 +125,32 @@ export const AddSectionItemForm = ({
     }
   };
 
+  const isWindowSection = useMemo(
+    () => kind === "WindowInstallationProcessSection",
+    [kind]
+  );
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <InputField
         label="Section Title"
         name="title"
-        value={sectionTitle}
-        onChange={(e) => setSectionTitle(e.target.value)}
-        placeholder="Enter Section title"
+        value={form.sectionTitle}
+        onChange={(e) => handleChange("sectionTitle", e.target.value)}
+        placeholder="Enter section title"
       />
 
-      {/* Single select for adding products */}
+      {isWindowSection && (
+        <InputField
+          label="Description Top"
+          name="descriptionTop"
+          type="textarea"
+          value={form.descriptionTop}
+          onChange={(e) => handleChange("descriptionTop", e.target.value)}
+          placeholder="Enter description"
+        />
+      )}
+
       <InputField
         label={`Choose ${itemLabel}`}
         name="product"
@@ -132,10 +161,9 @@ export const AddSectionItemForm = ({
         required={false}
       />
 
-      {/* Show selected products */}
       {selectedItems.length > 0 && (
         <div className="mt-3 space-y-1">
-          <p className="font-semibold text-base">Selected Items:</p>
+          <p className="font-semibold text-base">Selected {itemLabel}s:</p>
           <ul className="list-disc list-inside text-gray-700">
             {selectedItems.map((item) => (
               <li key={item.value} className="flex items-center gap-2">
@@ -143,7 +171,7 @@ export const AddSectionItemForm = ({
                 <button
                   type="button"
                   onClick={() => removeSelected(item.value)}
-                  className="text-red-500 text-sm hover:underline cursor-pointer"
+                  className="text-red-500 text-sm hover:underline"
                 >
                   Remove
                 </button>
@@ -153,7 +181,33 @@ export const AddSectionItemForm = ({
         </div>
       )}
 
-      {/* Submit button */}
+      {isWindowSection && (
+        <div className="space-y-4">
+          <InputField
+            label="Description Bottom"
+            name="descriptionBottom"
+            type="textarea"
+            value={form.descriptionBottom}
+            onChange={(e) => handleChange("descriptionBottom", e.target.value)}
+            placeholder="Enter description"
+          />
+          <InputField
+            label="Footer Title"
+            name="footerTitle"
+            value={form.footerTitle}
+            onChange={(e) => handleChange("footerTitle", e.target.value)}
+            placeholder="Enter footer title"
+          />
+          <InputField
+            label="Footer Description"
+            name="footerDescription"
+            value={form.footerDescription}
+            onChange={(e) => handleChange("footerDescription", e.target.value)}
+            placeholder="Enter footer description"
+          />
+        </div>
+      )}
+
       <button
         type="submit"
         disabled={isSubmitting}

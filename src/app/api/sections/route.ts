@@ -16,8 +16,10 @@ export const PATCH = route(async (req: NextRequest) => {
   await connectToDatabase();
 
   // Pick the correct model dynamically based on discriminator
-  const model =
-    (SectionModel.discriminators?.[kind] as Model<any>) || SectionModel;
+  const model = SectionModel.discriminators?.[kind] as Model<any>;
+  if (!model) {
+    throw new AppError(`Invalid section kind: ${kind}`, 400);
+  }
 
   const options = {
     new: true,
@@ -48,76 +50,47 @@ export const GET = route(async (req: NextRequest) => {
   const pageName = searchParams.get("pagename");
   const sectionKind = searchParams.get("kind");
 
-  const filter: any = {
-    deletedAt: null,
+  const filter: Record<string, any> = { deletedAt: null };
+  if (pageName) filter.page = pageName;
+  if (sectionKind) filter.kind = sectionKind;
+
+  await connectToDatabase();
+
+  const pipeline: PipelineStage[] = [{ $match: { ...filter } }];
+
+  const lookupMap: Record<string, string> = {
+    ProductSection: "products",
+    ServiceSection: "services",
+    WindowInstallationProcessSection: "windowsinstallationprocesses",
   };
 
-  if (pageName) {
-    filter.page = pageName;
+  if (sectionKind && lookupMap[sectionKind]) {
+    const collectionName = lookupMap[sectionKind];
+    const localVarName = `${collectionName}Ids`;
+
+    pipeline.push({
+      $lookup: {
+        from: collectionName,
+        let: { [localVarName]: "$items" },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $in: ["$_id", `$$${localVarName}`] },
+            },
+          },
+          {
+            $project: {
+              deletedAt: 0,
+              createdAt: 0,
+              updatedAt: 0,
+            },
+          },
+        ],
+        as: "items",
+      },
+    });
   }
 
-  if (sectionKind) {
-    filter.kind = sectionKind;
-  }
-  await connectToDatabase();
-  const pipeline: PipelineStage[] = [
-    {
-      $match: { ...filter },
-    },
-  ];
-  if (sectionKind === "ProductSection") {
-    console.log("product section");
-    const lookup = {
-      $lookup: {
-        from: "products",
-        let: { productIds: "$items" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $in: ["$_id", "$$productIds"],
-              },
-            },
-          },
-          {
-            $project: {
-              deletedAt: 0,
-              createdAt: 0,
-              updatedAt: 0,
-            },
-          },
-        ],
-        as: "items",
-      },
-    };
-    pipeline.push(lookup);
-  }
-  if (sectionKind === "ServiceSection") {
-    const lookup = {
-      $lookup: {
-        from: "services",
-        let: { serviceIds: "$items" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $in: ["$_id", "$$serviceIds"],
-              },
-            },
-          },
-          {
-            $project: {
-              deletedAt: 0,
-              createdAt: 0,
-              updatedAt: 0,
-            },
-          },
-        ],
-        as: "items",
-      },
-    };
-    pipeline.push(lookup);
-  }
   pipeline.push({
     $project: {
       createdAt: 0,
@@ -126,7 +99,7 @@ export const GET = route(async (req: NextRequest) => {
       __v: 0,
     },
   });
-  // console.log(JSON.stringify(pipeline, null, 2));
+
   const sections = await SectionModel.aggregate(pipeline);
 
   return {

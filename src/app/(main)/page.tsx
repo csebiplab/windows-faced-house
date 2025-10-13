@@ -2,8 +2,7 @@ import Banner from "@/components/home/Banner/Banner";
 import EstimateBanner from "@/components/home/estimateBanner/EstimateBanner";
 import Products from "@/components/home/product/Product";
 import Services from "@/components/home/services/Services";
-import ServicesData from "@/components/home/services/ServicesData";
-import WindowInstallation from "@/components/home/windowInstallation/WindowInstallation";
+import WindowInstallationProcess from "@/components/home/windowInstallation/WindowInstallationProcess";
 import WindowsManufacturer from "@/components/home/windowsManufacturer/WindowsManufacturer";
 
 export default function Page() {
@@ -19,7 +18,7 @@ export default function Page() {
         <Services />
       </section>
       <section>
-        <WindowInstallation />
+        <WindowInstallationProcess />
       </section>
       <section>
         <EstimateBanner />
