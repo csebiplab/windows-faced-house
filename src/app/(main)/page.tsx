@@ -1,6 +1,8 @@
 import Banner from "@/components/home/Banner/Banner";
 import EstimateBanner from "@/components/home/estimateBanner/EstimateBanner";
+import FreeMeasurementForm from "@/components/home/freeMeasurementForm/FreeMeasurementForm";
 import GuaranteeSection from "@/components/home/guaranteeSection/GuaranteeSection";
+import ManufacturerSection from "@/components/home/manufacturerSection/ManufacturerSection";
 import ManufacturerWindows from "@/components/home/manufacturerWindows/ManufacturerWindows";
 import OurWorks from "@/components/home/ourWorks/OurWorks";
 import Products from "@/components/home/product/Product";
@@ -45,6 +47,12 @@ export default function Page() {
       </section>
       <section>
         <OurWorks />
+      </section>
+      <section>
+        <FreeMeasurementForm />
+      </section>
+      <section>
+        <ManufacturerSection />
       </section>
     </main>
   );

@@ -24,7 +24,7 @@ const projects: Project[] = [
   {
     id: 1,
     title: "ЖК «Пехра»",
-    desc: "Современный и стильный жилой комплекс комфорт-класса, расположенный в г. Балашиха. Контракт: остекление объектов из профиля Melke Lite'60 (белый).",
+    desc: "Современный и стильный жилой комплекскомфорт-класса, расположенный в г.Балашиха в 8 км от МКАД.Контракт по тендеру: Выполнение работ поостеклению объектов изделиями из профиля Melke Lite`60 (белый), изготовление и монтаж оконных, балконных конструкций.",
     area: "40000 м²",
     developer: "ООО «Сфера»",
     start: "01.11.2021",
@@ -119,7 +119,7 @@ export default function OurWorks() {
                           className="w-full h-[400px] object-cover rounded-xl"
                         />
                       </div>
-                      
+
                       {/* Thumbnail Tracker - Positioned exactly below the main image */}
                       <div className="w-full">
                         <Swiper
@@ -132,10 +132,10 @@ export default function OurWorks() {
                         >
                           {projects.map((project, index) => (
                             <SwiperSlide key={project.id}>
-                              <div 
+                              <div
                                 className={`relative cursor-pointer rounded-lg overflow-hidden border-2 transition-all hover:border-[#64b000] ${
-                                  activeIndex === index 
-                                    ? "border-[#64b000] opacity-100 scale-105" 
+                                  activeIndex === index
+                                    ? "border-[#64b000] opacity-100 scale-105"
                                     : "border-transparent opacity-70"
                                 }`}
                               >
@@ -146,9 +146,13 @@ export default function OurWorks() {
                                   height={80}
                                   className="w-full h-16 object-cover"
                                 />
-                                <div className={`absolute inset-0 flex items-center justify-center transition-all ${
-                                  activeIndex === index ? "bg-[#64b000] bg-opacity-80" : "bg-black bg-opacity-40"
-                                }`}>
+                                <div
+                                  className={`absolute inset-0 flex items-center justify-center transition-all ${
+                                    activeIndex === index
+                                      ? "bg-[#64b000] bg-opacity-80"
+                                      : "bg-black bg-opacity-40"
+                                  }`}
+                                >
                                   <span className="text-white text-xs font-medium">
                                     {index + 1}
                                   </span>
@@ -161,9 +165,9 @@ export default function OurWorks() {
                     </div>
 
                     {/* Right Info */}
-                    <div className="flex flex-col justify-between space-y-4">
+                    <div className="flex flex-col justify-evenly space-y-4">
                       <div>
-                        <h3 className="text-xl font-semibold mb-2">
+                        <h3 className="text-xl font-bold mb-2">
                           {project.title}
                         </h3>
                         <p className="text-gray-600 text-sm md:text-base leading-relaxed">
@@ -211,7 +215,7 @@ export default function OurWorks() {
 
         {/* Bottom Button */}
         <div className="text-center mt-14">
-          <button className="border border-gray-300 px-6 py-2 rounded-md hover:bg-gray-100 transition-all">
+          <button className="border-[2px] border-gray-500 text-lg font-bold px-6 py-2 rounded-md hover:bg-gray-100 transition-all">
             Смотреть все работы
           </button>
         </div>
