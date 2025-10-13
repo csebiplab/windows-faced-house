@@ -1,6 +1,8 @@
 import Banner from "@/components/home/Banner/Banner";
 import EstimateBanner from "@/components/home/estimateBanner/EstimateBanner";
 import GuaranteeSection from "@/components/home/guaranteeSection/GuaranteeSection";
+import ManufacturerWindows from "@/components/home/manufacturerWindows/ManufacturerWindows";
+import OurWorks from "@/components/home/ourWorks/OurWorks";
 import Products from "@/components/home/product/Product";
 import ServicesData from "@/components/home/services/ServicesData";
 import TechnologySection from "@/components/home/technologySection/TechnologySection";
@@ -37,6 +39,12 @@ export default function Page() {
       </section>
       <section>
         <WhyWorkWithUs />
+      </section>
+      <section>
+        <ManufacturerWindows />
+      </section>
+      <section>
+        <OurWorks />
       </section>
     </main>
   );
