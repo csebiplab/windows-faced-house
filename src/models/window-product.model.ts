@@ -11,8 +11,8 @@ export interface IWindowProduct extends Document {
   imageUrl?: string;
 
   profile: {
-    brand: string;
-    model: string;
+    brand?: string;
+    type: "standard" | "evolution";
     tag?: string;
   };
 
@@ -46,8 +46,12 @@ const WindowProductSchema = new Schema<IWindowProduct>(
     imageUrl: { type: String },
 
     profile: {
-      brand: { type: String, required: true },
-      model: { type: String, required: true },
+      brand: { type: String },
+      type: {
+        type: String,
+        enum: ["standard", "evolution"],
+        required: true,
+      },
       tag: { type: String },
     },
 
