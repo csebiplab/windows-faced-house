@@ -10,7 +10,7 @@ const ManufacturerSection = () => {
       <div className="max-w-6xl mx-auto">
         <div className="relative rounded-2xl overflow-hidden">
           <Image
-            src="/assets/manufacturerSectionImage.png" // replace with your actual image
+            src="/assets/manufacturerSectionImage.png"
             alt="Factory"
             width={1200}
             height={500}
