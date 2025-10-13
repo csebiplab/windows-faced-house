@@ -8,7 +8,7 @@ export interface IWindowProduct extends Document {
   discount?: number;
   ecoFriendly?: boolean;
   description?: string;
-  imageUrl?: string;
+  imageUrl?: string[];
 
   profile: {
     brand?: string;
@@ -43,7 +43,7 @@ const WindowProductSchema = new Schema<IWindowProduct>(
     discount: { type: Number },
     ecoFriendly: { type: Boolean, default: false },
     description: { type: String },
-    imageUrl: { type: String },
+    imageUrl: { type: [String] },
 
     profile: {
       brand: { type: String },

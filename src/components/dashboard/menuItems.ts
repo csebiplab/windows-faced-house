@@ -80,5 +80,21 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  {
+    name: "Window Products",
+    icon: Folder,
+    children: [
+      {
+        name: "Show",
+        href: "/dashboard/window-products/show",
+        icon: DoorOpen,
+      },
+      {
+        name: "Add",
+        href: "/dashboard/window-products/add",
+        icon: Plus,
+      },
+    ],
+  },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
