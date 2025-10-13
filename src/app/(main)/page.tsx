@@ -4,6 +4,7 @@ import GuaranteeSection from "@/components/home/guaranteeSection/GuaranteeSectio
 import Products from "@/components/home/product/Product";
 import ServicesData from "@/components/home/services/ServicesData";
 import TechnologySection from "@/components/home/technologySection/TechnologySection";
+import WhyWorkWithUs from "@/components/home/whyWorkWithUs/WhyWorkWithUs";
 import WindowInstallation from "@/components/home/windowInstallation/WindowInstallation";
 import WindowsManufacturer from "@/components/home/windowsManufacturer/WindowsManufacturer";
 
@@ -33,6 +34,9 @@ export default function Page() {
       </section>
       <section>
         <TechnologySection />
+      </section>
+      <section>
+        <WhyWorkWithUs />
       </section>
     </main>
   );
