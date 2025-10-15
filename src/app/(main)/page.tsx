@@ -4,6 +4,7 @@ import EstimateBanner from "@/components/home/estimateBanner/EstimateBanner";
 import FreeMeasurementForm from "@/components/home/freeMeasurementForm/FreeMeasurementForm";
 import GuaranteeSection from "@/components/home/guaranteeSection/GuaranteeSection";
 import InnovativeBanner from "@/components/home/innovativeBanner/InnovativeBanner";
+import InstallmentOffer from "@/components/home/installmentOffer/InstallmentOffer";
 import ManufacturerSection from "@/components/home/manufacturerSection/ManufacturerSection";
 import ManufacturerWindows from "@/components/home/manufacturerWindows/ManufacturerWindows";
 import MelkeProfileComparison from "@/components/home/melkeProfileComparison/MelkeProfileComparison";
@@ -77,6 +78,9 @@ export default function Page() {
       </section>
       <section>
         <WindowColorSelector />
+      </section>
+      <section>
+        <InstallmentOffer />
       </section>
     </main>
   );
