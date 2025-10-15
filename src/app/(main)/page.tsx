@@ -8,6 +8,7 @@ import InstallmentOffer from "@/components/home/installmentOffer/InstallmentOffe
 import ManufacturerSection from "@/components/home/manufacturerSection/ManufacturerSection";
 import ManufacturerWindows from "@/components/home/manufacturerWindows/ManufacturerWindows";
 import MelkeProfileComparison from "@/components/home/melkeProfileComparison/MelkeProfileComparison";
+import OffersForBuyers from "@/components/home/offersForBuyers/OffersForBuyers";
 import OffersSection from "@/components/home/offersSection/OffersSection";
 import OurWorks from "@/components/home/ourWorks/OurWorks";
 import Products from "@/components/home/product/Product";
@@ -81,6 +82,9 @@ export default function Page() {
       </section>
       <section>
         <InstallmentOffer />
+      </section>
+      <section>
+        <OffersForBuyers />
       </section>
     </main>
   );
