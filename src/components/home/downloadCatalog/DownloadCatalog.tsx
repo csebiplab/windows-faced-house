@@ -21,7 +21,7 @@ export default function DownloadCatalog() {
         {/* WhatsApp Info */}
         <div className="flex items-center gap-2 mb-3">
           <Image
-            src="/whatsapp.svg"
+            src="/assets/downloadCatalogLogo.png"
             alt="whatsapp"
             width={22}
             height={22}

@@ -25,7 +25,7 @@ const profiles: Profile[] = [
     id: 1,
     title: "Melke Centum",
     description: "Идеально для больших коттеджей",
-    image: "/assets/melke1.png",
+    image: "/assets/windowSelectionImage1.png",
     specs: {
       width: "80/100 мм",
       thickness: "до 50 мм",
@@ -42,7 +42,7 @@ const profiles: Profile[] = [
     id: 2,
     title: "Melke Wide",
     description: "Идеально для стильных загородных коттеджей",
-    image: "/assets/melke2.png",
+    image: "/assets/windowSelectionImage2.png",
     specs: {
       width: "80/95 мм",
       thickness: "до 42 мм",
@@ -59,7 +59,7 @@ const profiles: Profile[] = [
     id: 3,
     title: "Melke Evolution",
     description: "Для просторной лоджии и панорамного остекления",
-    image: "/assets/melke3.png",
+    image: "/assets/windowSelectionImage3.png",
     specs: {
       width: "70/70 мм",
       thickness: "до 40 мм",
@@ -76,7 +76,7 @@ const profiles: Profile[] = [
     id: 4,
     title: "Melke Smart Ultra",
     description: "Идеально для остекления квартир и загородных домов",
-    image: "/assets/melke4.png",
+    image: "/assets/windowSelectionImage4.png",
     specs: {
       width: "65/65 мм",
       thickness: "до 36 мм",
@@ -93,7 +93,7 @@ const profiles: Profile[] = [
     id: 5,
     title: "Melke Lite 70",
     description: "Идеально для квартиры в шумном районе",
-    image: "/assets/melke5.png",
+    image: "/assets/windowSelectionImage5.png",
     specs: {
       width: "70/70 мм",
       thickness: "до 40 мм",
@@ -110,7 +110,7 @@ const profiles: Profile[] = [
     id: 6,
     title: "Melke Lite 60",
     description: "Идеально и недорого в тихом районе",
-    image: "/assets/melke6.png",
+    image: "/assets/windowSelectionImage6.png",
     specs: {
       width: "60/60 мм",
       thickness: "до 32 мм",

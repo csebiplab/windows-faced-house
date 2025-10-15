@@ -13,7 +13,7 @@ const windowData = [
     width: "80/100 мм",
     insulation: "1,23",
     label: "Самый тёплый",
-    image: "/images/window1.png",
+    image: "/assets/windowSelectionImage1.png",
   },
   {
     title: "Meike Wide",
@@ -22,7 +22,7 @@ const windowData = [
     width: "80/95 мм",
     insulation: "1,12",
     label: "Больше света",
-    image: "/images/window2.png",
+    image: "/assets/windowSelectionImage2.png",
   },
   {
     title: "Meike Evolution",
@@ -31,7 +31,7 @@ const windowData = [
     width: "70/70 мм",
     insulation: "1,06",
     label: "Хит продаж",
-    image: "/images/window3.png",
+    image: "/assets/windowSelectionImage3.png",
   },
   {
     title: "Meike Smart Ultra",
@@ -40,7 +40,7 @@ const windowData = [
     width: "65/65 мм",
     insulation: "0,92",
     label: "Новинка",
-    image: "/images/window4.png",
+    image: "/assets/windowSelectionImage4.png",
   },
   {
     title: "Meike Lite 70",
@@ -48,7 +48,7 @@ const windowData = [
     chambers: "4/4 шт.",
     width: "70/70 мм",
     insulation: "0,76",
-    image: "/images/window5.png",
+    image: "/assets/windowSelectionImage5.png",
   },
   {
     title: "Meike Lite 60",
@@ -57,7 +57,7 @@ const windowData = [
     width: "60/60 мм",
     insulation: "0,73",
     label: "Лучшая цена",
-    image: "/images/window6.png",
+    image: "/assets/windowSelectionImage6.png",
   },
 ];
 
