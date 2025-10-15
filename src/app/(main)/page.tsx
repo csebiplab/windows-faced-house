@@ -13,6 +13,7 @@ import Products from "@/components/home/product/Product";
 import ServicesData from "@/components/home/services/ServicesData";
 import TechnologySection from "@/components/home/technologySection/TechnologySection";
 import WhyWorkWithUs from "@/components/home/whyWorkWithUs/WhyWorkWithUs";
+import WindowColorSelector from "@/components/home/windowColorSelector/WindowColorSelector";
 import WindowInstallation from "@/components/home/windowInstallation/WindowInstallation";
 import WindowSelection from "@/components/home/windowSelection/WindowSelection";
 import WindowsManufacturer from "@/components/home/windowsManufacturer/WindowsManufacturer";
@@ -73,6 +74,9 @@ export default function Page() {
       </section>
       <section>
         <OffersSection />
+      </section>
+      <section>
+        <WindowColorSelector />
       </section>
     </main>
   );
