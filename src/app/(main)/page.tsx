@@ -1,8 +1,11 @@
 import Banner from "@/components/home/Banner/Banner";
+import Certificates from "@/components/home/certificates/Certificates";
 import DownloadCatalog from "@/components/home/downloadCatalog/DownloadCatalog";
 import EstimateBanner from "@/components/home/estimateBanner/EstimateBanner";
+import FreeMeasurement from "@/components/home/freeMeasurement/FreeMeasurement";
 import FreeMeasurementForm from "@/components/home/freeMeasurementForm/FreeMeasurementForm";
 import GuaranteeSection from "@/components/home/guaranteeSection/GuaranteeSection";
+import ImportantParameters from "@/components/home/importantParameters/ImportantParameters";
 import InnovativeBanner from "@/components/home/innovativeBanner/InnovativeBanner";
 import InstallmentOffer from "@/components/home/installmentOffer/InstallmentOffer";
 import ManufacturerSection from "@/components/home/manufacturerSection/ManufacturerSection";
@@ -12,6 +15,7 @@ import OffersForBuyers from "@/components/home/offersForBuyers/OffersForBuyers";
 import OffersSection from "@/components/home/offersSection/OffersSection";
 import OurWorks from "@/components/home/ourWorks/OurWorks";
 import Products from "@/components/home/product/Product";
+import Reviews from "@/components/home/reviews/Reviews";
 import ServicesData from "@/components/home/services/ServicesData";
 import TechnologySection from "@/components/home/technologySection/TechnologySection";
 import WhyWorkWithUs from "@/components/home/whyWorkWithUs/WhyWorkWithUs";
@@ -85,6 +89,18 @@ export default function Page() {
       </section>
       <section>
         <OffersForBuyers />
+      </section>
+      <section>
+        <ImportantParameters />
+      </section>
+      <section>
+        <FreeMeasurement />
+      </section>
+      <section>
+        <Certificates />
+      </section>
+      <section>
+        <Reviews />
       </section>
     </main>
   );
