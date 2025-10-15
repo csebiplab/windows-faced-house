@@ -7,6 +7,7 @@ import InnovativeBanner from "@/components/home/innovativeBanner/InnovativeBanne
 import ManufacturerSection from "@/components/home/manufacturerSection/ManufacturerSection";
 import ManufacturerWindows from "@/components/home/manufacturerWindows/ManufacturerWindows";
 import MelkeProfileComparison from "@/components/home/melkeProfileComparison/MelkeProfileComparison";
+import OffersSection from "@/components/home/offersSection/OffersSection";
 import OurWorks from "@/components/home/ourWorks/OurWorks";
 import Products from "@/components/home/product/Product";
 import ServicesData from "@/components/home/services/ServicesData";
@@ -69,6 +70,9 @@ export default function Page() {
       </section>
       <section>
         <DownloadCatalog />
+      </section>
+      <section>
+        <OffersSection />
       </section>
     </main>
   );
