@@ -2,6 +2,7 @@ import Banner from "@/components/home/Banner/Banner";
 import Certificates from "@/components/home/certificates/Certificates";
 import DownloadCatalog from "@/components/home/downloadCatalog/DownloadCatalog";
 import EstimateBanner from "@/components/home/estimateBanner/EstimateBanner";
+import FAQSection from "@/components/home/fAQSection/FAQSection";
 import FreeMeasurement from "@/components/home/freeMeasurement/FreeMeasurement";
 import FreeMeasurementForm from "@/components/home/freeMeasurementForm/FreeMeasurementForm";
 import GuaranteeSection from "@/components/home/guaranteeSection/GuaranteeSection";
@@ -18,6 +19,8 @@ import Products from "@/components/home/product/Product";
 import Reviews from "@/components/home/reviews/Reviews";
 import ServicesData from "@/components/home/services/ServicesData";
 import TechnologySection from "@/components/home/technologySection/TechnologySection";
+import UsefulArticlesCarousel from "@/components/home/usefulArticlesCarousel/UsefulArticlesCarousel";
+import VideoReviewCarousel from "@/components/home/videoReviewCarousel/VideoReviewCarousel";
 import WhyWorkWithUs from "@/components/home/whyWorkWithUs/WhyWorkWithUs";
 import WindowColorSelector from "@/components/home/windowColorSelector/WindowColorSelector";
 import WindowInstallation from "@/components/home/windowInstallation/WindowInstallation";
@@ -101,6 +104,15 @@ export default function Page() {
       </section>
       <section>
         <Reviews />
+      </section>
+      <section>
+        <VideoReviewCarousel />
+      </section>
+      <section>
+        <FAQSection />
+      </section>
+      <section>
+        <UsefulArticlesCarousel />
       </section>
     </main>
   );
