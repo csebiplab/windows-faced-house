@@ -48,7 +48,7 @@ export default function InnovativeBanner() {
       {/* Banner */}
       <div className="relative w-full max-w-7xl rounded-2xl overflow-hidden group mb-10">
         <Image
-          src="/assets/banner-placeholder.jpg"
+          src="/assets/innovativeBannerImageBg.png"
           alt="Innovative Profiles"
           width={1200}
           height={400}
