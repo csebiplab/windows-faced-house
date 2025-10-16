@@ -1,3 +1,4 @@
+import Accessories from "@/components/home/accessories/Accessories";
 import Banner from "@/components/home/Banner/Banner";
 import Certificates from "@/components/home/certificates/Certificates";
 import DownloadCatalog from "@/components/home/downloadCatalog/DownloadCatalog";
@@ -12,12 +13,15 @@ import InstallmentOffer from "@/components/home/installmentOffer/InstallmentOffe
 import ManufacturerSection from "@/components/home/manufacturerSection/ManufacturerSection";
 import ManufacturerWindows from "@/components/home/manufacturerWindows/ManufacturerWindows";
 import MelkeProfileComparison from "@/components/home/melkeProfileComparison/MelkeProfileComparison";
+import NewsSection from "@/components/home/newsSection/NewsSection";
 import OffersForBuyers from "@/components/home/offersForBuyers/OffersForBuyers";
 import OffersSection from "@/components/home/offersSection/OffersSection";
 import OurWorks from "@/components/home/ourWorks/OurWorks";
 import Products from "@/components/home/product/Product";
+import ProjectExamples from "@/components/home/projectExamples/ProjectExamples";
 import Reviews from "@/components/home/reviews/Reviews";
 import ServicesData from "@/components/home/services/ServicesData";
+import SocialFollow from "@/components/home/socialFollow/SocialFollow";
 import TechnologySection from "@/components/home/technologySection/TechnologySection";
 import UsefulArticlesCarousel from "@/components/home/usefulArticlesCarousel/UsefulArticlesCarousel";
 import VideoReviewCarousel from "@/components/home/videoReviewCarousel/VideoReviewCarousel";
@@ -113,6 +117,18 @@ export default function Page() {
       </section>
       <section>
         <UsefulArticlesCarousel />
+      </section>
+      <section>
+        <NewsSection />
+      </section>
+      <section>
+        <Accessories />
+      </section>
+      <section>
+        <ProjectExamples />
+      </section>
+      <section>
+        <SocialFollow />
       </section>
     </main>
   );
