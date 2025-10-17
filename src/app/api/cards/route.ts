@@ -7,38 +7,34 @@ import { NextRequest } from "next/server";
 
 export const POST = route(async (req: NextRequest) => {
   const body = await req.json();
-  const { kind, ...updateData } = body;
+  const { cardType, items } = body;
 
-  if (!kind) {
-    throw new AppError("kind is required", 400);
-  }
+  if (!cardType) throw new AppError("cardType is required", 400);
 
   await connectToDatabase();
 
-  // Pick the correct model dynamically based on discriminator
-  const model = BaseCardModel.discriminators?.[kind] as Model<any>;
-  if (!model) {
-    throw new AppError(`Invalid card kind: ${kind}`, 400);
-  }
+  // console.log(Object.keys(BaseCardModel.discriminators || {}));
+  // should print ["WorkWithUsCard"]
 
-  const options = {
-    new: true,
-    runValidators: true,
-    upsert: false,
-  };
+  const model = BaseCardModel.discriminators?.[cardType] as Model<any>;
 
-  const updatedDoc = await model.findOneAndUpdate(
-    { kind, ...updateData },
-    options
-  );
+  if (!model) throw new AppError(`Invalid card type: ${cardType}`, 400);
 
-  if (!updatedDoc) {
-    throw new AppError("Create Failed!!!", 404);
-  }
+  const payload = items.map((item: any) => ({
+    cardType,
+    ...item,
+  }));
+
+  const createdDocs = await model.insertMany(payload, {
+    ordered: true,
+    rawResult: false,
+  });
+
+  if (!createdDocs?.length) throw new AppError("Create failed!", 400);
 
   return {
-    data: updatedDoc,
-    message: "Card Created successfully",
+    data: createdDocs,
+    message: "Cards created successfully",
     statusCode: responseMessageUtilities.created,
   };
 });

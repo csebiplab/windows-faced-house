@@ -96,8 +96,6 @@ export default function AddWindowProduct() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(JSON.stringify(formData, null, 4));
-
     // try {
     //   const res = await fetch("/api/window-products", {
     //     method: "POST",

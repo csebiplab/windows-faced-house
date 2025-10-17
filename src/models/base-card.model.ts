@@ -18,12 +18,33 @@ const BaseCardSchema = new Schema<IBaseCard>(
   },
   {
     timestamps: true,
-    discriminatorKey: "cardType",
-    toObject: { virtuals: true },
     toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+    discriminatorKey: "cardType", // <-- important for discriminators
   }
 );
 
-export const BaseCardModel: Model<IBaseCard> =
+const BaseCardModel: Model<IBaseCard> =
   mongoose.models.BaseCard ||
   mongoose.model<IBaseCard>("BaseCard", BaseCardSchema);
+
+export interface IWorkWithUsCard extends IBaseCard {
+  icon: string;
+  // description?: string;
+  // order?: number;
+}
+
+const WorkWithUsCardSchema = new Schema<IWorkWithUsCard>({
+  icon: { type: String, required: true },
+  // description: { type: String, required: false },
+  // order: { type: Number, required: false },
+});
+
+const WorkWithUsCardModel: Model<IWorkWithUsCard> =
+  (BaseCardModel.discriminators?.WorkWithUsCard as Model<IWorkWithUsCard>) ||
+  BaseCardModel.discriminator<IWorkWithUsCard>(
+    "WorkWithUsCard",
+    WorkWithUsCardSchema
+  );
+
+export { BaseCardModel, WorkWithUsCardModel };
