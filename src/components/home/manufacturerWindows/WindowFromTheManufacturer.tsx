@@ -30,6 +30,6 @@ async function getData() {
 
 export default async function WindowFromTheManufacturer() {
   const { items, title } = await getData();
-  console.log(items, "items");
+  // console.log(items, "items");
   return <ManufacturerWindows items={items} title={title} />;
 }
