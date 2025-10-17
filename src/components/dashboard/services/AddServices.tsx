@@ -12,7 +12,7 @@ type ServiceForm = {
   //   type: "A" | "B" | "C" | "D" | "E";
   slug: string;
   description: string;
-  imageUrl: string;
+  imageUrl: string | string[];
 };
 
 const blankService: ServiceForm = {
@@ -47,20 +47,28 @@ export const AddServices = () => {
   };
 
   // 🔹 Image upload logic
-  const handleImageConfirm = async (index: number, file: File) => {
-    if (!file) return toast.error("Please select a file first!");
+  const handleImageConfirm = async (index: number, files: File | File[]) => {
+    if (!files || (Array.isArray(files) && files.length === 0)) {
+      return toast.error("Please select a file first!");
+    }
 
-    const uploadedUrl = await uploadImage(file);
+    const filesArray = Array.isArray(files) ? files : [files];
+    const uploadedUrls: string[] = [];
 
-    if (uploadedUrl) {
+    for (const file of filesArray) {
+      const uploadedUrl = await uploadImage(file);
+      if (uploadedUrl) uploadedUrls.push(uploadedUrl);
+    }
+
+    if (uploadedUrls.length) {
       setForms((prev) => {
         const updated = [...prev];
-        updated[index].imageUrl = uploadedUrl;
+        updated[index].imageUrl =
+          uploadedUrls.length === 1 ? uploadedUrls[0] : uploadedUrls;
         return updated;
       });
     }
   };
-
   const onFileChange = (index: number) => {
     setForms((prev) => {
       const updated = [...prev];

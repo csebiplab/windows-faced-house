@@ -17,6 +17,10 @@ const sectionOptions = [
     label: "Installation of plastic windows",
     value: "WindowInstallationProcessSection",
   },
+  {
+    label: "Why work with us",
+    value: "WorkWithUsSection",
+  },
 ];
 
 const CreateSectionComponent = () => {
@@ -55,6 +59,19 @@ const CreateSectionComponent = () => {
             itemLabel="Window Installation Process"
           />
         );
+
+      case "WorkWithUsSection":
+        return (
+          <AddSectionItemForm
+            kind={selectedSection}
+            page={selectedPage}
+            query="cardWorkwithus"
+            itemLabel="Work With Us"
+          />
+        );
+
+      default:
+        return null;
     }
   };
 

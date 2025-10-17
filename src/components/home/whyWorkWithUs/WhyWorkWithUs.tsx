@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import React from "react";
-import { Factory, Package, Users, Building2, Leaf, Handshake } from "lucide-react";
 
+/*
 const items = [
   {
     icon: <Factory size={40} className="text-lime-500" />,
@@ -36,13 +36,14 @@ const items = [
     text: "Экологичное производство",
   },
 ];
+*/
 
-const WhyWorkWithUs = () => {
+const WhyWorkWithUs = ({ items, title }: { items: any[]; title: string }) => {
   return (
     <section className="bg-[#f0f8fa] py-16">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-3xl md:text-4xl font-extrabold text-center text-[#001B29] mb-12">
-          Почему с нами работают?
+          {title}
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
