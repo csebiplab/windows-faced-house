@@ -63,15 +63,22 @@ export const GET = route(async (req: NextRequest) => {
 
   const pipeline: PipelineStage[] = [{ $match: { ...filter } }];
 
-  const lookupMap: Record<string, string> = {
-    ProductSection: "products",
-    ServiceSection: "services",
-    WindowInstallationProcessSection: "windowsinstallationprocesses",
-    WorkWithUsSection: "basecards",
+  const collectionMap: Record<string, string[]> = {
+    products: ["ProductSection"],
+    services: ["ServiceSection"],
+    windowsinstallationprocesses: ["WindowInstallationProcessSection"],
+    basecards: ["WorkWithUsSection", "WindowsFromManufacturerSection"],
   };
 
-  if (sectionKind && lookupMap[sectionKind]) {
-    const collectionName = lookupMap[sectionKind];
+  let collectionName: string | undefined;
+  for (const [col, kinds] of Object.entries(collectionMap)) {
+    if (kinds.includes(sectionKind!)) {
+      collectionName = col;
+      break;
+    }
+  }
+
+  if (collectionName) {
     const localVarName = `${collectionName}Ids`;
 
     pipeline.push({
@@ -79,18 +86,8 @@ export const GET = route(async (req: NextRequest) => {
         from: collectionName,
         let: { [localVarName]: "$items" },
         pipeline: [
-          {
-            $match: {
-              $expr: { $in: ["$_id", `$$${localVarName}`] },
-            },
-          },
-          {
-            $project: {
-              deletedAt: 0,
-              createdAt: 0,
-              updatedAt: 0,
-            },
-          },
+          { $match: { $expr: { $in: ["$_id", `$$${localVarName}`] } } },
+          { $project: { deletedAt: 0, createdAt: 0, updatedAt: 0 } },
         ],
         as: "items",
       },
