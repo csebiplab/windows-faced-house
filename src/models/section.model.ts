@@ -3,23 +3,26 @@ import mongoose, { Schema, Model, Document } from "mongoose";
 interface SectionBase extends Document {
   page: string;
   kind: string;
+  title?: string;
+  items?: any[];
   deletedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
 
-// Base schema
 const SectionSchema = new Schema<SectionBase>(
   {
     page: { type: String, required: true },
     kind: { type: String, required: true },
+    title: { type: String },
+    items: { type: mongoose.Schema.Types.Mixed },
     deletedAt: { type: Date, default: null },
   },
   {
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-    discriminatorKey: "kind", // <-- important for discriminators
+    discriminatorKey: "kind",
   }
 );
 
@@ -27,9 +30,9 @@ const SectionModel: Model<SectionBase> =
   mongoose.models.Section ||
   mongoose.model<SectionBase>("Section", SectionSchema);
 
-/**
- * Hero Section Starts
- */
+//
+// 🦸 HERO SECTION
+//
 interface HeroSectionContent {
   sectionId: number;
   state: string;
@@ -43,7 +46,6 @@ interface HeroSection extends SectionBase {
   items: HeroSectionContent[];
 }
 
-// Schema for individual section content
 const heroSectionContentSchema = new Schema<HeroSectionContent>({
   sectionId: { type: Number, required: true },
   state: { type: String, required: true },
@@ -53,66 +55,18 @@ const heroSectionContentSchema = new Schema<HeroSectionContent>({
   imgUrl: { type: String, required: true },
 });
 
-// HeroSection schema with array of sectionContent
 const HeroSectionSchema = new Schema<HeroSection>({
   items: { type: [heroSectionContentSchema], required: true },
 });
 
-// Discriminator model
 const HeroSectionModel: Model<HeroSection> =
   (SectionModel.discriminators?.HeroSection as Model<HeroSection>) ||
   SectionModel.discriminator<HeroSection>("HeroSection", HeroSectionSchema);
 
-/**
- * Hero Section Ends
- */
-
-/**
- * Product Section Starts
- */
-interface IProductsSection extends SectionBase {
-  title: string;
-  items: mongoose.Types.ObjectId[];
-}
-
-const ProductSectionSchema = new Schema<IProductsSection>({
-  title: { type: String, required: true },
-  items: { type: [mongoose.Types.ObjectId], required: true, ref: "Product" },
-});
-
-// Discriminator model
-const ProductSectionModel: Model<IProductsSection> =
-  (SectionModel.discriminators?.ProductSection as Model<IProductsSection>) ||
-  SectionModel.discriminator<IProductsSection>(
-    "ProductSection",
-    ProductSectionSchema
-  );
-
-/**
- * Service Section Starts
- */
-interface IServiceSection extends SectionBase {
-  title: string;
-  items: mongoose.Types.ObjectId[];
-}
-
-const ServiceSectionSchema = new Schema<IServiceSection>({
-  title: { type: String, required: true },
-  items: { type: [mongoose.Types.ObjectId], required: true, ref: "Service" },
-});
-
-const ServiceSectionModel: Model<IServiceSection> =
-  (SectionModel.discriminators?.ServiceSection as Model<IServiceSection>) ||
-  SectionModel.discriminator<IServiceSection>(
-    "ServiceSection",
-    ServiceSectionSchema
-  );
-
-/**
- * Window installation Section Starts
- */
+//
+// 🪟 WINDOW INSTALLATION PROCESS SECTION
+//
 interface IWindowInstallationProcessSection extends SectionBase {
-  title: string;
   descriptionTop: string;
   descriptionBottom: string;
   footerTitle: string;
@@ -126,12 +80,14 @@ const WindowInstallationSectionSchema =
     descriptionTop: { type: String, required: true },
     descriptionBottom: { type: String, required: true },
     footerTitle: { type: String, required: true },
-    footerDescription: { type: String, required: false },
-    items: {
-      type: [mongoose.Types.ObjectId],
-      required: true,
-      ref: "WindowsInstallationProcess",
-    },
+    footerDescription: { type: String },
+    items: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "WindowsInstallationProcess",
+        required: true,
+      },
+    ],
   });
 
 const WindowInstallationProcessSectionModel: Model<IWindowInstallationProcessSection> =
@@ -142,32 +98,8 @@ const WindowInstallationProcessSectionModel: Model<IWindowInstallationProcessSec
     WindowInstallationSectionSchema
   );
 
-/**
- * Work With Us Section Starts
- */
-interface IWorkWithUsSection extends SectionBase {
-  title: string;
-  items: mongoose.Types.ObjectId[];
-}
-
-const WorkWithUsSectionSchema = new Schema<IWorkWithUsSection>({
-  title: { type: String, required: true },
-  items: { type: [mongoose.Types.ObjectId], required: true, ref: "Service" },
-});
-
-const WorkWithUsSectionModel: Model<IWorkWithUsSection> =
-  (SectionModel.discriminators
-    ?.WorkWithUsSection as Model<IWorkWithUsSection>) ||
-  SectionModel.discriminator<IWorkWithUsSection>(
-    "WorkWithUsSection",
-    WorkWithUsSectionSchema
-  );
-
 export {
   SectionModel,
   HeroSectionModel,
-  ProductSectionModel,
-  ServiceSectionModel,
   WindowInstallationProcessSectionModel,
-  WorkWithUsSectionModel,
 };

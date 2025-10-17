@@ -2,12 +2,12 @@ import { connectToDatabase } from "@/lib/connectToDb";
 import { responseMessageUtilities } from "@/lib/response.message.utility";
 import { AppError, route } from "@/lib/route";
 import { SectionModel } from "@/models/section.model";
-import { Model, PipelineStage } from "mongoose";
+import { Model, PipelineStage, Types } from "mongoose";
 import { NextRequest } from "next/server";
 
 export const PATCH = route(async (req: NextRequest) => {
   const body = await req.json();
-  const { kind, page, ...updateData } = body;
+  let { kind, page, items, ...updateData } = body;
 
   if (!page || !kind) {
     throw new AppError("page and kind are required", 400);
@@ -22,6 +22,10 @@ export const PATCH = route(async (req: NextRequest) => {
     throw new AppError(`Invalid section kind: ${kind}`, 400);
   }
 
+  if (kind !== "HeroSection") {
+    items = items?.map((itm: string) => new Types.ObjectId(itm));
+  }
+
   const options = {
     new: true,
     runValidators: true,
@@ -30,7 +34,7 @@ export const PATCH = route(async (req: NextRequest) => {
 
   const updatedDoc = await model.findOneAndUpdate(
     { page, kind },
-    updateData,
+    { ...updateData, items },
     options
   );
 
@@ -59,15 +63,22 @@ export const GET = route(async (req: NextRequest) => {
 
   const pipeline: PipelineStage[] = [{ $match: { ...filter } }];
 
-  const lookupMap: Record<string, string> = {
-    ProductSection: "products",
-    ServiceSection: "services",
-    WindowInstallationProcessSection: "windowsinstallationprocesses",
-    WorkWithUsSection: "basecards",
+  const collectionMap: Record<string, string[]> = {
+    products: ["ProductSection"],
+    services: ["ServiceSection"],
+    windowsinstallationprocesses: ["WindowInstallationProcessSection"],
+    basecards: ["WorkWithUsSection", "WindowsFromManufacturerSection"],
   };
 
-  if (sectionKind && lookupMap[sectionKind]) {
-    const collectionName = lookupMap[sectionKind];
+  let collectionName: string | undefined;
+  for (const [col, kinds] of Object.entries(collectionMap)) {
+    if (kinds.includes(sectionKind!)) {
+      collectionName = col;
+      break;
+    }
+  }
+
+  if (collectionName) {
     const localVarName = `${collectionName}Ids`;
 
     pipeline.push({
@@ -75,18 +86,8 @@ export const GET = route(async (req: NextRequest) => {
         from: collectionName,
         let: { [localVarName]: "$items" },
         pipeline: [
-          {
-            $match: {
-              $expr: { $in: ["$_id", `$$${localVarName}`] },
-            },
-          },
-          {
-            $project: {
-              deletedAt: 0,
-              createdAt: 0,
-              updatedAt: 0,
-            },
-          },
+          { $match: { $expr: { $in: ["$_id", `$$${localVarName}`] } } },
+          { $project: { deletedAt: 0, createdAt: 0, updatedAt: 0 } },
         ],
         as: "items",
       },
