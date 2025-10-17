@@ -30,6 +30,7 @@ import WindowInstallationProcess from "@/components/home/windowInstallation/Wind
 import WindowColorSelector from "@/components/home/windowColorSelector/WindowColorSelector";
 import WindowSelection from "@/components/home/windowSelection/WindowSelection";
 import WindowsManufacturer from "@/components/home/windowsManufacturer/WindowsManufacturer";
+import WorkWithUs from "@/components/home/whyWorkWithUs/WorkWithUs";
 
 export default function Page() {
   return (
@@ -59,7 +60,7 @@ export default function Page() {
         <TechnologySection />
       </section>
       <section>
-        <WhyWorkWithUs />
+        <WorkWithUs />
       </section>
       <section>
         <ManufacturerWindows />
