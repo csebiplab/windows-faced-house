@@ -2,12 +2,12 @@ import { connectToDatabase } from "@/lib/connectToDb";
 import { responseMessageUtilities } from "@/lib/response.message.utility";
 import { AppError, route } from "@/lib/route";
 import { SectionModel } from "@/models/section.model";
-import { Model, PipelineStage } from "mongoose";
+import { Model, PipelineStage, Types } from "mongoose";
 import { NextRequest } from "next/server";
 
 export const PATCH = route(async (req: NextRequest) => {
   const body = await req.json();
-  const { kind, page, ...updateData } = body;
+  let { kind, page, items, ...updateData } = body;
 
   if (!page || !kind) {
     throw new AppError("page and kind are required", 400);
@@ -22,6 +22,10 @@ export const PATCH = route(async (req: NextRequest) => {
     throw new AppError(`Invalid section kind: ${kind}`, 400);
   }
 
+  if (kind !== "HeroSection") {
+    items = items?.map((itm: string) => new Types.ObjectId(itm));
+  }
+
   const options = {
     new: true,
     runValidators: true,
@@ -30,7 +34,7 @@ export const PATCH = route(async (req: NextRequest) => {
 
   const updatedDoc = await model.findOneAndUpdate(
     { page, kind },
-    updateData,
+    { ...updateData, items },
     options
   );
 

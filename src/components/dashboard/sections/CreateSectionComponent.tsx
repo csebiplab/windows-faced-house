@@ -21,6 +21,10 @@ const sectionOptions = [
     label: "Why work with us",
     value: "WorkWithUsSection",
   },
+  {
+    label: "Windows from the manufacturer",
+    value: "WindowsFromManufacturerSection",
+  },
 ];
 
 const CreateSectionComponent = () => {
@@ -65,8 +69,18 @@ const CreateSectionComponent = () => {
           <AddSectionItemForm
             kind={selectedSection}
             page={selectedPage}
-            query="cardWorkwithus"
+            query="WorkWithUsCard"
             itemLabel="Work With Us"
+          />
+        );
+
+      case "WindowsFromManufacturerSection":
+        return (
+          <AddSectionItemForm
+            kind={selectedSection}
+            page={selectedPage}
+            query="WindowsFromManufacturerCard"
+            itemLabel="Windows Manufacturer Video"
           />
         );
 

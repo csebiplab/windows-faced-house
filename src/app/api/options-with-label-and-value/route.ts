@@ -12,23 +12,32 @@ export const GET = route(
     const optFor = new URL(req.url).searchParams.get("optFor");
     if (!optFor) return [];
 
-    const modelMap = {
+    await connectToDatabase();
+
+    // Map groups of options to their models
+    const modelGroups: Record<string, any> = {
       products: ProductModel,
       services: ServiceModel,
       installationprocesses: WindowInstallationModel,
-      cardWorkwithus: BaseCardModel,
+      baseCard: BaseCardModel,
     };
 
-    if (!(optFor in modelMap)) return [];
+    // Define which opts belong to the same model
+    const baseCardTypes = ["WorkWithUsCard", "WindowsFromManufacturerCard"];
 
-    const model = modelMap[optFor as keyof typeof modelMap];
+    // Determine the correct model
+    const model = baseCardTypes.includes(optFor)
+      ? modelGroups.baseCard
+      : modelGroups[optFor as keyof typeof modelGroups];
 
-    await connectToDatabase();
+    if (!model) return [];
+
+    // Build filter and pipeline
+    const filter: Record<string, any> = {};
+    if (baseCardTypes.includes(optFor)) filter.cardType = optFor;
 
     const pipeline: PipelineStage[] = [
-      {
-        $match: {},
-      },
+      { $match: filter },
       {
         $project: {
           label: "$title",
