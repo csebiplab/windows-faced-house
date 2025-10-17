@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import { X } from "lucide-react";
 import { toast } from "react-toastify";
 import { useImageUpload } from "@/hooks/useImageUpload";
+import VideoUpload from "@/components/ui/inputs/VideoUpload";
+import { useVideoUpload } from "@/hooks/useVideoUpload";
 
 const options = [
   {
@@ -43,6 +45,7 @@ export const AddCardForm = () => {
   const { uploadImage, uploading } = useImageUpload();
   const [resetKey, setResetKey] = useState(0);
   const [selectedOption, setSelectedOption] = useState(options[0].value);
+  const { uploadVideo, uploading: videoUploading } = useVideoUpload();
 
   const handleChange = (
     index: number,
@@ -72,6 +75,33 @@ export const AddCardForm = () => {
 
     for (const file of filesArray) {
       const uploadedUrl = await uploadImage(file);
+      if (uploadedUrl) uploadedUrls.push(uploadedUrl);
+    }
+
+    if (uploadedUrls.length) {
+      setForms((prev) => {
+        const updated = [...prev];
+        updated[index][field] =
+          uploadedUrls.length === 1 ? uploadedUrls[0] : uploadedUrls;
+        return updated;
+      });
+    }
+  };
+
+  const handleVideoConfirm = async (
+    index: number,
+    field: "url",
+    files: File | File[]
+  ) => {
+    if (!files || (Array.isArray(files) && files.length === 0)) {
+      return toast.error("Please select a video first!");
+    }
+
+    const filesArray = Array.isArray(files) ? files : [files];
+    const uploadedUrls: string[] = [];
+
+    for (const file of filesArray) {
+      const uploadedUrl = await uploadVideo(file);
       if (uploadedUrl) uploadedUrls.push(uploadedUrl);
     }
 
@@ -181,60 +211,85 @@ export const AddCardForm = () => {
               placeholder="Enter step title"
             />
 
-            {selectedOption !== "WorkWithUsCard" && (
-              <>
-                <InputField
-                  label="Slug"
-                  name="slug"
-                  value={form.slug}
-                  onChange={(e) => handleChange(index, e)}
-                  placeholder="Enter slug (optional)"
-                  required={false}
-                />
+            {selectedOption !== "WorkWithUsCard" &&
+              selectedOption !== "WindowsFromManufacturerCard" && (
+                <>
+                  <InputField
+                    label="Slug"
+                    name="slug"
+                    value={form.slug}
+                    onChange={(e) => handleChange(index, e)}
+                    placeholder="Enter slug (optional)"
+                    required={false}
+                  />
 
-                <InputField
-                  label="Description"
-                  name="description"
-                  type="textarea"
-                  value={form.description}
-                  onChange={(e) => handleChange(index, e)}
-                  placeholder="Enter step description"
-                  required={false}
-                />
+                  <InputField
+                    label="Description"
+                    name="description"
+                    type="textarea"
+                    value={form.description}
+                    onChange={(e) => handleChange(index, e)}
+                    placeholder="Enter step description"
+                    required={false}
+                  />
+                </>
+              )}
+
+            {selectedOption !== "WindowsFromManufacturerCard" && (
+              <>
+                {/* Upload Icon */}
+                <div>
+                  <label className="block font-medium text-gray-700 mb-2">
+                    Upload Icon
+                  </label>
+                  <ImageUpload
+                    value={form.icon}
+                    onConfirm={(files) =>
+                      handleImageConfirm(index, "icon", files)
+                    }
+                    onFileChange={() => onFileChange(index, "icon")}
+                    disabled={!!form.icon}
+                    uploading={uploading}
+                    allowMultiple={false}
+                    resetKey={resetKey}
+                  />
+                </div>
+
+                {/* Upload Image */}
+                <div>
+                  <label className="block font-medium text-gray-700 mb-2">
+                    Upload Image
+                  </label>
+                  <ImageUpload
+                    value={form.url}
+                    onConfirm={(files) =>
+                      handleImageConfirm(index, "url", files)
+                    }
+                    onFileChange={() => onFileChange(index, "url")}
+                    disabled={!!form.url}
+                    uploading={uploading}
+                    allowMultiple={false}
+                    resetKey={resetKey}
+                  />
+                </div>
               </>
             )}
-
-            {/* Upload Icon */}
-            <div>
-              <label className="block font-medium text-gray-700 mb-2">
-                Upload Icon
-              </label>
-              <ImageUpload
-                value={form.icon}
-                onConfirm={(files) => handleImageConfirm(index, "icon", files)}
-                onFileChange={() => onFileChange(index, "icon")}
-                disabled={!!form.icon}
-                uploading={uploading}
-                allowMultiple={false}
-                resetKey={resetKey}
-              />
-            </div>
-
-            {/* Upload Image */}
-            <div>
-              <label className="block font-medium text-gray-700 mb-2">
-                Upload Image
-              </label>
-              <ImageUpload
-                value={form.url}
-                onConfirm={(files) => handleImageConfirm(index, "url", files)}
-                onFileChange={() => onFileChange(index, "url")}
-                disabled={!!form.url}
-                uploading={uploading}
-                allowMultiple={false}
-                resetKey={resetKey}
-              />
-            </div>
+            {selectedOption === "WindowsFromManufacturerCard" && (
+              <div>
+                <label className="block font-medium text-gray-700 mb-2">
+                  Upload Video
+                </label>
+                <VideoUpload
+                  value={form.url}
+                  onConfirm={(files) => handleVideoConfirm(index, "url", files)}
+                  onFileChange={() => onFileChange(index, "url")}
+                  disabled={!!form.url}
+                  uploading={videoUploading}
+                  allowMultiple={false}
+                  resetKey={resetKey}
+                />
+              </div>
+            )}
           </div>
         ))}
 
