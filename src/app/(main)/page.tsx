@@ -11,7 +11,6 @@ import ImportantParameters from "@/components/home/importantParameters/Important
 import InnovativeBanner from "@/components/home/innovativeBanner/InnovativeBanner";
 import InstallmentOffer from "@/components/home/installmentOffer/InstallmentOffer";
 import ManufacturerSection from "@/components/home/manufacturerSection/ManufacturerSection";
-import ManufacturerWindows from "@/components/home/manufacturerWindows/ManufacturerWindows";
 import MelkeProfileComparison from "@/components/home/melkeProfileComparison/MelkeProfileComparison";
 import NewsSection from "@/components/home/newsSection/NewsSection";
 import OffersForBuyers from "@/components/home/offersForBuyers/OffersForBuyers";
@@ -25,12 +24,12 @@ import SocialFollow from "@/components/home/socialFollow/SocialFollow";
 import TechnologySection from "@/components/home/technologySection/TechnologySection";
 import UsefulArticlesCarousel from "@/components/home/usefulArticlesCarousel/UsefulArticlesCarousel";
 import VideoReviewCarousel from "@/components/home/videoReviewCarousel/VideoReviewCarousel";
-import WhyWorkWithUs from "@/components/home/whyWorkWithUs/WhyWorkWithUs";
 import WindowInstallationProcess from "@/components/home/windowInstallation/WindowInstallationProcess";
 import WindowColorSelector from "@/components/home/windowColorSelector/WindowColorSelector";
 import WindowSelection from "@/components/home/windowSelection/WindowSelection";
 import WindowsManufacturer from "@/components/home/windowsManufacturer/WindowsManufacturer";
 import WorkWithUs from "@/components/home/whyWorkWithUs/WorkWithUs";
+import WindowFromTheManufacturer from "@/components/home/manufacturerWindows/WindowFromTheManufacturer";
 
 export default function Page() {
   return (
@@ -63,7 +62,7 @@ export default function Page() {
         <WorkWithUs />
       </section>
       <section>
-        <ManufacturerWindows />
+        <WindowFromTheManufacturer />
       </section>
       <section>
         <OurWorks />
