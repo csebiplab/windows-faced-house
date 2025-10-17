@@ -62,6 +62,7 @@ export const GET = route(async (req: NextRequest) => {
     ProductSection: "products",
     ServiceSection: "services",
     WindowInstallationProcessSection: "windowsinstallationprocesses",
+    WorkWithUsSection: "basecards",
   };
 
   if (sectionKind && lookupMap[sectionKind]) {

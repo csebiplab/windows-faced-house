@@ -142,10 +142,32 @@ const WindowInstallationProcessSectionModel: Model<IWindowInstallationProcessSec
     WindowInstallationSectionSchema
   );
 
+/**
+ * Work With Us Section Starts
+ */
+interface IWorkWithUsSection extends SectionBase {
+  title: string;
+  items: mongoose.Types.ObjectId[];
+}
+
+const WorkWithUsSectionSchema = new Schema<IWorkWithUsSection>({
+  title: { type: String, required: true },
+  items: { type: [mongoose.Types.ObjectId], required: true, ref: "Service" },
+});
+
+const WorkWithUsSectionModel: Model<IWorkWithUsSection> =
+  (SectionModel.discriminators
+    ?.WorkWithUsSection as Model<IWorkWithUsSection>) ||
+  SectionModel.discriminator<IWorkWithUsSection>(
+    "WorkWithUsSection",
+    WorkWithUsSectionSchema
+  );
+
 export {
   SectionModel,
   HeroSectionModel,
   ProductSectionModel,
   ServiceSectionModel,
   WindowInstallationProcessSectionModel,
+  WorkWithUsSectionModel,
 };
