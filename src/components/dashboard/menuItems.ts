@@ -96,5 +96,21 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  {
+    name: "Cards",
+    icon: Folder,
+    children: [
+      {
+        name: "Show",
+        href: "/dashboard/cards/show",
+        icon: DoorOpen,
+      },
+      {
+        name: "Add",
+        href: "/dashboard/cards/add",
+        icon: Plus,
+      },
+    ],
+  },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
