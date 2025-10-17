@@ -11,6 +11,10 @@ const options = [
     label: "Work With Us",
     value: "WorkWithUsCard",
   },
+  {
+    label: "Windows from the manufacturer",
+    value: "WindowsFromManufacturerCard",
+  },
 ];
 
 type WindowsInstallationForm = {
@@ -135,7 +139,7 @@ export const AddCardForm = () => {
     <div>
       <div className="flex-1 mb-8 max-w-2xs">
         <label htmlFor="section-type" className="block font-medium mb-2">
-          Select Section Type
+          Select Card Type
         </label>
         <select
           id="section-type"
