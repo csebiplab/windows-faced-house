@@ -2,32 +2,33 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 type UploadOptions = {
-  maxSize?: number;
+  maxSize?: number; // in MB
   allowedTypes?: string[];
 };
 
-export const useImageUpload = (
+export const useVideoUpload = (
   options: UploadOptions = {
-    maxSize: 300,
-    allowedTypes: ["image/jpeg", "image/png", "image/webp", "image/gif"],
+    maxSize: 50, // default 50MB
+    allowedTypes: ["video/mp4", "video/webm", "video/ogg", "video/mpeg"],
   }
 ) => {
   const [uploading, setUploading] = useState(false);
 
   const validateFile = (file: File): boolean => {
     if (!file) {
-      toast.error("No file selected!");
+      toast.error("No video selected!");
       return false;
     }
 
-    if (file.size > (options.maxSize ?? 300) * 1024) {
-      toast.error(`Image size exceeds ${options.maxSize}kb limit.`);
+    const maxBytes = (options.maxSize ?? 50) * 1024 * 1024; // MB → bytes
+    if (file.size > maxBytes) {
+      toast.error(`Video exceeds ${options.maxSize}MB limit.`);
       return false;
     }
 
     if (!(options.allowedTypes ?? []).includes(file.type)) {
       toast.error(
-        `Invalid format. Allowed: ${options.allowedTypes?.join(", ")}`
+        `Invalid video format. Allowed: ${options.allowedTypes?.join(", ")}`
       );
       return false;
     }
@@ -35,27 +36,27 @@ export const useImageUpload = (
     return true;
   };
 
-  const uploadImage = async (file: File): Promise<string | null> => {
+  const uploadVideo = async (file: File): Promise<string | null> => {
     if (!validateFile(file)) return null;
 
     setUploading(true);
     try {
       const formData = new FormData();
-      formData.append("image", file);
+      formData.append("file", file); // generic name
 
       const res = await fetch("/api/upload-file", {
         method: "POST",
         body: formData,
       });
 
-      if (!res.ok) throw new Error("Image upload failed");
+      if (!res.ok) throw new Error("Video upload failed");
 
       const data: { url?: string } = await res.json();
       if (data?.url) {
-        toast.success("Image uploaded successfully!");
+        toast.success("Video uploaded successfully!");
         return data.url;
       } else {
-        toast.error("Failed to upload image!");
+        toast.error("Failed to upload video!");
         return null;
       }
     } catch (err) {
@@ -69,5 +70,5 @@ export const useImageUpload = (
     }
   };
 
-  return { uploadImage, uploading };
+  return { uploadVideo, uploading };
 };
