@@ -16,7 +16,8 @@ export const POST = route(async (req: NextRequest) => {
   // console.log(Object.keys(BaseCardModel.discriminators || {}));
   // should print ["WorkWithUsCard"]
 
-  const model = BaseCardModel.discriminators?.[cardType] as Model<any>;
+  const model =
+    (BaseCardModel.discriminators?.[cardType] as Model<any>) ?? BaseCardModel;
 
   if (!model) throw new AppError(`Invalid card type: ${cardType}`, 400);
 

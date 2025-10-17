@@ -16,7 +16,8 @@ export const PATCH = route(async (req: NextRequest) => {
   await connectToDatabase();
 
   // Pick the correct model dynamically based on discriminator
-  const model = SectionModel.discriminators?.[kind] as Model<any>;
+  const model =
+    (SectionModel.discriminators?.[kind] as Model<any>) ?? SectionModel;
   if (!model) {
     throw new AppError(`Invalid section kind: ${kind}`, 400);
   }
