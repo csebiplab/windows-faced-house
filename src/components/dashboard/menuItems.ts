@@ -112,5 +112,21 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  {
+    name: "Our Works",
+    icon: Folder,
+    children: [
+      {
+        name: "Show",
+        href: "/dashboard/our-works/show",
+        icon: DoorOpen,
+      },
+      {
+        name: "Add",
+        href: "/dashboard/our-works/add",
+        icon: Plus,
+      },
+    ],
+  },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];

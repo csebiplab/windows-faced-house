@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+// @ts-ignore: allow importing global CSS without explicit type declarations
 import "../globals.css";
 import Sidebar from "@/components/dashboard/Sidebar";
 import ToastProvider from "@/components/ui/ToastProvider";

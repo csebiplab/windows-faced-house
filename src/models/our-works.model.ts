@@ -22,7 +22,7 @@ const OurWorkSchema = new Schema<IOurWork>(
     startAt: { type: Date, required: true },
     endAt: { type: Date, required: true },
     url: { type: String, required: true },
-    slug: { ype: String, required: false },
+    slug: { type: String, required: false },
     slugLabel: { type: String, required: false },
     deletedAt: { type: Date, default: null },
   },
