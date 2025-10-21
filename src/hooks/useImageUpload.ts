@@ -41,7 +41,7 @@ export const useImageUpload = (
     setUploading(true);
     try {
       const formData = new FormData();
-      formData.append("image", file);
+      formData.append("file", file);
 
       const res = await fetch("/api/upload-file", {
         method: "POST",
