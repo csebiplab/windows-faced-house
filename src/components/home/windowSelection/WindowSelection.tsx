@@ -3,7 +3,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-const tabs = ["Бюджетные", "Комфорт", "Премиум"];
+const tabs = [
+  { label: "Бюджетные", value: "budget" },
+  { label: "Комфорт", value: "comfort" },
+  { label: "Премиум", value: "premium" },
+];
 
 const windowData = [
   {
@@ -62,7 +66,7 @@ const windowData = [
 ];
 
 export default function WindowSelection() {
-  const [activeTab, setActiveTab] = useState("Бюджетные");
+  const [activeValue, setActiveValue] = useState("Бюджетные");
 
   return (
     <section className="bg-[#e9f0f3] py-10 px-4 md:px-8">
@@ -74,17 +78,17 @@ export default function WindowSelection() {
         {/* Tabs */}
         <div className="flex justify-center mb-8">
           <div className="inline-flex bg-white rounded-md overflow-hidden shadow-sm">
-            {tabs.map((tab) => (
+            {tabs.map(({ label, value }, idx) => (
               <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
+                key={idx}
+                onClick={() => setActiveValue(value)}
                 className={`px-5 py-2 text-sm md:text-base font-medium transition-all ${
-                  activeTab === tab
+                  activeValue === value
                     ? "bg-gray-900 text-white"
                     : "bg-white text-gray-700 hover:bg-gray-100"
                 }`}
               >
-                {tab}
+                {label}
               </button>
             ))}
           </div>

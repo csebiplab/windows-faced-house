@@ -7,6 +7,12 @@ export type ProductType =
   | "balconies"
   | "doors";
 
+export enum ProductCategoryEnum {
+  BUDGET = "budget",
+  COMFORT = "comfort",
+  PREMIUM = "premium",
+}
+
 export interface IProduct extends Document {
   serial: number;
   title?: string;
@@ -16,6 +22,14 @@ export interface IProduct extends Document {
   priceFrom?: number;
   priceUnit?: string;
   imageUrl?: string;
+  // newly added optional fields
+  category?: ProductCategoryEnum; // e.g. budget / comfort / premium
+  label?: string; // e.g. “ECO”, “Bestseller”, “New product”, etc.
+  tag?: string; // e.g. “The warmest”, “More light”, “Best price”, etc.
+  airChambers?: string; // e.g. “6/7 pcs.”
+  frameSashWidth?: string; // e.g. “80/100 mm”
+  thermalProtection?: string; // e.g. “1.23”
+  buttonText?: string; // e.g. “Request a quote”
   deletedAt?: Date | null;
   createdAt: Date;
   updatedAt: Date;
@@ -24,17 +38,30 @@ export interface IProduct extends Document {
 const ProductSchema = new Schema<IProduct>(
   {
     serial: { type: Number, required: true },
-    title: { type: String, required: false },
+    title: { type: String },
     type: {
       type: String,
       enum: ["windows", "aluminum", "cottages", "balconies", "doors"],
+    },
+    items: { type: String },
+    description: { type: String },
+    priceFrom: { type: Number },
+    priceUnit: { type: String, default: "₽/m²" },
+    imageUrl: { type: String },
+
+    // New optional fields from UI
+    category: {
+      type: String,
+      enum: Object.values(ProductCategoryEnum),
       required: false,
     },
-    items: { type: String, required: false },
-    description: { type: String, required: false },
-    priceFrom: { type: Number, required: false },
-    priceUnit: { type: String, default: "₽/m²" },
-    imageUrl: { type: String, required: false },
+    label: { type: String },
+    tag: { type: String },
+    airChambers: { type: String },
+    frameSashWidth: { type: String },
+    thermalProtection: { type: String },
+    buttonText: { type: String, default: "Request a quote" },
+
     deletedAt: { type: Date, default: null },
   },
   {

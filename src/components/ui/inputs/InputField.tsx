@@ -29,7 +29,7 @@ const InputField: React.FC<InputFieldProps> = ({
   onChange,
   options,
   placeholder,
-  required = true,
+  required = false,
   extraInput,
 }) => {
   const [checked, setChecked] = useState(false);
