@@ -30,6 +30,7 @@ import WindowSelection from "@/components/home/windowSelection/WindowSelection";
 import WindowsManufacturer from "@/components/home/windowsManufacturer/WindowsManufacturer";
 import WorkWithUs from "@/components/home/whyWorkWithUs/WorkWithUs";
 import WindowFromTheManufacturer from "@/components/home/manufacturerWindows/WindowFromTheManufacturer";
+import WindowsProduct from "@/components/home/windowSelection/WindowsProduct";
 
 export default function Page() {
   return (
@@ -74,7 +75,7 @@ export default function Page() {
         <ManufacturerSection />
       </section>
       <section>
-        <WindowSelection />
+        <WindowsProduct />
       </section>
       <section>
         <InnovativeBanner />

@@ -25,6 +25,10 @@ const sectionOptions = [
     label: "Windows from the manufacturer",
     value: "WindowsFromManufacturerSection",
   },
+  {
+    label: "Choose windows at a price that suits you",
+    value: "ChooseWindowsAtAPriceThatSuitsYou",
+  },
 ];
 
 const CreateSectionComponent = () => {
@@ -81,6 +85,16 @@ const CreateSectionComponent = () => {
             page={selectedPage}
             query="WindowsFromManufacturerCard"
             itemLabel="Windows Manufacturer Video"
+          />
+        );
+
+      case "ChooseWindowsAtAPriceThatSuitsYou":
+        return (
+          <AddSectionItemForm
+            kind={selectedSection}
+            page={selectedPage}
+            query="products"
+            itemLabel="Windows"
           />
         );
 

@@ -38,6 +38,8 @@ export const AddSectionItemForm = ({
           { cache: "no-store" }
         );
         const data = await res.json();
+        console.log(data, "data");
+
         setOptions(data?.data ?? []);
       } catch (err) {
         console.error("Option fetch error:", err);
@@ -138,6 +140,7 @@ export const AddSectionItemForm = ({
         value={form.sectionTitle}
         onChange={(e) => handleChange("sectionTitle", e.target.value)}
         placeholder="Enter section title"
+        required={true}
       />
 
       {isWindowSection && (

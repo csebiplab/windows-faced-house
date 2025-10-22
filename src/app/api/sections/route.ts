@@ -64,7 +64,7 @@ export const GET = route(async (req: NextRequest) => {
   const pipeline: PipelineStage[] = [{ $match: { ...filter } }];
 
   const collectionMap: Record<string, string[]> = {
-    products: ["ProductSection"],
+    products: ["ProductSection", "ChooseWindowsAtAPriceThatSuitsYou"],
     services: ["ServiceSection"],
     windowsinstallationprocesses: ["WindowInstallationProcessSection"],
     basecards: ["WorkWithUsSection", "WindowsFromManufacturerSection"],

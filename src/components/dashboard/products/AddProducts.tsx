@@ -8,13 +8,20 @@ import { useImageUpload } from "@/hooks/useImageUpload";
 
 type ProductForm = {
   serial: number;
-  title: string;
-  type: string;
-  items: string;
-  description: string;
-  priceFrom: string;
-  priceUnit: string;
-  imageUrl: string | string[];
+  title?: string;
+  type?: string;
+  items?: string;
+  description?: string;
+  priceFrom?: string;
+  priceUnit?: string;
+  imageUrl?: string | string[];
+  category?: string;
+  label?: string;
+  tag?: string;
+  airChambers?: string;
+  frameSashWidth?: string;
+  thermalProtection?: string;
+  buttonText?: string;
 };
 
 const blankProduct: ProductForm = {
@@ -26,6 +33,13 @@ const blankProduct: ProductForm = {
   priceFrom: "",
   priceUnit: "₽/м²",
   imageUrl: "",
+  category: "budget",
+  label: "",
+  tag: "",
+  airChambers: "",
+  frameSashWidth: "",
+  thermalProtection: "",
+  buttonText: "Request a quote",
 };
 
 export const AddProductComp = () => {
@@ -56,8 +70,8 @@ export const AddProductComp = () => {
     }
 
     const filesArray = Array.isArray(files) ? files : [files];
-
     const uploadedUrls: string[] = [];
+
     for (const file of filesArray) {
       const uploadedUrl = await uploadImage(file);
       if (uploadedUrl) uploadedUrls.push(uploadedUrl);
@@ -106,7 +120,7 @@ export const AddProductComp = () => {
       });
       if (res.ok) {
         toast.success("Form submitted successfully!");
-        setForms([blankProduct]);
+        setForms([{ ...blankProduct, serial: 1 }]);
         setResetKey((prev) => prev + 1);
       } else {
         toast.error("Failed to submit form. Please try again.");
@@ -126,7 +140,6 @@ export const AddProductComp = () => {
     >
       {forms.map((form, index) => (
         <div key={index} className="relative border rounded-lg p-4 space-y-4">
-          {/* Remove button */}
           {forms.length > 1 && (
             <button
               type="button"
@@ -139,6 +152,7 @@ export const AddProductComp = () => {
 
           <h3 className="font-medium text-gray-700">Product {index + 1}</h3>
 
+          {/* Basic fields */}
           <InputField
             label="Title"
             name="title"
@@ -162,6 +176,70 @@ export const AddProductComp = () => {
             ]}
           />
 
+          {/* New category select */}
+          <InputField
+            label="Category"
+            name="category"
+            type="select"
+            value={form.category}
+            onChange={(e) => handleChange(index, e)}
+            options={[
+              { label: "Budget", value: "budget" },
+              { label: "Comfort", value: "comfort" },
+              { label: "Premium", value: "premium" },
+            ]}
+          />
+
+          {/* New optional fields */}
+          <InputField
+            label="Label"
+            name="label"
+            value={form.label}
+            onChange={(e) => handleChange(index, e)}
+            placeholder='e.g. "ECO"'
+          />
+
+          <InputField
+            label="Tag"
+            name="tag"
+            value={form.tag}
+            onChange={(e) => handleChange(index, e)}
+            placeholder='e.g. "The warmest", "Best price", "More light", "Bestseller", "New product'
+          />
+
+          <InputField
+            label="Air Chambers"
+            name="airChambers"
+            value={form.airChambers}
+            onChange={(e) => handleChange(index, e)}
+            placeholder='e.g. "6/7 pcs."'
+          />
+
+          <InputField
+            label="Frame/Sash Width"
+            name="frameSashWidth"
+            value={form.frameSashWidth}
+            onChange={(e) => handleChange(index, e)}
+            placeholder='e.g. "80/100 mm"'
+          />
+
+          <InputField
+            label="Thermal Protection"
+            name="thermalProtection"
+            value={form.thermalProtection}
+            onChange={(e) => handleChange(index, e)}
+            placeholder='e.g. "1.23"'
+          />
+
+          <InputField
+            label="Button Text"
+            name="buttonText"
+            value={form.buttonText}
+            onChange={(e) => handleChange(index, e)}
+            placeholder='e.g. "Request a quote"'
+          />
+
+          {/* Other existing fields */}
           <InputField
             label="Items"
             name="items"
@@ -177,7 +255,6 @@ export const AddProductComp = () => {
             value={form.description}
             onChange={(e) => handleChange(index, e)}
             placeholder="Enter description"
-            required={false}
           />
 
           <InputField
@@ -199,7 +276,7 @@ export const AddProductComp = () => {
           <ImageUpload
             onConfirm={(files) => handleImageConfirm(index, files)}
             onFileChange={() => onFileChange(index)}
-            disabled={form?.imageUrl?.length > 0}
+            disabled={!!form?.imageUrl?.length}
             uploading={uploading}
             resetKey={resetKey}
           />
