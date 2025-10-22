@@ -20,7 +20,6 @@ export const POST = route(
 
     try {
       const payload: Partial<IProduct[]> = await req.json();
-      console.log(payload, "payload");
 
       const res = await ProductModel.create(payload);
 
