@@ -1,6 +1,7 @@
 import { connectToDatabase } from "@/lib/connectToDb";
 import { route } from "@/lib/route";
 import { BaseCardModel } from "@/models/base-card.model";
+import { MelkeProfileModel } from "@/models/melke-profile.model";
 import { ProductModel } from "@/models/product.model";
 import { ServiceModel } from "@/models/service.model";
 import { WindowInstallationModel } from "@/models/windows-installation-process.model";
@@ -20,6 +21,7 @@ export const GET = route(
       services: ServiceModel,
       installationprocesses: WindowInstallationModel,
       baseCard: BaseCardModel,
+      melkeProfiles: MelkeProfileModel,
     };
 
     // Define which opts belong to the same model

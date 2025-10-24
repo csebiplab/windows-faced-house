@@ -140,7 +140,7 @@ export const AddSectionItemForm = ({
         value={form.sectionTitle}
         onChange={(e) => handleChange("sectionTitle", e.target.value)}
         placeholder="Enter section title"
-        required={true}
+        required={false}
       />
 
       {isWindowSection && (
