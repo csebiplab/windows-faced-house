@@ -103,7 +103,7 @@ const WindowColorSelector = () => {
           {/* Left Side Image */}
           <div className="w-full lg:w-1/2 bg-gray-50 flex items-center justify-center p-6">
             <Image
-              src="/assets/windowExample.png"
+              src="/melke-window.png"
               alt="Window"
               width={500}
               height={500}
