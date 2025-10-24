@@ -1,71 +1,27 @@
 "use client";
 
 import Image from "next/image";
+import { MelkeProfile } from "./MelkeProfiles";
 
-type Profile = {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  specs: {
-    width: string;
-    thickness: string;
-    chambers: string;
-    thermal: string;
-    sound: string;
-    class: string;
-    price: string;
-  };
-  colors: string[];
-  seals: string[];
-  badge?: string;
-  badgeColor?: string;
-};
+export default function MelkeProfileComparison({
+  profiles,
+  title,
+}: {
+  profiles: MelkeProfile[];
+  title?: string;
+}) {
+  if (!profiles?.length) {
+    return (
+      <section className="bg-[#eaf3f6] py-12 px-4 text-center text-gray-500">
+        <p>No profiles available at the moment.</p>
+      </section>
+    );
+  }
 
-const profiles: Profile[] = [
-  {
-    id: 1,
-    title: "Melke Centum",
-    description: "Идеально для больших коттеджей",
-    image: "/assets/windowSelectionImage1.png",
-    specs: {
-      width: "80/100",
-      thickness: "до 50",
-      chambers: "6/7/6",
-      thermal: "1.23",
-      sound: "55",
-      class: "A+",
-      price: "15 490 ₽",
-    },
-    colors: ["#dedede", "#c0a46b", "#5b2e00", "#3a3a3a"],
-    seals: ["#000", "#fff", "#ccc"],
-    badge: "Семейный выбор",
-  },
-  {
-    id: 2,
-    title: "Melke Wide",
-    description: "Идеально для стильных загородных коттеджей",
-    image: "/assets/windowSelectionImage2.png",
-    specs: {
-      width: "80/95",
-      thickness: "до 42",
-      chambers: "5/6/5",
-      thermal: "1.12",
-      sound: "55",
-      class: "A+",
-      price: "14 090 ₽",
-    },
-    colors: ["#dedede", "#c0a46b", "#5b2e00", "#3a3a3a"],
-    seals: ["#000", "#fff", "#ccc"],
-    badge: "Большие семьи",
-  },
-];
-
-export default function MelkeProfileComparison() {
   return (
     <section className="bg-[#eaf3f6] py-12 px-4">
       <h2 className="text-center text-2xl md:text-3xl font-semibold text-[#0b132b] mb-10">
-        Сравнение профилей Melke
+        {title || "Сравнение профилей Melke"}
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-6 max-w-[1600px] mx-auto">
@@ -84,8 +40,12 @@ export default function MelkeProfileComparison() {
               />
               {item.badge && (
                 <div
-                  className="bg-[#2C3245] absolute -bottom-2 left-3 text-xs text-white font-semibold px-3 py-1 rounded-md"
-                  // style={{ backgroundColor: item.badgeColor }}
+                  className={`absolute -bottom-2 left-3 text-xs text-white font-semibold px-3 py-1 rounded-md ${
+                    item.badgeColor ? "" : "bg-[#2C3245]"
+                  }`}
+                  style={
+                    item.badgeColor ? { backgroundColor: item.badgeColor } : {}
+                  }
                 >
                   {item.badge}
                 </div>
@@ -97,7 +57,9 @@ export default function MelkeProfileComparison() {
               <h3 className="text-lg font-bold text-[#0b132b] mb-1">
                 {item.title}
               </h3>
-              <p className="text-sm text-gray-600 mb-4">{item.description}</p>
+              {item.description && (
+                <p className="text-sm text-gray-600 mb-4">{item.description}</p>
+              )}
 
               {/* Specs Grid */}
               <div className="divide-y divide-gray-100 mb-5">
@@ -123,8 +85,12 @@ export default function MelkeProfileComparison() {
               </div>
 
               {/* Colors */}
-              <ColorSection title="Цвет массы профиля" colors={item.colors} />
-              <ColorSection title="Цвет уплотнителя" colors={item.seals} />
+              {item.colors?.length > 0 && (
+                <ColorSection title="Цвет массы профиля" colors={item.colors} />
+              )}
+              {item.seals?.length > 0 && (
+                <ColorSection title="Цвет уплотнителя" colors={item.seals} />
+              )}
             </div>
 
             {/* Footer */}
@@ -159,7 +125,7 @@ function SpecItem({
       <div className="flex items-center gap-1 font-bold text-[#0b132b] text-lg">
         {value}
         {hasTooltip && (
-          <span className="text-white text-[10px] font-bold bg-red-500 w-4 h-4 flex justify-center rounded-full cursor-pointer">
+          <span className="text-white text-[10px] font-bold bg-red-500 w-4 h-4 flex justify-center items-center rounded-full cursor-pointer">
             ?
           </span>
         )}
@@ -173,7 +139,7 @@ function ColorSection({ title, colors }: { title: string; colors: string[] }) {
   return (
     <div className="mb-3">
       <p className="text-sm text-gray-500 mb-1">{title}</p>
-      <div className="flex">
+      <div className="flex gap-1">
         {colors.map((c, i) => (
           <span
             key={i}

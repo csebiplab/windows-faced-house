@@ -68,6 +68,7 @@ export const GET = route(async (req: NextRequest) => {
     services: ["ServiceSection"],
     windowsinstallationprocesses: ["WindowInstallationProcessSection"],
     basecards: ["WorkWithUsSection", "WindowsFromManufacturerSection"],
+    melkeprofiles: ["ComparisonOfMelkeProfiles"],
   };
 
   let collectionName: string | undefined;

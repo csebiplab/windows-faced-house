@@ -31,6 +31,7 @@ import WindowsManufacturer from "@/components/home/windowsManufacturer/WindowsMa
 import WorkWithUs from "@/components/home/whyWorkWithUs/WorkWithUs";
 import WindowFromTheManufacturer from "@/components/home/manufacturerWindows/WindowFromTheManufacturer";
 import WindowsProduct from "@/components/home/windowSelection/WindowsProduct";
+import MelkeProfiles from "@/components/home/melkeProfileComparison/MelkeProfiles";
 
 export default function Page() {
   return (
@@ -81,7 +82,7 @@ export default function Page() {
         <InnovativeBanner />
       </section>
       <section>
-        <MelkeProfileComparison />
+        <MelkeProfiles />
       </section>
       <section>
         <DownloadCatalog />
