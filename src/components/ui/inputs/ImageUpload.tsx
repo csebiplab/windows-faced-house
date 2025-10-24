@@ -9,6 +9,7 @@ interface ImageUploadProps {
   value?: string | string[] | null;
   resetKey?: string | number;
   allowMultiple?: boolean;
+  label?: string;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
@@ -18,6 +19,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   uploading = false,
   resetKey,
   allowMultiple = false,
+  label,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [files, setFiles] = useState<File[]>([]);
@@ -71,7 +73,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
   return (
     <div className="space-y-4">
-      {/* Upload box */}
+      {/* Label */}
+      {label && (
+        <label className="block font-medium text-gray-700 mb-1">{label}</label>
+      )}
+
+      {/* Upload Box */}
       <div
         className={`h-[40vh] border-2 border-dashed rounded-md flex flex-col items-center justify-center p-6 cursor-pointer transition
         ${disabled ? "opacity-60 cursor-not-allowed" : "hover:bg-purple-50"}`}
@@ -110,7 +117,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         </p>
       </div>
 
-      {/* Hidden file input */}
+      {/* Hidden File Input */}
       <input
         ref={inputRef}
         type="file"
@@ -122,7 +129,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         }}
       />
 
-      {/* Previews under the box */}
+      {/* Previews */}
       {previews.length > 0 && (
         <div className="flex flex-wrap gap-3 justify-center">
           {previews.map((p, i) => (

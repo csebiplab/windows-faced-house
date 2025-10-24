@@ -27,6 +27,7 @@ const sectionOptions = [
     value: "ChooseWindowsAtAPriceThatSuitsYou",
   },
   { label: "Comparison of Melke profiles", value: "ComparisonOfMelkeProfiles" },
+  { label: "Our promotions", value: "OurPromotionsSection" },
 ] as const;
 
 type SectionKey = (typeof sectionOptions)[number]["value"];
@@ -71,6 +72,11 @@ const sectionConfig: Record<
     component: "item",
     query: "melkeProfiles",
     itemLabel: "Melke Profile",
+  },
+  OurPromotionsSection: {
+    component: "item",
+    query: "OurPromotionsCard",
+    itemLabel: "Our Promotion",
   },
 };
 

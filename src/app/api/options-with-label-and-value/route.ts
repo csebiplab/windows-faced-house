@@ -25,7 +25,11 @@ export const GET = route(
     };
 
     // Define which opts belong to the same model
-    const baseCardTypes = ["WorkWithUsCard", "WindowsFromManufacturerCard"];
+    const baseCardTypes = [
+      "WorkWithUsCard",
+      "WindowsFromManufacturerCard",
+      "OurPromotionsCard",
+    ];
 
     // Determine the correct model
     const model = baseCardTypes.includes(optFor)

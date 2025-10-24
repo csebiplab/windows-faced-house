@@ -9,6 +9,7 @@ interface VideoUploadProps {
   value?: string | string[] | null;
   resetKey?: string | number;
   allowMultiple?: boolean;
+  label?: string;
 }
 
 const VideoUpload: React.FC<VideoUploadProps> = ({
@@ -18,6 +19,7 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
   uploading = false,
   resetKey,
   allowMultiple = false,
+  label,
 }) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [files, setFiles] = useState<File[]>([]);
@@ -71,6 +73,11 @@ const VideoUpload: React.FC<VideoUploadProps> = ({
 
   return (
     <div className="space-y-4">
+      {/* Label */}
+      {label && (
+        <label className="block font-medium text-gray-700 mb-1">{label}</label>
+      )}
+
       {/* Upload Box */}
       <div
         className={`h-[40vh] border-2 border-dashed rounded-md flex flex-col items-center justify-center p-6 cursor-pointer transition

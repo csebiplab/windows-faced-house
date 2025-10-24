@@ -47,4 +47,22 @@ const WorkWithUsCardModel: Model<IWorkWithUsCard> =
     WorkWithUsCardSchema
   );
 
-export { BaseCardModel, WorkWithUsCardModel };
+export interface IOurPromotionsCard extends IBaseCard {
+  description: string;
+  slug?: string;
+}
+
+const OurPromotionCardSchema = new Schema<IOurPromotionsCard>({
+  description: { type: String, required: true },
+  slug: { type: String },
+});
+
+const OurPromotionCardModel: Model<IOurPromotionsCard> =
+  (BaseCardModel.discriminators
+    ?.OurPromotionsCard as Model<IOurPromotionsCard>) ||
+  BaseCardModel.discriminator<IOurPromotionsCard>(
+    "OurPromotionsCard",
+    OurPromotionCardSchema
+  );
+
+export { BaseCardModel, WorkWithUsCardModel, OurPromotionCardModel };
