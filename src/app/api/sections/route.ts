@@ -67,7 +67,11 @@ export const GET = route(async (req: NextRequest) => {
     products: ["ProductSection", "ChooseWindowsAtAPriceThatSuitsYou"],
     services: ["ServiceSection"],
     windowsinstallationprocesses: ["WindowInstallationProcessSection"],
-    basecards: ["WorkWithUsSection", "WindowsFromManufacturerSection"],
+    basecards: [
+      "WorkWithUsSection",
+      "WindowsFromManufacturerSection",
+      "OurPromotionsSection",
+    ],
     melkeprofiles: ["ComparisonOfMelkeProfiles"],
   };
 
