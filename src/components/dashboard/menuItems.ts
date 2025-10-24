@@ -144,5 +144,21 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  {
+    name: "Melke Finish",
+    icon: Folder,
+    children: [
+      {
+        name: "Show",
+        href: "/dashboard/melke-finish/show",
+        icon: DoorOpen,
+      },
+      {
+        name: "Add",
+        href: "/dashboard/melke-finish/add",
+        icon: Plus,
+      },
+    ],
+  },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
