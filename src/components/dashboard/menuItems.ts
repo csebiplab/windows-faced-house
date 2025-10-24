@@ -128,5 +128,21 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  {
+    name: "Melke Profile",
+    icon: Folder,
+    children: [
+      {
+        name: "Show",
+        href: "/dashboard/melke-profile/show",
+        icon: DoorOpen,
+      },
+      {
+        name: "Add",
+        href: "/dashboard/melke-profile/add",
+        icon: Plus,
+      },
+    ],
+  },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
