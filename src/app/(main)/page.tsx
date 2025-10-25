@@ -9,7 +9,6 @@ import FreeMeasurementForm from "@/components/home/freeMeasurementForm/FreeMeasu
 import GuaranteeSection from "@/components/home/guaranteeSection/GuaranteeSection";
 import ImportantParameters from "@/components/home/importantParameters/ImportantParameters";
 import InnovativeBanner from "@/components/home/innovativeBanner/InnovativeBanner";
-import InstallmentOffer from "@/components/home/installmentOffer/InstallmentOffer";
 import ManufacturerSection from "@/components/home/manufacturerSection/ManufacturerSection";
 import NewsSection from "@/components/home/newsSection/NewsSection";
 import OffersForBuyers from "@/components/home/offersForBuyers/OffersForBuyers";
@@ -30,6 +29,7 @@ import WindowsProduct from "@/components/home/windowSelection/WindowsProduct";
 import MelkeProfiles from "@/components/home/melkeProfileComparison/MelkeProfiles";
 import OurPromotions from "@/components/home/offersSection/OurPromotions";
 import ChooseWindow from "@/components/home/windowColorSelector/ChooseWindow";
+import InstallmentOfferPage from "@/components/home/installmentOffer/InstallmentOfferPage";
 
 export default function Page() {
   return (
@@ -92,7 +92,7 @@ export default function Page() {
         <ChooseWindow />
       </section>
       <section>
-        <InstallmentOffer />
+        <InstallmentOfferPage />
       </section>
       <section>
         <OffersForBuyers />
