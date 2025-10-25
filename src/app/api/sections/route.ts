@@ -17,37 +17,45 @@ export const PATCH = route(async (req: NextRequest) => {
   await connectToDatabase();
 
   // Pick the correct model dynamically based on discriminator
-  const model =
-    (SectionModel.discriminators?.[kind] as Model<any>) ?? SectionModel;
-  if (!model) {
-    throw new AppError(`Invalid section kind: ${kind}`, 400);
+  try {
+    const model =
+      (SectionModel.discriminators?.[kind] as Model<any>) ?? SectionModel;
+    console.log(model, "model");
+    if (!model) {
+      throw new AppError(`Invalid section kind: ${kind}`, 400);
+    }
+
+    const notItems = ["HeroSection", "InstallmentPlanSection"];
+
+    if (!notItems.includes(kind)) {
+      items = items?.map((itm: string) => new Types.ObjectId(itm));
+    }
+
+    const options = {
+      new: true,
+      runValidators: true,
+      upsert: true,
+    };
+
+    const updatedDoc = await model.findOneAndUpdate(
+      { page, kind },
+      { ...updateData, items },
+      options
+    );
+
+    if (!updatedDoc) {
+      throw new AppError("Section not found or update failed", 404);
+    }
+
+    return {
+      data: updatedDoc,
+      message: "Section updated successfully",
+      statusCode: responseMessageUtilities.created,
+    };
+  } catch (error) {
+    console.log(error);
+    throw new AppError("Internal Server Error", 400);
   }
-
-  if (kind !== "HeroSection") {
-    items = items?.map((itm: string) => new Types.ObjectId(itm));
-  }
-
-  const options = {
-    new: true,
-    runValidators: true,
-    upsert: true,
-  };
-
-  const updatedDoc = await model.findOneAndUpdate(
-    { page, kind },
-    { ...updateData, items },
-    options
-  );
-
-  if (!updatedDoc) {
-    throw new AppError("Section not found or update failed", 404);
-  }
-
-  return {
-    data: updatedDoc,
-    message: "Section updated successfully",
-    statusCode: responseMessageUtilities.created,
-  };
 });
 
 export const GET = route(async (req: NextRequest) => {

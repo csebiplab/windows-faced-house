@@ -3,6 +3,7 @@
 import { useState } from "react";
 import CreateHeroSectionForm from "./CreateHeroSectionForm";
 import { AddSectionItemForm } from "./AddSectionItemForm";
+import CreateWindowInstallmentPlanSection from "../WindowInstallmentPlan/CreateWindowInstallmentPlanSection";
 
 const pageOptions = [
   { label: "Home", value: "home" },
@@ -32,6 +33,10 @@ const sectionOptions = [
     label: "Choose the color of your Melke window",
     value: "MelkeFinishSection",
   },
+  {
+    label: "Plastic windows in installments",
+    value: "InstallmentPlanSection",
+  },
 ] as const;
 
 type SectionKey = (typeof sectionOptions)[number]["value"];
@@ -40,6 +45,7 @@ const sectionConfig: Record<
   SectionKey,
   | { component: "hero" }
   | { component: "item"; query: string; itemLabel: string }
+  | { component: "windowInstallment" }
 > = {
   HeroSection: { component: "hero" },
   ProductSection: {
@@ -87,6 +93,9 @@ const sectionConfig: Record<
     query: "melkefinishes",
     itemLabel: "Melke Finish",
   },
+  InstallmentPlanSection: {
+    component: "windowInstallment",
+  },
 };
 
 const CreateSectionComponent = () => {
@@ -101,19 +110,30 @@ const CreateSectionComponent = () => {
 
   const renderForm = () => {
     if (!config) return null;
-    if (config.component === "hero") {
-      return (
-        <CreateHeroSectionForm kind={selectedSection} page={selectedPage} />
-      );
+    switch (config.component) {
+      case "hero":
+        return (
+          <CreateHeroSectionForm kind={selectedSection} page={selectedPage} />
+        );
+
+      case "windowInstallment":
+        return (
+          <CreateWindowInstallmentPlanSection
+            kind={selectedSection}
+            page={selectedPage}
+          />
+        );
+
+      default:
+        return (
+          <AddSectionItemForm
+            kind={selectedSection}
+            page={selectedPage}
+            query={config.query}
+            itemLabel={config.itemLabel}
+          />
+        );
     }
-    return (
-      <AddSectionItemForm
-        kind={selectedSection}
-        page={selectedPage}
-        query={config.query}
-        itemLabel={config.itemLabel}
-      />
-    );
   };
 
   return (
