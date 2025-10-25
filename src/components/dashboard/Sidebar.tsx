@@ -7,7 +7,7 @@ import { menuItems } from "./menuItems";
 export default function Sidebar() {
   return (
     <aside
-      className="max-h-screen w-60 p-5 bg-gray-100 border border-gray-200 
+      className="max-h-screen overflow-y-auto w-60 p-5 bg-gray-100 border border-gray-200 
       rounded-lg sticky top-0 max-md:hidden flex flex-col justify-between"
     >
       <div>
