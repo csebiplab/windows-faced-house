@@ -1,6 +1,6 @@
 import mongoose, { Schema, Model, Document } from "mongoose";
 
-interface SectionBase extends Document {
+export interface SectionBase extends Document {
   page: string;
   kind: string;
   title?: string;
