@@ -28,6 +28,10 @@ const sectionOptions = [
   },
   { label: "Comparison of Melke profiles", value: "ComparisonOfMelkeProfiles" },
   { label: "Our promotions", value: "OurPromotionsSection" },
+  {
+    label: "Choose the color of your Melke window",
+    value: "MelkeFinishSection",
+  },
 ] as const;
 
 type SectionKey = (typeof sectionOptions)[number]["value"];
@@ -77,6 +81,11 @@ const sectionConfig: Record<
     component: "item",
     query: "OurPromotionsCard",
     itemLabel: "Our Promotion",
+  },
+  MelkeFinishSection: {
+    component: "item",
+    query: "melkefinishes",
+    itemLabel: "Melke Finish",
   },
 };
 

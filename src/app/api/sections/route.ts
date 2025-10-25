@@ -2,6 +2,7 @@ import { connectToDatabase } from "@/lib/connectToDb";
 import { responseMessageUtilities } from "@/lib/response.message.utility";
 import { AppError, route } from "@/lib/route";
 import { SectionModel } from "@/models/section.model";
+import { allSections } from "@/utils/sections";
 import { Model, PipelineStage, Types } from "mongoose";
 import { NextRequest } from "next/server";
 
@@ -73,6 +74,7 @@ export const GET = route(async (req: NextRequest) => {
       "OurPromotionsSection",
     ],
     melkeprofiles: ["ComparisonOfMelkeProfiles"],
+    melkefinishes: [allSections.MELKE_FINISH_SECTION],
   };
 
   let collectionName: string | undefined;

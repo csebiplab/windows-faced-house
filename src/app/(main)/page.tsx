@@ -23,13 +23,13 @@ import TechnologySection from "@/components/home/technologySection/TechnologySec
 import UsefulArticlesCarousel from "@/components/home/usefulArticlesCarousel/UsefulArticlesCarousel";
 import VideoReviewCarousel from "@/components/home/videoReviewCarousel/VideoReviewCarousel";
 import WindowInstallationProcess from "@/components/home/windowInstallation/WindowInstallationProcess";
-import WindowColorSelector from "@/components/home/windowColorSelector/WindowColorSelector";
 import WindowsManufacturer from "@/components/home/windowsManufacturer/WindowsManufacturer";
 import WorkWithUs from "@/components/home/whyWorkWithUs/WorkWithUs";
 import WindowFromTheManufacturer from "@/components/home/manufacturerWindows/WindowFromTheManufacturer";
 import WindowsProduct from "@/components/home/windowSelection/WindowsProduct";
 import MelkeProfiles from "@/components/home/melkeProfileComparison/MelkeProfiles";
 import OurPromotions from "@/components/home/offersSection/OurPromotions";
+import ChooseWindow from "@/components/home/windowColorSelector/ChooseWindow";
 
 export default function Page() {
   return (
@@ -89,7 +89,7 @@ export default function Page() {
         <OurPromotions />
       </section>
       <section>
-        <WindowColorSelector />
+        <ChooseWindow />
       </section>
       <section>
         <InstallmentOffer />
