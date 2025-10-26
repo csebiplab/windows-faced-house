@@ -49,7 +49,7 @@ export default function FreeMeasurement() {
         {/* Left Image (40%) */}
         <div className="relative w-full lg:w-[40%] flex justify-center items-center">
           <Image
-            src="/assets/window.png" // replace with your image
+            src="/assets/window-sample.png" // replace with your image
             alt="Window"
             width={600}
             height={400}
