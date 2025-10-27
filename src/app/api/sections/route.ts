@@ -83,6 +83,7 @@ export const GET = route(async (req: NextRequest) => {
     ],
     melkeprofiles: ["ComparisonOfMelkeProfiles"],
     melkefinishes: [allSections.MELKE_FINISH_SECTION],
+    reviews: [allSections.REVIEW_SECTION],
   };
 
   let collectionName: string | undefined;
@@ -102,7 +103,7 @@ export const GET = route(async (req: NextRequest) => {
         let: { [localVarName]: "$items" },
         pipeline: [
           { $match: { $expr: { $in: ["$_id", `$$${localVarName}`] } } },
-          { $project: { deletedAt: 0, createdAt: 0, updatedAt: 0 } },
+          { $project: { deletedAt: 0, updatedAt: 0 } },
         ],
         as: "items",
       },
@@ -111,7 +112,6 @@ export const GET = route(async (req: NextRequest) => {
 
   pipeline.push({
     $project: {
-      createdAt: 0,
       updatedAt: 0,
       deletedAt: 0,
       __v: 0,

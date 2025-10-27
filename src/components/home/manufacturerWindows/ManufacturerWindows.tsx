@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 
-const ManufacturerWindows = ({ items, title }) => {
+const ManufacturerWindows = ({ items, title }: any) => {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
 
@@ -25,14 +25,16 @@ const ManufacturerWindows = ({ items, title }) => {
         <h2 className="text-2xl md:text-5xl font-bold mb-10">{title}</h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {items.map((item, index) => (
+          {items.map((item: any, index: number) => (
             <div key={index} className="text-left">
               <div
                 className="relative w-full h-48 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                 onClick={() => togglePlay(index)}
               >
                 <video
-                  ref={(el) => (videoRefs.current[index] = el)}
+                  ref={(el) => {
+                    videoRefs.current[index] = el;
+                  }}
                   src={item.url}
                   className="w-full h-full object-cover"
                   preload="metadata"

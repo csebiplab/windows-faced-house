@@ -20,7 +20,7 @@ import Reviews from "@/components/home/reviews/Reviews";
 import SocialFollow from "@/components/home/socialFollow/SocialFollow";
 import TechnologySection from "@/components/home/technologySection/TechnologySection";
 import UsefulArticlesCarousel from "@/components/home/usefulArticlesCarousel/UsefulArticlesCarousel";
-import VideoReviewCarousel from "@/components/home/videoReviewCarousel/VideoReviewCarousel";
+import VideoReviewCarousel from "@/components/home/reviews/VideoReviewCarousel";
 import WindowInstallationProcess from "@/components/home/windowInstallation/WindowInstallationProcess";
 import WindowsManufacturer from "@/components/home/windowsManufacturer/WindowsManufacturer";
 import WorkWithUs from "@/components/home/whyWorkWithUs/WorkWithUs";
@@ -30,6 +30,7 @@ import MelkeProfiles from "@/components/home/melkeProfileComparison/MelkeProfile
 import OurPromotions from "@/components/home/offersSection/OurPromotions";
 import ChooseWindow from "@/components/home/windowColorSelector/ChooseWindow";
 import InstallmentOfferPage from "@/components/home/installmentOffer/InstallmentOfferPage";
+import ReviewSection from "@/components/home/reviews/ReviewSection";
 
 export default function Page() {
   return (
@@ -107,10 +108,7 @@ export default function Page() {
         <Certificates />
       </section>
       <section>
-        <Reviews />
-      </section>
-      <section>
-        <VideoReviewCarousel />
+        <ReviewSection />
       </section>
       <section>
         <FAQSection />

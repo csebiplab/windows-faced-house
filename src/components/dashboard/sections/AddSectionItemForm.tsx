@@ -84,7 +84,7 @@ export const AddSectionItemForm = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    // if (!validateForm()) return;
 
     const payload: any = {
       page,

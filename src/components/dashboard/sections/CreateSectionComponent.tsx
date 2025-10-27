@@ -37,6 +37,10 @@ const sectionOptions = [
     label: "Plastic windows in installments",
     value: "InstallmentPlanSection",
   },
+  {
+    label: "Feedback from our clients",
+    value: "ReviewSection",
+  },
 ] as const;
 
 type SectionKey = (typeof sectionOptions)[number]["value"];
@@ -95,6 +99,11 @@ const sectionConfig: Record<
   },
   InstallmentPlanSection: {
     component: "windowInstallment",
+  },
+  ReviewSection: {
+    component: "item",
+    query: "reviews",
+    itemLabel: "Reviews",
   },
 };
 
