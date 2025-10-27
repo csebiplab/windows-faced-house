@@ -80,6 +80,7 @@ export const GET = route(async (req: NextRequest) => {
       "WorkWithUsSection",
       "WindowsFromManufacturerSection",
       "OurPromotionsSection",
+      "ArticleSection",
     ],
     melkeprofiles: ["ComparisonOfMelkeProfiles"],
     melkefinishes: [allSections.MELKE_FINISH_SECTION],

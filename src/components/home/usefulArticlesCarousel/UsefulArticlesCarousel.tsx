@@ -2,64 +2,41 @@
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
+// @ts-ignore
 import "swiper/css";
 import Image from "next/image";
-import { Download } from "lucide-react";
+// import { Download } from "lucide-react";
 
-type Article = {
-  id: number;
+interface Article {
+  id: string;
   title: string;
   image: string;
   link: string;
-};
+  slugLabel?: string;
+}
 
-const articles: Article[] = [
-  {
-    id: 1,
-    title: "Особенности обслуживания балконных блоков летом",
-    image: "/assets/article1.jpg",
-    link: "#",
-  },
-  {
-    id: 2,
-    title: "Энергоэффективность пластиковых окон",
-    image: "/assets/article2.jpg",
-    link: "#",
-  },
-  {
-    id: 3,
-    title: "Как остекление балкона увеличивает полезную площадь квартиры",
-    image: "/assets/article3.jpg",
-    link: "#",
-  },
-  {
-    id: 4,
-    title: "Утепление пола и стен балкона: лучшие решения и материалы",
-    image: "/assets/article4.jpg",
-    link: "#",
-  },
-  {
-    id: 5,
-    title: "Интеграция оконных систем в современные интерьеры",
-    image: "/assets/article5.jpg",
-    link: "#",
-  },
-];
+interface UsefulArticlesCarouselProps {
+  title: string;
+  articles: Article[];
+}
 
-export default function UsefulArticlesCarousel() {
+export default function UsefulArticlesCarousel({
+  title,
+  articles,
+}: UsefulArticlesCarouselProps) {
   return (
-    <section className="bg-[#e9f4f7] py-14 px-4 overflow-x-visible">
+    <div className="bg-[#e9f4f7] py-14 px-4 overflow-x-visible">
       <div className="max-w-[1740px] mx-auto">
         {/* Section Title */}
         <h2 className="text-center text-3xl sm:text-4xl font-extrabold text-[#0d1c2e] mb-10">
-          Полезные статьи
+          {title}
         </h2>
 
         {/* Swiper Carousel */}
         <Swiper
           modules={[Autoplay]}
           spaceBetween={24}
-          slidesPerView={1.2} // mobile: slightly show next card
+          slidesPerView={1.2}
           loop={true}
           autoplay={{
             delay: 3000,
@@ -94,22 +71,22 @@ export default function UsefulArticlesCarousel() {
                     href={article.link}
                     className="text-sm text-[#0d1c2e] underline hover:text-[#67b32e] transition"
                   >
-                    Подробнее…
+                    {article.slugLabel || "Подробнее…"}
                   </a>
                 </div>
 
                 {/* Download button */}
-                <a
+                {/* <a
                   href={article.link}
                   className="absolute bottom-4 right-4 bg-[#67b32e] text-white p-2 rounded-full shadow hover:bg-[#55912b] transition flex items-center justify-center"
                 >
                   <Download className="w-4 h-4" />
-                </a>
+                </a> */}
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
-    </section>
+    </div>
   );
 }

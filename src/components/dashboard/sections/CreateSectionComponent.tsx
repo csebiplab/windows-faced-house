@@ -41,6 +41,10 @@ const sectionOptions = [
     label: "Feedback from our clients",
     value: "ReviewSection",
   },
+  {
+    label: "Useful articles",
+    value: "ArticleSection",
+  },
 ] as const;
 
 type SectionKey = (typeof sectionOptions)[number]["value"];
@@ -104,6 +108,11 @@ const sectionConfig: Record<
     component: "item",
     query: "reviews",
     itemLabel: "Reviews",
+  },
+  ArticleSection: {
+    component: "item",
+    query: "ArticleCard",
+    itemLabel: "Article",
   },
 };
 

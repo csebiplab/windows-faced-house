@@ -16,6 +16,7 @@ const options = [
     value: "WindowsFromManufacturerCard",
   },
   { label: "Our promotions", value: "OurPromotionsCard" },
+  { label: "Articles", value: "ArticleCard" },
 ] as const;
 
 type CardType = (typeof options)[number]["value"];
@@ -25,6 +26,7 @@ type WindowsInstallationForm = {
   title: string;
   icon?: string | string[];
   slug?: string;
+  slugLabel?: string;
   description?: string;
   url?: string | string[];
 };
@@ -34,6 +36,7 @@ const blankStep: WindowsInstallationForm = {
   title: "",
   icon: "",
   slug: "",
+  slugLabel: "",
   description: "",
   url: "",
 };
@@ -151,6 +154,7 @@ export const AddCardForm = () => {
   const isWorkWithUs = selectedOption === "WorkWithUsCard";
   const isManufacturer = selectedOption === "WindowsFromManufacturerCard";
   const isPromotion = selectedOption === "OurPromotionsCard";
+  const isArticle = selectedOption === "ArticleCard";
 
   return (
     <div>
@@ -200,7 +204,7 @@ export const AddCardForm = () => {
               placeholder="Enter title"
             />
 
-            {!isWorkWithUs && !isManufacturer && !isPromotion && (
+            {isArticle && (
               <InputField
                 label="Slug"
                 name="slug"
@@ -211,7 +215,18 @@ export const AddCardForm = () => {
               />
             )}
 
-            {isPromotion && (
+            {isArticle && (
+              <InputField
+                label="Slug Label"
+                name="slugLabel"
+                value={form.slugLabel}
+                onChange={(e) => handleChange(index, e)}
+                placeholder="Enter slug Label"
+                required={false}
+              />
+            )}
+
+            {(isPromotion || isArticle) && (
               <InputField
                 label="Description"
                 name="description"
@@ -237,7 +252,7 @@ export const AddCardForm = () => {
               />
             )}
 
-            {(isWorkWithUs || isPromotion) && (
+            {(isWorkWithUs || isPromotion || isArticle) && (
               <ImageUpload
                 label="Upload Image"
                 value={form.url}

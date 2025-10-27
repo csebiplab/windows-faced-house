@@ -16,11 +16,8 @@ import OurWorks from "@/components/home/ourWorks/OurWorks";
 import Products from "@/components/home/product/Product";
 import Services from "@/components/home/services/Services";
 import ProjectExamples from "@/components/home/projectExamples/ProjectExamples";
-import Reviews from "@/components/home/reviews/Reviews";
 import SocialFollow from "@/components/home/socialFollow/SocialFollow";
 import TechnologySection from "@/components/home/technologySection/TechnologySection";
-import UsefulArticlesCarousel from "@/components/home/usefulArticlesCarousel/UsefulArticlesCarousel";
-import VideoReviewCarousel from "@/components/home/reviews/VideoReviewCarousel";
 import WindowInstallationProcess from "@/components/home/windowInstallation/WindowInstallationProcess";
 import WindowsManufacturer from "@/components/home/windowsManufacturer/WindowsManufacturer";
 import WorkWithUs from "@/components/home/whyWorkWithUs/WorkWithUs";
@@ -31,6 +28,7 @@ import OurPromotions from "@/components/home/offersSection/OurPromotions";
 import ChooseWindow from "@/components/home/windowColorSelector/ChooseWindow";
 import InstallmentOfferPage from "@/components/home/installmentOffer/InstallmentOfferPage";
 import ReviewSection from "@/components/home/reviews/ReviewSection";
+import Article from "@/components/home/usefulArticlesCarousel/Article";
 
 export default function Page() {
   return (
@@ -114,7 +112,7 @@ export default function Page() {
         <FAQSection />
       </section>
       <section>
-        <UsefulArticlesCarousel />
+        <Article />
       </section>
       <section>
         <NewsSection />
