@@ -8,6 +8,7 @@ import InputField from "@/components/ui/inputs/InputField";
 import VideoUpload from "@/components/ui/inputs/VideoUpload";
 import { useImageUpload } from "@/hooks/useImageUpload";
 import { useVideoUpload } from "@/hooks/useVideoUpload";
+import CalendarInput from "@/components/ui/inputs/CalendarInput";
 
 const options = [
   { label: "Work With Us", value: "WorkWithUsCard" },
@@ -17,6 +18,7 @@ const options = [
   },
   { label: "Our promotions", value: "OurPromotionsCard" },
   { label: "Articles", value: "ArticleCard" },
+  { label: "News", value: "NewsCard" },
 ] as const;
 
 type CardType = (typeof options)[number]["value"];
@@ -29,6 +31,7 @@ type WindowsInstallationForm = {
   slugLabel?: string;
   description?: string;
   url?: string | string[];
+  date?: Date;
 };
 
 const blankStep: WindowsInstallationForm = {
@@ -39,6 +42,7 @@ const blankStep: WindowsInstallationForm = {
   slugLabel: "",
   description: "",
   url: "",
+  date: new Date(),
 };
 
 export const AddCardForm = () => {
@@ -63,6 +67,14 @@ export const AddCardForm = () => {
     setForms((prev) => {
       const updated = [...prev];
       updated[index] = { ...updated[index], [name]: value };
+      return updated;
+    });
+  };
+
+  const handleDateChange = (index: number, date: Date | null) => {
+    setForms((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], date: date ?? new Date() };
       return updated;
     });
   };
@@ -155,6 +167,7 @@ export const AddCardForm = () => {
   const isManufacturer = selectedOption === "WindowsFromManufacturerCard";
   const isPromotion = selectedOption === "OurPromotionsCard";
   const isArticle = selectedOption === "ArticleCard";
+  const isNews = selectedOption === "NewsCard";
 
   return (
     <div>
@@ -204,7 +217,7 @@ export const AddCardForm = () => {
               placeholder="Enter title"
             />
 
-            {isArticle && (
+            {(isArticle || isNews) && (
               <InputField
                 label="Slug"
                 name="slug"
@@ -226,7 +239,17 @@ export const AddCardForm = () => {
               />
             )}
 
-            {(isPromotion || isArticle) && (
+            {isNews && (
+              <CalendarInput
+                label="Date"
+                name="date"
+                value={form.date ?? null}
+                onChange={(date) => handleDateChange(index, date)}
+                required={false}
+              />
+            )}
+
+            {(isPromotion || isArticle || isNews) && (
               <InputField
                 label="Description"
                 name="description"
@@ -252,7 +275,7 @@ export const AddCardForm = () => {
               />
             )}
 
-            {(isWorkWithUs || isPromotion || isArticle) && (
+            {(isWorkWithUs || isPromotion || isArticle || isNews) && (
               <ImageUpload
                 label="Upload Image"
                 value={form.url}

@@ -34,6 +34,7 @@ export const GET = route(
       "WindowsFromManufacturerCard",
       "OurPromotionsCard",
       "ArticleCard",
+      "NewsCard",
     ];
 
     // Determine the correct model

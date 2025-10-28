@@ -45,6 +45,10 @@ const sectionOptions = [
     label: "Useful articles",
     value: "ArticleSection",
   },
+  {
+    label: "Our news",
+    value: "NewsSection",
+  },
 ] as const;
 
 type SectionKey = (typeof sectionOptions)[number]["value"];
@@ -113,6 +117,11 @@ const sectionConfig: Record<
     component: "item",
     query: "ArticleCard",
     itemLabel: "Article",
+  },
+  NewsSection: {
+    component: "item",
+    query: "NewsCard",
+    itemLabel: "News",
   },
 };
 

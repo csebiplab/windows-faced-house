@@ -10,7 +10,6 @@ import GuaranteeSection from "@/components/home/guaranteeSection/GuaranteeSectio
 import ImportantParameters from "@/components/home/importantParameters/ImportantParameters";
 import InnovativeBanner from "@/components/home/innovativeBanner/InnovativeBanner";
 import ManufacturerSection from "@/components/home/manufacturerSection/ManufacturerSection";
-import NewsSection from "@/components/home/newsSection/NewsSection";
 import OffersForBuyers from "@/components/home/offersForBuyers/OffersForBuyers";
 import OurWorks from "@/components/home/ourWorks/OurWorks";
 import Products from "@/components/home/product/Product";
@@ -29,6 +28,7 @@ import ChooseWindow from "@/components/home/windowColorSelector/ChooseWindow";
 import InstallmentOfferPage from "@/components/home/installmentOffer/InstallmentOfferPage";
 import ReviewSection from "@/components/home/reviews/ReviewSection";
 import Article from "@/components/home/usefulArticlesCarousel/Article";
+import News from "@/components/home/newsSection/News";
 
 export default function Page() {
   return (
@@ -115,7 +115,7 @@ export default function Page() {
         <Article />
       </section>
       <section>
-        <NewsSection />
+        <News />
       </section>
       <section>
         <Accessories />
