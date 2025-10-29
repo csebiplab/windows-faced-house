@@ -19,6 +19,7 @@ const options = [
   { label: "Our promotions", value: "OurPromotionsCard" },
   { label: "Articles", value: "ArticleCard" },
   { label: "News", value: "NewsCard" },
+  { label: "Accessories", value: "AccessoriesCard" },
 ] as const;
 
 type CardType = (typeof options)[number]["value"];
@@ -168,6 +169,7 @@ export const AddCardForm = () => {
   const isPromotion = selectedOption === "OurPromotionsCard";
   const isArticle = selectedOption === "ArticleCard";
   const isNews = selectedOption === "NewsCard";
+  const isAccessories = selectedOption === "AccessoriesCard";
 
   return (
     <div>
@@ -249,7 +251,7 @@ export const AddCardForm = () => {
               />
             )}
 
-            {(isPromotion || isArticle || isNews) && (
+            {(isPromotion || isArticle || isNews || isAccessories) && (
               <InputField
                 label="Description"
                 name="description"
@@ -275,7 +277,11 @@ export const AddCardForm = () => {
               />
             )}
 
-            {(isWorkWithUs || isPromotion || isArticle || isNews) && (
+            {(isWorkWithUs ||
+              isPromotion ||
+              isArticle ||
+              isNews ||
+              isAccessories) && (
               <ImageUpload
                 label="Upload Image"
                 value={form.url}

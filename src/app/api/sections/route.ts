@@ -82,6 +82,7 @@ export const GET = route(async (req: NextRequest) => {
       "OurPromotionsSection",
       "ArticleSection",
       "NewsSection",
+      "AccessoriesSection",
     ],
     melkeprofiles: ["ComparisonOfMelkeProfiles"],
     melkefinishes: [allSections.MELKE_FINISH_SECTION],

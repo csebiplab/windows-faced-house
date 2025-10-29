@@ -35,6 +35,7 @@ export const GET = route(
       "OurPromotionsCard",
       "ArticleCard",
       "NewsCard",
+      "AccessoriesCard",
     ];
 
     // Determine the correct model
