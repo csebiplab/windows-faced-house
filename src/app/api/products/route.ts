@@ -18,15 +18,19 @@ export const POST = route(
   async (req: NextRequest) => {
     await connectToDatabase();
 
-    const payload: Partial<IProduct[]> = await req.json();
+    try {
+      const payload: Partial<IProduct[]> = await req.json();
 
-    const res = await ProductModel.create(payload);
+      const res = await ProductModel.create(payload);
 
-    return {
-      data: res,
-      message: "Successfully Created",
-      statusCode: responseMessageUtilities.created,
-    };
+      return {
+        data: res,
+        message: "Successfully Created",
+        statusCode: responseMessageUtilities.created,
+      };
+    } catch (error) {
+      console.log(error);
+    }
   },
   { requireAuth: false }
 );
