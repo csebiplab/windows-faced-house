@@ -6,6 +6,14 @@ import { toast } from "react-toastify";
 
 type Option = { label: string; value: string };
 
+const init = {
+  sectionTitle: "",
+  descriptionTop: "",
+  descriptionBottom: "",
+  footerTitle: "",
+  footerDescription: "",
+};
+
 export const AddSectionItemForm = ({
   kind,
   page,
@@ -21,13 +29,7 @@ export const AddSectionItemForm = ({
   const [selectedItems, setSelectedItems] = useState<Option[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [form, setForm] = useState({
-    sectionTitle: "",
-    descriptionTop: "",
-    descriptionBottom: "",
-    footerTitle: "",
-    footerDescription: "",
-  });
+  const [form, setForm] = useState(init);
 
   // Fetch options once per query
   useEffect(() => {
@@ -38,7 +40,7 @@ export const AddSectionItemForm = ({
           { cache: "no-store" }
         );
         const data = await res.json();
-        console.log(data, "data");
+        console.log(JSON.stringify(data, null, 4), "data");
 
         setOptions(data?.data ?? []);
       } catch (err) {
@@ -82,7 +84,7 @@ export const AddSectionItemForm = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    // if (!validateForm()) return;
 
     const payload: any = {
       page,
@@ -111,13 +113,7 @@ export const AddSectionItemForm = ({
       if (!res.ok) throw new Error("Failed to save section");
 
       toast.success("Section saved successfully!");
-      setForm({
-        sectionTitle: "",
-        descriptionTop: "",
-        descriptionBottom: "",
-        footerTitle: "",
-        footerDescription: "",
-      });
+      setForm(init);
       setSelectedItems([]);
     } catch (err: any) {
       console.error(err);
@@ -140,7 +136,7 @@ export const AddSectionItemForm = ({
         value={form.sectionTitle}
         onChange={(e) => handleChange("sectionTitle", e.target.value)}
         placeholder="Enter section title"
-        required={true}
+        required={false}
       />
 
       {isWindowSection && (

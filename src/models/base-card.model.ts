@@ -47,4 +47,63 @@ const WorkWithUsCardModel: Model<IWorkWithUsCard> =
     WorkWithUsCardSchema
   );
 
-export { BaseCardModel, WorkWithUsCardModel };
+export interface IOurPromotionsCard extends IBaseCard {
+  description: string;
+  slug?: string;
+}
+
+const OurPromotionCardSchema = new Schema<IOurPromotionsCard>({
+  description: { type: String, required: true },
+  slug: { type: String },
+});
+
+const OurPromotionCardModel: Model<IOurPromotionsCard> =
+  (BaseCardModel.discriminators
+    ?.OurPromotionsCard as Model<IOurPromotionsCard>) ||
+  BaseCardModel.discriminator<IOurPromotionsCard>(
+    "OurPromotionsCard",
+    OurPromotionCardSchema
+  );
+
+export interface IArticlesCard extends IBaseCard {
+  slug: string;
+  slugLabel?: string;
+  description?: string;
+}
+
+const ArticleSchema = new Schema<IArticlesCard>({
+  slug: { type: String, required: true },
+  slugLabel: { type: String },
+  description: { type: String },
+});
+
+const ArticleModel: Model<IArticlesCard> =
+  (BaseCardModel.discriminators?.ArticleCard as Model<IArticlesCard>) ||
+  BaseCardModel.discriminator<IArticlesCard>("ArticleCard", ArticleSchema);
+
+// Our News
+export interface INewsCard extends IBaseCard {
+  slug: string;
+  slugLabel?: string;
+  description?: string;
+  date?: Date;
+}
+
+const NewsSchema = new Schema<INewsCard>({
+  slug: { type: String, required: true },
+  slugLabel: { type: String },
+  description: { type: String },
+  date: { type: Date },
+});
+
+const NewsModel: Model<INewsCard> =
+  (BaseCardModel.discriminators?.NewsCard as Model<INewsCard>) ||
+  BaseCardModel.discriminator<INewsCard>("NewsCard", NewsSchema);
+
+export {
+  BaseCardModel,
+  WorkWithUsCardModel,
+  OurPromotionCardModel,
+  ArticleModel,
+  NewsModel,
+};

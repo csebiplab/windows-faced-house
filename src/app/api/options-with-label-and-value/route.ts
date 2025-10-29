@@ -1,7 +1,10 @@
 import { connectToDatabase } from "@/lib/connectToDb";
 import { route } from "@/lib/route";
 import { BaseCardModel } from "@/models/base-card.model";
+import MelkeFinishModel from "@/models/melke-finish.model";
+import { MelkeProfileModel } from "@/models/melke-profile.model";
 import { ProductModel } from "@/models/product.model";
+import ReviewModel from "@/models/review.model";
 import { ServiceModel } from "@/models/service.model";
 import { WindowInstallationModel } from "@/models/windows-installation-process.model";
 import { PipelineStage } from "mongoose";
@@ -20,10 +23,19 @@ export const GET = route(
       services: ServiceModel,
       installationprocesses: WindowInstallationModel,
       baseCard: BaseCardModel,
+      melkeProfiles: MelkeProfileModel,
+      melkefinishes: MelkeFinishModel,
+      reviews: ReviewModel,
     };
 
     // Define which opts belong to the same model
-    const baseCardTypes = ["WorkWithUsCard", "WindowsFromManufacturerCard"];
+    const baseCardTypes = [
+      "WorkWithUsCard",
+      "WindowsFromManufacturerCard",
+      "OurPromotionsCard",
+      "ArticleCard",
+      "NewsCard",
+    ];
 
     // Determine the correct model
     const model = baseCardTypes.includes(optFor)
@@ -40,7 +52,7 @@ export const GET = route(
       { $match: filter },
       {
         $project: {
-          label: "$title",
+          label: { $ifNull: ["$title", "$name"] },
           value: "$_id",
           _id: 0,
         },

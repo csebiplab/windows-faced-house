@@ -9,28 +9,26 @@ import FreeMeasurementForm from "@/components/home/freeMeasurementForm/FreeMeasu
 import GuaranteeSection from "@/components/home/guaranteeSection/GuaranteeSection";
 import ImportantParameters from "@/components/home/importantParameters/ImportantParameters";
 import InnovativeBanner from "@/components/home/innovativeBanner/InnovativeBanner";
-import InstallmentOffer from "@/components/home/installmentOffer/InstallmentOffer";
 import ManufacturerSection from "@/components/home/manufacturerSection/ManufacturerSection";
-import MelkeProfileComparison from "@/components/home/melkeProfileComparison/MelkeProfileComparison";
-import NewsSection from "@/components/home/newsSection/NewsSection";
 import OffersForBuyers from "@/components/home/offersForBuyers/OffersForBuyers";
-import OffersSection from "@/components/home/offersSection/OffersSection";
 import OurWorks from "@/components/home/ourWorks/OurWorks";
 import Products from "@/components/home/product/Product";
 import Services from "@/components/home/services/Services";
 import ProjectExamples from "@/components/home/projectExamples/ProjectExamples";
-import Reviews from "@/components/home/reviews/Reviews";
 import SocialFollow from "@/components/home/socialFollow/SocialFollow";
 import TechnologySection from "@/components/home/technologySection/TechnologySection";
-import UsefulArticlesCarousel from "@/components/home/usefulArticlesCarousel/UsefulArticlesCarousel";
-import VideoReviewCarousel from "@/components/home/videoReviewCarousel/VideoReviewCarousel";
 import WindowInstallationProcess from "@/components/home/windowInstallation/WindowInstallationProcess";
-import WindowColorSelector from "@/components/home/windowColorSelector/WindowColorSelector";
-import WindowSelection from "@/components/home/windowSelection/WindowSelection";
 import WindowsManufacturer from "@/components/home/windowsManufacturer/WindowsManufacturer";
 import WorkWithUs from "@/components/home/whyWorkWithUs/WorkWithUs";
 import WindowFromTheManufacturer from "@/components/home/manufacturerWindows/WindowFromTheManufacturer";
 import WindowsProduct from "@/components/home/windowSelection/WindowsProduct";
+import MelkeProfiles from "@/components/home/melkeProfileComparison/MelkeProfiles";
+import OurPromotions from "@/components/home/offersSection/OurPromotions";
+import ChooseWindow from "@/components/home/windowColorSelector/ChooseWindow";
+import InstallmentOfferPage from "@/components/home/installmentOffer/InstallmentOfferPage";
+import ReviewSection from "@/components/home/reviews/ReviewSection";
+import Article from "@/components/home/usefulArticlesCarousel/Article";
+import News from "@/components/home/newsSection/News";
 
 export default function Page() {
   return (
@@ -81,19 +79,19 @@ export default function Page() {
         <InnovativeBanner />
       </section>
       <section>
-        <MelkeProfileComparison />
+        <MelkeProfiles />
       </section>
       <section>
         <DownloadCatalog />
       </section>
       <section>
-        <OffersSection />
+        <OurPromotions />
       </section>
       <section>
-        <WindowColorSelector />
+        <ChooseWindow />
       </section>
       <section>
-        <InstallmentOffer />
+        <InstallmentOfferPage />
       </section>
       <section>
         <OffersForBuyers />
@@ -108,19 +106,16 @@ export default function Page() {
         <Certificates />
       </section>
       <section>
-        <Reviews />
-      </section>
-      <section>
-        <VideoReviewCarousel />
+        <ReviewSection />
       </section>
       <section>
         <FAQSection />
       </section>
       <section>
-        <UsefulArticlesCarousel />
+        <Article />
       </section>
       <section>
-        <NewsSection />
+        <News />
       </section>
       <section>
         <Accessories />

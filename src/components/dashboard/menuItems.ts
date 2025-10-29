@@ -128,5 +128,53 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
+  {
+    name: "Melke Profile",
+    icon: Folder,
+    children: [
+      {
+        name: "Show",
+        href: "/dashboard/melke-profile/show",
+        icon: DoorOpen,
+      },
+      {
+        name: "Add",
+        href: "/dashboard/melke-profile/add",
+        icon: Plus,
+      },
+    ],
+  },
+  {
+    name: "Melke Finish",
+    icon: Folder,
+    children: [
+      {
+        name: "Show",
+        href: "/dashboard/melke-finish/show",
+        icon: DoorOpen,
+      },
+      {
+        name: "Add",
+        href: "/dashboard/melke-finish/add",
+        icon: Plus,
+      },
+    ],
+  },
+  {
+    name: "Reviews",
+    icon: Folder,
+    children: [
+      {
+        name: "Show",
+        href: "/dashboard/reviews/show",
+        icon: DoorOpen,
+      },
+      {
+        name: "Add",
+        href: "/dashboard/reviews/add",
+        icon: Plus,
+      },
+    ],
+  },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
