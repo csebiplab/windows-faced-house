@@ -100,10 +100,29 @@ const NewsModel: Model<INewsCard> =
   (BaseCardModel.discriminators?.NewsCard as Model<INewsCard>) ||
   BaseCardModel.discriminator<INewsCard>("NewsCard", NewsSchema);
 
+// Accessories
+export interface IAccessoriesCard extends IBaseCard {
+  description: string;
+  slug?: string;
+}
+
+const AccessoriesCardSchema = new Schema<IAccessoriesCard>({
+  description: { type: String, required: true },
+  slug: { type: String },
+});
+
+const AccessoriesCardModel: Model<IAccessoriesCard> =
+  (BaseCardModel.discriminators?.AccessoriesCard as Model<IAccessoriesCard>) ||
+  BaseCardModel.discriminator<IAccessoriesCard>(
+    "AccessoriesCard",
+    AccessoriesCardSchema
+  );
+
 export {
   BaseCardModel,
   WorkWithUsCardModel,
   OurPromotionCardModel,
   ArticleModel,
   NewsModel,
+  AccessoriesCardModel,
 };

@@ -1,4 +1,3 @@
-import Accessories from "@/components/home/accessories/Accessories";
 import Banner from "@/components/home/Banner/Banner";
 import Certificates from "@/components/home/certificates/Certificates";
 import DownloadCatalog from "@/components/home/downloadCatalog/DownloadCatalog";
@@ -29,6 +28,7 @@ import InstallmentOfferPage from "@/components/home/installmentOffer/Installment
 import ReviewSection from "@/components/home/reviews/ReviewSection";
 import Article from "@/components/home/usefulArticlesCarousel/Article";
 import News from "@/components/home/newsSection/News";
+import AccessoriesPage from "@/components/home/accessories/AccessoriesPage";
 
 export default function Page() {
   return (
@@ -118,7 +118,7 @@ export default function Page() {
         <News />
       </section>
       <section>
-        <Accessories />
+        <AccessoriesPage />
       </section>
       <section>
         <ProjectExamples />
