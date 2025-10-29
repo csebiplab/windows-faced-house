@@ -3,24 +3,30 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
 import Image from "next/image";
+// @ts-ignore: allow importing global CSS without explicit type declarations
 import "swiper/css";
+// @ts-ignore: allow importing global CSS without explicit type declarations
 import "swiper/css/effect-fade";
+// @ts-ignore: allow importing global CSS without explicit type declarations
 import "swiper/css/navigation";
+// @ts-ignore: allow importing global CSS without explicit type declarations
 import "swiper/css/pagination";
 
-const projectImages = [
-  "/assets/projectExamplesImage1.png",
-  "/assets/projectExamplesImage2.png",
-  "/assets/projectExamplesImage3.png",
-  "/assets/projectExamplesImage4.png",
-  "/assets/projectExamplesImage5.png",
-];
+interface ProjectExamplesProps {
+  title: string;
+  projectImages: { id: number; src: string }[];
+}
 
-export default function ProjectExamples() {
+export default function ProjectExamples({
+  title,
+  projectImages,
+}: ProjectExamplesProps) {
+  if (!projectImages.length) return null;
+
   return (
     <section className="bg-[#e9f2f4] py-12">
       <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
-        Примеры наших работ
+        {title}
       </h2>
 
       <div className="relative w-full">
@@ -43,15 +49,15 @@ export default function ProjectExamples() {
           }}
           className="w-full"
         >
-          {projectImages.map((img, i) => (
-            <SwiperSlide key={i}>
+          {projectImages.map((img) => (
+            <SwiperSlide key={img.id}>
               <div className="relative w-full h-[300px] md:h-[600px]">
                 <Image
-                  src={img}
-                  alt={`Project example ${i + 1}`}
+                  src={img.src}
+                  alt={`Project example ${img.id}`}
                   fill
                   className="object-cover"
-                  priority={i === 0}
+                  priority={img.id === 1}
                 />
               </div>
             </SwiperSlide>

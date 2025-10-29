@@ -14,5 +14,7 @@ export default async function AccessoriesPage() {
     image: item.url,
   }));
 
-  return <Accessories title={title || "Аксессуары"} articles={accessories} />;
+  return (
+    <Accessories title={title || "Аксессуары"} accessories={accessories} />
+  );
 }

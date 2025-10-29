@@ -13,7 +13,6 @@ import OffersForBuyers from "@/components/home/offersForBuyers/OffersForBuyers";
 import OurWorks from "@/components/home/ourWorks/OurWorks";
 import Products from "@/components/home/product/Product";
 import Services from "@/components/home/services/Services";
-import ProjectExamples from "@/components/home/projectExamples/ProjectExamples";
 import SocialFollow from "@/components/home/socialFollow/SocialFollow";
 import TechnologySection from "@/components/home/technologySection/TechnologySection";
 import WindowInstallationProcess from "@/components/home/windowInstallation/WindowInstallationProcess";
@@ -29,6 +28,7 @@ import ReviewSection from "@/components/home/reviews/ReviewSection";
 import Article from "@/components/home/usefulArticlesCarousel/Article";
 import News from "@/components/home/newsSection/News";
 import AccessoriesPage from "@/components/home/accessories/AccessoriesPage";
+import WorkExample from "@/components/home/projectExamples/WorkExample";
 
 export default function Page() {
   return (
@@ -121,7 +121,7 @@ export default function Page() {
         <AccessoriesPage />
       </section>
       <section>
-        <ProjectExamples />
+        <WorkExample />
       </section>
       <section>
         <SocialFollow />

@@ -17,10 +17,10 @@ interface Accessory {
 
 interface AccessoriesProps {
   title: string;
-  articles: Accessory[];
+  accessories: Accessory[];
 }
 
-export default function Accessories({ title, articles }: AccessoriesProps) {
+export default function Accessories({ title, accessories }: AccessoriesProps) {
   return (
     <section className="bg-[#e9f2f4] py-12 px-6">
       <h2 className="text-3xl md:text-4xl font-bold text-center mb-10">
@@ -41,7 +41,7 @@ export default function Accessories({ title, articles }: AccessoriesProps) {
           }}
           className="pb-12"
         >
-          {articles.map((item) => (
+          {accessories.map((item) => (
             <SwiperSlide key={item.id}>
               <div className="flex flex-col h-[380px] bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
                 {/* Image */}

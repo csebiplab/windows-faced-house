@@ -4,6 +4,7 @@ import { useState } from "react";
 import CreateHeroSectionForm from "./CreateHeroSectionForm";
 import { AddSectionItemForm } from "./AddSectionItemForm";
 import CreateWindowInstallmentPlanSection from "../WindowInstallmentPlan/CreateWindowInstallmentPlanSection";
+import CreateExampleOfWorkForm from "../our-works/CreateExampleOfWorkForm";
 
 const pageOptions = [
   { label: "Home", value: "home" },
@@ -53,15 +54,18 @@ const sectionOptions = [
     label: "Accessories",
     value: "AccessoriesSection",
   },
+  {
+    label: "Examples of our work",
+    value: "ExamplesOfOurworkSection",
+  },
 ] as const;
 
 type SectionKey = (typeof sectionOptions)[number]["value"];
 
 const sectionConfig: Record<
   SectionKey,
-  | { component: "hero" }
+  | { component: "hero" | "windowInstallment" | "exampleOfWork" }
   | { component: "item"; query: string; itemLabel: string }
-  | { component: "windowInstallment" }
 > = {
   HeroSection: { component: "hero" },
   ProductSection: {
@@ -132,6 +136,9 @@ const sectionConfig: Record<
     query: "AccessoriesCard",
     itemLabel: "Accessories",
   },
+  ExamplesOfOurworkSection: {
+    component: "exampleOfWork",
+  },
 };
 
 const CreateSectionComponent = () => {
@@ -158,6 +165,11 @@ const CreateSectionComponent = () => {
             kind={selectedSection}
             page={selectedPage}
           />
+        );
+
+      case "exampleOfWork":
+        return (
+          <CreateExampleOfWorkForm kind={selectedSection} page={selectedPage} />
         );
 
       default:

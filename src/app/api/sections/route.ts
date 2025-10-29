@@ -20,12 +20,16 @@ export const PATCH = route(async (req: NextRequest) => {
   try {
     const model =
       (SectionModel.discriminators?.[kind] as Model<any>) ?? SectionModel;
-    console.log(model, "model");
+    // console.log(model, "model");
     if (!model) {
       throw new AppError(`Invalid section kind: ${kind}`, 400);
     }
 
-    const notItems = ["HeroSection", "InstallmentPlanSection"];
+    const notItems = [
+      "HeroSection",
+      "InstallmentPlanSection",
+      "ExamplesOfOurworkSection",
+    ];
 
     if (!notItems.includes(kind)) {
       items = items?.map((itm: string) => new Types.ObjectId(itm));
